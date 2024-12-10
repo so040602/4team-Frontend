@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
-import axios from "axios";
-import SearchPage from './components/SearchPage';
-import MenuList from "./components/MenuList";
+import React from "react";
+import { AuthProvider } from "./contexts/AuthContext";
+import AppRouter from "./AppRouter";
+import "./App.css";
 
 function App() {
     const [data, setData] = useState("");
