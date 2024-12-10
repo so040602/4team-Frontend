@@ -4,7 +4,7 @@ import SearchPage from "../components/SearchPage";
 import MenuList from "../components/MenuList";
 import LinkList from "../components/LinkList";
 
-function Home() {
+function Menu() {
   const [data, setData] = useState("");
 
   useEffect(() => {
@@ -29,4 +29,4 @@ function Home() {
   );
 }
 
-export default Home;
+export default Menu;
