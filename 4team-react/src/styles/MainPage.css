@@ -1,0 +1,290 @@
+/* 기본 스타일 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --primary-color: #FF6B6B;
+    --secondary-color: #4ECDC4;
+    --background-color: #F8F9FA;
+    --text-color: #343A40;
+    --gray-color: #ADB5BD;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    background-color: var(--background-color);
+    line-height: 1.5;
+    color: var(--text-color);
+    padding-bottom: 80px;
+}
+
+/* 컨테이너 */
+.container {
+    width: 100%;
+    padding: 0 16px;
+    margin: 0 auto;
+}
+
+/* 헤더 스타일 */
+.header {
+    background: white;
+    padding: 16px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header-title {
+    font-size: 22px;
+    font-weight: 700;
+}
+
+.header-profile {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: var(--gray-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    cursor: pointer;
+}
+
+/* 검색바 스타일 */
+.search-bar {
+    margin: 16px;
+    position: relative;
+}
+
+.search-input {
+    width: 100%;
+    padding: 12px 16px;
+    padding-left: 44px;
+    border: none;
+    border-radius: 12px;
+    font-size: 16px;
+    background: white;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+.search-icon {
+    position: absolute;
+    left: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--gray-color);
+}
+
+/* 카테고리 스타일 */
+.category-scroll {
+    padding: 0 16px 16px 16px;
+    display: flex;
+    gap: 12px;
+    overflow-x: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+.category-scroll::-webkit-scrollbar {
+    display: none;
+}
+
+.category-item {
+    background: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 12px;
+    font-weight: 500;
+    color: var(--text-color);
+    text-decoration: none;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    white-space: nowrap;
+    cursor: pointer;
+}
+
+.category-item.active {
+    background: var(--primary-color);
+    color: white;
+}
+
+/* 섹션 타이틀 */
+.section-title {
+    padding: 0 16px;
+    margin-bottom: 16px;
+    font-size: 20px;
+    font-weight: 600;
+}
+
+/* 추천 레시피 섹션 */
+.featured-scroll {
+    padding: 0 16px 16px 16px;
+    display: flex;
+    gap: 16px;
+    overflow-x: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+.featured-scroll::-webkit-scrollbar {
+    display: none;
+}
+
+.featured-card {
+    flex: 0 0 280px;
+    background: white;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+/* 레시피 그리드 */
+.recipe-grid {
+    padding: 0 16px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+}
+
+/* 플로팅 버튼 */
+.floating-button {
+    position: fixed;
+    right: 16px;
+    bottom: 90px;
+    width: 56px;
+    height: 56px;
+    border-radius: 28px;
+    background: var(--primary-color);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    box-shadow: 0 4px 12px rgba(255,107,107,0.4);
+    text-decoration: none;
+    transition: transform 0.2s;
+}
+
+.floating-button:active {
+    transform: scale(0.95);
+}
+
+/* 하단 네비게이션 */
+.bottom-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: white;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    padding: 12px 0 8px 0;
+    box-shadow: 0 -1px 10px rgba(0,0,0,0.05);
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+}
+
+.nav-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-decoration: none;
+    color: var(--gray-color);
+    font-size: 11px;
+    gap: 4px;
+}
+
+.nav-item.active {
+    color: var(--primary-color);
+}
+
+.nav-icon {
+    font-size: 20px;
+    padding: 8px;
+    border-radius: 10px;
+}
+
+.nav-item.active .nav-icon {
+    background: rgba(255,107,107,0.1);
+}
+
+/* 데스크톱 네비게이션 */
+.desktop-nav {
+    display: none;
+}
+
+/* PC 버전 미디어 쿼리 */
+@media (min-width: 1024px) {
+    .container {
+        max-width: 1200px;
+        padding: 0 32px;
+    }
+
+    .header {
+        padding: 24px 32px;
+    }
+
+    .header-title {
+        font-size: 28px;
+    }
+
+    .search-bar {
+        margin: 24px auto;
+        max-width: 600px;
+    }
+
+    .category-scroll {
+        justify-content: center;
+        padding: 0 0 24px 0;
+        overflow-x: visible;
+    }
+
+    .recipe-grid {
+        grid-template-columns: repeat(4, 1fr);
+        gap: 24px;
+    }
+
+    .bottom-nav {
+        display: none;
+    }
+
+    .floating-button {
+        right: 32px;
+        bottom: 32px;
+        width: 64px;
+        height: 64px;
+        font-size: 28px;
+    }
+
+    /* PC 네비게이션 표시 */
+    .desktop-nav {
+        display: flex;
+        gap: 32px;
+        align-items: center;
+    }
+
+    .desktop-nav-item {
+        text-decoration: none;
+        color: var(--text-color);
+        font-weight: 500;
+        padding: 8px 16px;
+        border-radius: 8px;
+        transition: background-color 0.2s;
+    }
+
+    .desktop-nav-item:hover {
+        background-color: var(--background-color);
+    }
+
+    .desktop-nav-item.active {
+        color: var(--primary-color);
+        background-color: rgba(255,107,107,0.1);
+    }
+}
