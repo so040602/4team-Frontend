@@ -1,0 +1,131 @@
+.review-form-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 16px;
+    padding-bottom: 80px;
+}
+
+.review-form-content {
+    background: white;
+    border-radius: 12px;
+    padding: 24px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+.review-form-content h2 {
+    margin-bottom: 24px;
+    font-weight: 700;
+    color: var(--text-color);
+}
+
+.review-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.form-group label {
+    font-weight: 500;
+    color: var(--text-color);
+}
+
+.form-group input[type="text"],
+.form-group textarea {
+    padding: 12px;
+    border: 1px solid #e9ecef;
+    border-radius: 8px;
+    font-size: 16px;
+    transition: border-color 0.2s;
+}
+
+.form-group input[type="text"]:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: var(--primary-color);
+}
+
+.image-upload-container {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.image-input {
+    padding: 8px;
+    border: 1px dashed #e9ecef;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.image-preview {
+    width: 100%;
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+.image-preview img {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+    object-fit: cover;
+}
+
+.form-actions {
+    display: flex;
+    gap: 12px;
+    margin-top: 12px;
+}
+
+.cancel-button,
+.submit-button {
+    padding: 12px 24px;
+    border: none;
+    border-radius: 8px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.cancel-button {
+    background-color: #e9ecef;
+    color: var(--text-color);
+}
+
+.submit-button {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.cancel-button:hover {
+    background-color: #dee2e6;
+}
+
+.submit-button:hover {
+    background-color: #ff5252;
+}
+
+@media (max-width: 768px) {
+    .review-form-container {
+        padding-bottom: 100px;
+    }
+
+    .form-actions {
+        position: sticky;
+        bottom: 80px;
+        background: white;
+        padding: 16px;
+        margin: 0 -24px -24px -24px;
+        border-top: 1px solid #e9ecef;
+    }
+
+    .cancel-button,
+    .submit-button {
+        flex: 1;
+    }
+}

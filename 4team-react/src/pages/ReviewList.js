@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
-import { Table, Button, Container } from 'react-bootstrap';
+import '../styles/ReviewList.css';
+import BottomNavigation from '../components/BottomNavigation';
 
 const ReviewList = () => {
   const [reviews, setReviews] = useState([]);
@@ -32,19 +33,6 @@ const ReviewList = () => {
     }
   };
 
-  const renderReviewActions = (review) => {
-    console.log('Checking review:', review.id, 'Review Member ID:', review.memberId, 'Current User ID:', userId);
-    if (review.memberId === userId) {
-      return (
-        <div className="d-flex justify-content-center">
-          <Link to={`/reviews/${review.id}/edit`} className="btn btn-warning btn-sm me-2">수정</Link>
-          <Button variant="danger" size="sm" onClick={() => handleDelete(review.id)}>삭제</Button>
-        </div>
-      );
-    }
-    return null;
-  };
-
   const handleDelete = async (reviewId) => {
     if (window.confirm('정말로 이 리뷰를 삭제하시겠습니까?')) {
       try {
@@ -62,63 +50,50 @@ const ReviewList = () => {
   };
 
   return (
-    <Container className="mt-4">
-      <div className="d-flex justify-content-between align-items-center mb-4">
-        <h2>리뷰 목록</h2>
-        <Link to="/reviews/new">
-          <Button variant="primary">새 리뷰 작성</Button>
+    <div className="review-container">
+      <div className="review-header">
+        <h2 className="review-title">리뷰 목록</h2>
+        <Link to="/reviews/new" className="new-review-button">
+          새 리뷰 작성
         </Link>
       </div>
-      <Table striped bordered hover>
-        <thead>
-          <tr>
-            <th style={{ width: '5%' }}>번호</th>
-            <th style={{ width: '15%' }}>썸네일</th>
-            <th style={{ width: '40%' }}>제목</th>
-            <th style={{ width: '10%' }}>작성자</th>
-            <th style={{ width: '10%' }}>조회수</th>
-            <th style={{ width: '10%' }}>작성일</th>
-            <th style={{ width: '10%' }}>관리</th>
-          </tr>
-        </thead>
-        <tbody>
-          {reviews.map((review) => (
-            <tr key={review.id}>
-              <td className="text-center">{review.id}</td>
-              <td className="text-center">
-                {review.imageUrl ? (
-                  <img
-                    src={`http://localhost:8989/api/reviews/images/${review.imageUrl}`}
-                    alt="썸네일"
-                    style={{ width: '50px', height: '50px', objectFit: 'cover' }}
-                  />
-                ) : (
-                  <div 
-                    style={{ 
-                      width: '50px', 
-                      height: '50px', 
-                      backgroundColor: '#f0f0f0',
-                      margin: '0 auto'
-                    }}
-                  />
+      
+      <div className="review-grid">
+        {reviews.map((review) => (
+          <div key={review.id} className="review-card">
+            <Link to={`/reviews/${review.id}`}>
+              {review.imageUrl ? (
+                <img
+                  src={`http://localhost:8989/api/reviews/images/${review.imageUrl}`}
+                  alt="리뷰 이미지"
+                  className="review-image"
+                />
+              ) : (
+                <div className="review-image" style={{ backgroundColor: '#f0f0f0' }} />
+              )}
+              <div className="review-content">
+                <h3>{review.title}</h3>
+                <div className="review-info">
+                  <span>{review.memberDisplayName}</span>
+                  <span>조회수: {review.viewCount}</span>
+                </div>
+                {review.memberId === userId && (
+                  <div className="review-actions">
+                    <Link to={`/reviews/${review.id}/edit`}>
+                      <button className="edit-button">수정</button>
+                    </Link>
+                    <button className="delete-button" onClick={() => handleDelete(review.id)}>
+                      삭제
+                    </button>
+                  </div>
                 )}
-              </td>
-              <td>
-                <Link to={`/reviews/${review.id}`} className="text-decoration-none">
-                  {review.title}
-                </Link>
-              </td>
-              <td className="text-center">{review.memberDisplayName}</td>
-              <td className="text-center">{review.viewCount}</td>
-              <td className="text-center">
-                {new Date(review.createdAt).toLocaleDateString()}
-              </td>
-              <td>{renderReviewActions(review)}</td>
-            </tr>
-          ))}
-        </tbody>
-      </Table>
-    </Container>
+              </div>
+            </Link>
+          </div>
+        ))}
+      </div>
+      <BottomNavigation />
+    </div>
   );
 };
 
