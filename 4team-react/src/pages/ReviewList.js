@@ -74,19 +74,12 @@ const ReviewList = () => {
               <div className="review-content">
                 <h3>{review.title}</h3>
                 <div className="review-info">
-                  <span>{review.memberDisplayName}</span>
+                  <div>
+                    <span>{review.memberDisplayName}</span>
+                    <span className="rating">{'★'.repeat(review.rating)}{'☆'.repeat(5-review.rating)}</span>
+                  </div>
                   <span>조회수: {review.viewCount}</span>
                 </div>
-                {review.memberId === userId && (
-                  <div className="review-actions">
-                    <Link to={`/reviews/${review.id}/edit`}>
-                      <button className="edit-button">수정</button>
-                    </Link>
-                    <button className="delete-button" onClick={() => handleDelete(review.id)}>
-                      삭제
-                    </button>
-                  </div>
-                )}
               </div>
             </Link>
           </div>

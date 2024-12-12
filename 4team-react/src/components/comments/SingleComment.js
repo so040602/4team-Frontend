@@ -80,86 +80,93 @@ function SingleComment(props) {
   };
 
   return (
-    <div style={{ marginBottom: '1rem' }}>
-      <div className="d-flex justify-content-between align-items-start">
-        <div>
-          <strong>{props.comment.memberDisplayName}</strong>
-          {!isEditing ? (
-            <p>{props.comment.content}</p>
-          ) : (
-            <Form onSubmit={(e) => {
-              e.preventDefault();
-              handleEdit();
-            }}>
-              <Form.Control
-                type="text"
-                value={commentValue}
-                onChange={handleChange}
-              />
-              <Button type="submit" variant="primary" size="sm">
-                수정완료
-              </Button>
-              <Button
-                variant="secondary"
-                size="sm"
-                onClick={() => setIsEditing(false)}
-              >
-                취소
-              </Button>
-            </Form>
-          )}
-        </div>
-        <div>
-          {userId === props.comment.memberId && (
-            <>
-              <Button
-                variant="warning"
-                size="sm"
-                onClick={() => {
-                  setIsEditing(true);
-                  setCommentValue(props.comment.content);
-                }}
-              >
-                수정
-              </Button>
-              <Button
-                variant="danger"
-                size="sm"
-                onClick={handleDelete}
-              >
-                삭제
-              </Button>
-            </>
-          )}
-          <Button
-            variant="info"
-            size="sm"
-            onClick={() => setShowReplyForm(!showReplyForm)}
-          >
-            답글
-          </Button>
-        </div>
+    <div className="comment-item">
+      <div className="comment-header">
+        <span className="comment-author">{props.comment.memberDisplayName}</span>
+        <span className="comment-date">
+          {new Date(props.comment.createdAt).toLocaleDateString()}
+        </span>
+      </div>
+      {!isEditing ? (
+        <div className="comment-content">{props.comment.content}</div>
+      ) : (
+        <Form onSubmit={(e) => {
+          e.preventDefault();
+          handleEdit();
+        }}>
+          <Form.Control
+            as="textarea"
+            value={commentValue}
+            onChange={handleChange}
+            className="mb-2"
+          />
+          <div className="d-flex gap-2">
+            <Button type="submit" variant="primary" size="sm">
+              수정완료
+            </Button>
+            <Button
+              variant="secondary"
+              size="sm"
+              onClick={() => setIsEditing(false)}
+            >
+              취소
+            </Button>
+          </div>
+        </Form>
+      )}
+      <div className="comment-actions mt-2">
+        {userId === props.comment.memberId && (
+          <>
+            <Button
+              variant="outline-warning"
+              size="sm"
+              onClick={() => {
+                setIsEditing(true);
+                setCommentValue(props.comment.content);
+              }}
+            >
+              수정
+            </Button>
+            <Button
+              variant="outline-danger"
+              size="sm"
+              onClick={handleDelete}
+            >
+              삭제
+            </Button>
+          </>
+        )}
+        <Button
+          variant="outline-primary"
+          size="sm"
+          onClick={() => setShowReplyForm(!showReplyForm)}
+        >
+          답글
+        </Button>
       </div>
       {showReplyForm && (
-        <Form onSubmit={handleSubmit} style={{ marginTop: '1rem' }}>
+        <Form onSubmit={handleSubmit} className="mt-3">
           <Form.Group>
             <Form.Control
-              type="text"
+              as="textarea"
               value={commentValue}
               onChange={handleChange}
               placeholder="답글을 작성하세요..."
+              className="mb-2"
             />
           </Form.Group>
-          <Button type="submit" variant="primary" size="sm">
-            답글작성
-          </Button>
-          <Button
-            variant="secondary"
-            size="sm"
-            onClick={() => setShowReplyForm(false)}
-          >
-            취소
-          </Button>
+          <div className="d-flex gap-2">
+            <Button type="submit" variant="primary" size="sm">
+              답글작성
+            </Button>
+            <Button
+              variant="secondary"
+              size="sm"
+              onClick={() => setShowReplyForm(false)}
+            >
+              취소
+            </Button>
+          </div>
         </Form>
       )}
     </div>

@@ -82,15 +82,16 @@ const ReviewForm = () => {
             Authorization: `Bearer ${token}`
           }
         });
+        navigate(`/reviews/${id}`); // 수정 후 상세 페이지로 이동
       } else {
-        await axios.post('http://localhost:8989/api/reviews', formDataToSend, {
+        const response = await axios.post('http://localhost:8989/api/reviews', formDataToSend, {
           headers: {
             'Content-Type': 'multipart/form-data',
             Authorization: `Bearer ${token}`
           }
         });
+        navigate('/reviews'); // 새 리뷰 작성 후에는 목록으로 이동
       }
-      navigate('/reviews');
     } catch (error) {
       console.error('리뷰 저장에 실패했습니다:', error);
     }
@@ -122,31 +123,59 @@ const ReviewForm = () => {
           </div>
           <div className="form-group">
             <label>평점</label>
-            <select
-              name="rating"
-              value={formData.rating}
-              onChange={handleInputChange}
-              required
-            >
-              <option value="1">1점</option>
-              <option value="2">2점</option>
-              <option value="3">3점</option>
-              <option value="4">4점</option>
-              <option value="5">5점</option>
-            </select>
+            <div className="star-rating">
+              {[1, 2, 3, 4, 5].map((star) => (
+                <span
+                  key={star}
+                  className={`star ${star <= formData.rating ? 'filled' : ''}`}
+                  onClick={() => setFormData(prev => ({ ...prev, rating: star }))}
+                  onMouseEnter={() => {
+                    const stars = document.querySelectorAll('.star');
+                    stars.forEach((s, index) => {
+                      if (index < star) {
+                        s.classList.add('hover');
+                      } else {
+                        s.classList.remove('hover');
+                      }
+                    });
+                  }}
+                  onMouseLeave={() => {
+                    const stars = document.querySelectorAll('.star');
+                    stars.forEach(s => s.classList.remove('hover'));
+                  }}
+                >
+                  {star <= formData.rating ? '★' : '☆'}
+                </span>
+              ))}
+            </div>
           </div>
           <div className="form-group">
             <label>이미지</label>
-            <input
-              type="file"
-              accept="image/*"
-              onChange={handleImageChange}
-            />
-            {previewUrl && (
-              <div className="image-preview">
-                <img src={previewUrl} alt="Preview" />
-              </div>
-            )}
+            <div className="image-upload-container">
+              <label className="image-upload-label" htmlFor="image-upload">
+                {previewUrl ? (
+                  <div className="image-preview">
+                    <img src={previewUrl} alt="Preview" />
+                    <div className="image-overlay">
+                      <span>이미지 변경</span>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="upload-placeholder">
+                    <div className="upload-icon">📸</div>
+                    <span>이미지를 선택하거나 드래그하세요</span>
+                    <span className="upload-hint">권장 크기: 1200 x 800px</span>
+                  </div>
+                )}
+              </label>
+              <input
+                id="image-upload"
+                type="file"
+                accept="image/*"
+                onChange={handleImageChange}
+                style={{ display: 'none' }}
+              />
+            </div>
           </div>
           <div className="form-actions">
             <button type="submit" className="submit-button">

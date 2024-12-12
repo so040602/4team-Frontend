@@ -70,15 +70,20 @@ const ReviewDetail = () => {
   const handleDelete = async () => {
     if (window.confirm('정말로 이 리뷰를 삭제하시겠습니까?')) {
       try {
-        const token = localStorage.getItem('token'); // 로컬 스토리지에서 토큰 가져오기
+        const token = localStorage.getItem('token');
         await axios.delete(`http://localhost:8989/api/reviews/${id}`, {
           headers: {
-            Authorization: `Bearer ${token}` // 인증 헤더 추가
+            Authorization: `Bearer ${token}`
           }
         });
-        navigate('/reviews');
+        alert('리뷰가 성공적으로 삭제되었습니다.');
+        // 약간의 지연 후 페이지 이동
+        setTimeout(() => {
+          navigate('/reviews', { replace: true });
+        }, 500);
       } catch (error) {
         console.error('리뷰 삭제에 실패했습니다:', error);
+        alert('리뷰 삭제에 실패했습니다. 다시 시도해주세요.');
       }
     }
   };
