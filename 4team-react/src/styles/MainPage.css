@@ -15,7 +15,7 @@
 
 body {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-    background-color: var(--background-color);
+    background-color: white;
     line-height: 1.5;
     color: var(--text-color);
     padding-bottom: 80px;
@@ -27,6 +27,14 @@ body {
     min-height: 100vh;
     display: flex;
     flex-direction: column;
+    align-items: center;
+    background-color: var(--background-color);
+}
+
+.main-page-content {
+    width: 100%;
+    max-width: 1024px;
+    margin: 0 auto;
 }
 
 /* 헤더 스타일 */
