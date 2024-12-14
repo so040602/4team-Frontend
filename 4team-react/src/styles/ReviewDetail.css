@@ -1,0 +1,242 @@
+.review-detail-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 16px;
+    padding-bottom: 80px;
+}
+
+.review-detail-content {
+    background: white;
+    border-radius: 12px;
+    padding: 24px;
+    margin-bottom: 24px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+.review-detail-content h2 {
+    margin-bottom: 20px;
+    font-weight: 700;
+}
+
+.review-detail-image {
+    width: 100%;
+    max-height: 500px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+.review-detail-info {
+    display: flex;
+    gap: 16px;
+    color: var(--gray-color);
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+.review-detail-text {
+    line-height: 1.6;
+    margin-bottom: 24px;
+}
+
+.review-detail-actions {
+    display: flex;
+    gap: 12px;
+    margin-top: 24px;
+}
+
+.edit-button, .delete-button {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 8px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.edit-button {
+    background-color: #ffd43b;
+    color: #000;
+    text-decoration: none;
+}
+
+.delete-button {
+    background-color: #ff6b6b;
+    color: white;
+}
+
+/* 댓글 섹션 */
+.comments-section {
+    background: white;
+    padding: 20px;
+}
+
+.comments-section h3 {
+    margin-bottom: 20px;
+    font-weight: 600;
+    font-size: 17px;
+}
+
+.comment-form {
+    background: white;
+    padding: 20px;
+    border: 1px solid #e9ecef;
+    border-radius: 6px;
+    margin-bottom: 20px;
+}
+
+.comment-form textarea {
+    width: 100%;
+    border: 1px solid #e9ecef;
+    border-radius: 4px;
+    padding: 12px;
+    margin-bottom: 12px;
+    resize: vertical;
+    min-height: 90px;
+}
+
+.comment-submit-btn {
+    background-color: #03c75a;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.comments-list {
+    border: 1px solid #e9ecef;
+    border-radius: 6px;
+}
+
+.comment-item {
+    padding: 20px;
+    border-bottom: 1px solid #e9ecef !important;
+    background: white;
+}
+
+.comment-item:last-child {
+    border-bottom: none !important;
+}
+
+.comment-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 12px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #f1f3f5;
+}
+
+.comment-author {
+    font-weight: 600;
+    color: #191F28;
+    font-size: 15px;
+    background-color: #f8f9fa;
+    padding: 6px 12px;
+    border-radius: 6px;
+    letter-spacing: -0.3px;
+}
+
+.comment-date {
+    color: #8B95A1;
+    font-size: 13px;
+    font-weight: 400;
+}
+
+.comment-content {
+    margin: 0;
+    padding: 12px 0;
+    font-size: 15px;
+    line-height: 1.6;
+    color: #191F28;
+    background-color: white;
+    letter-spacing: -0.3px;
+    word-break: break-word;
+    font-weight: 400;
+}
+
+.comment-actions {
+    display: flex;
+    gap: 8px;
+    margin-top: 12px;
+}
+
+.comment-action-btn {
+    font-size: 13px;
+    font-weight: 500;
+    padding: 6px 12px;
+    border-radius: 6px;
+    letter-spacing: -0.3px;
+}
+
+.comment-action-btn:hover {
+    color: #03c75a;
+}
+
+/* 답글 숫자 스타일 */
+.comment-action-btn:first-child {
+    color: #03c75a;
+    font-weight: 600;
+}
+
+/* 대댓글 스타일 */
+.reply-section {
+    margin-top: 12px;
+    border-top: 1px solid #f1f3f5;
+    background: #fafbfc;
+}
+
+.reply-item {
+    padding: 16px 20px;
+    border-bottom: 1px solid #f1f3f5;
+}
+
+.reply-item:last-child {
+    border-bottom: none;
+}
+
+/* 답글 폼 */
+.reply-form {
+    padding: 16px 20px;
+    background: #fafbfc;
+    border-top: 1px solid #f1f3f5;
+}
+
+.reply-form textarea {
+    width: 100%;
+    border: 1px solid #e9ecef;
+    border-radius: 4px;
+    padding: 12px;
+    margin-bottom: 12px;
+    resize: vertical;
+    min-height: 90px;
+    background: white;
+}
+
+.reply-submit-btn {
+    background-color: #03c75a !important;
+    color: white !important;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.reply-submit-btn:hover {
+    background-color: #02b150 !important;
+}
+
+@media (max-width: 768px) {
+    .review-detail-container {
+        padding-bottom: 100px;
+    }
+
+    .review-detail-info {
+        flex-direction: column;
+        gap: 8px;
+    }
+}

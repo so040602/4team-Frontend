@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import SearchPage from './components/SearchPage';
 import MenuList from "./components/MenuList";
-import LinkList from "./components/LinkList";
 
 function App() {
     const [data, setData] = useState("");
@@ -23,8 +22,6 @@ function App() {
             <SearchPage/>
             <h1>오늘의 메뉴 추천 시스템</h1>
             <MenuList/>
-            <h1>유튜브, 인스타그램, 페이스북 링크 관리</h1>
-            <LinkList/>
         </div>
     );
 }
