@@ -36,7 +36,7 @@ const MainPage = () => {
                         <Link to="/recipes" className="nav-item">레시피</Link>
                         <Link to="/refrigerator" className="nav-item">냉장고 파먹기</Link>
                         <Link to="/reviews" className="nav-item">리뷰</Link>
-                        <Link to="/chatbot" className="nav-item">챗봇</Link>
+                        <Link to="/chatbot/Chatbot" className="nav-item">챗봇</Link>
                     </div>
                 </nav>
 
@@ -142,7 +142,7 @@ const MainPage = () => {
                         <div className="nav-icon">⭐</div>
                         <span>리뷰</span>
                     </Link>
-                    <Link to="/chatbot" className="nav-item">
+                    <Link to="/chatbot/Chatbot" className="nav-item">
                         <div className="nav-icon">💬</div>
                         <span>챗봇</span>
                     </Link>
