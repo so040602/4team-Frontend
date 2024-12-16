@@ -237,7 +237,11 @@ const ReviewDetail = () => {
               />
             )}
             <div className="review-detail-info">
-              <span>작성자: {review.memberDisplayName}</span>
+              <span>작성자: 
+                <Link to={`/mypage/${review.memberId}`} style={{ textDecoration: 'none', color: '#007bff' }}>
+                  {review.memberDisplayName}
+                </Link>
+              </span>
               <span>조회수: {review.viewCount}</span>
               <span>작성일: {moment(review.createdAt).format('YYYY-MM-DD')}</span>
             </div>

@@ -1,15 +1,44 @@
-import React, { useState } from 'react';
-import { Grid, Card, CardContent, Typography, CardActionArea, Tabs, Tab, Box } from '@mui/material';
+import React, { useState, useEffect } from 'react';
+import { Grid, Card, CardContent, Typography, CardActionArea, Rating, CardMedia, Tabs, Tab, Box } from '@mui/material';
+import axios from 'axios';
 
 function RecentViews() {
   const [tabValue, setTabValue] = useState(0);
-  // TODO: API로 최근 본 컨텐츠 가져오기
-  const recentRecipes = [];
-  const recentReviews = [];
+  const [reviews, setReviews] = useState([]);
+  const [recipes, setRecipes] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchRecentViews = async () => {
+      try {
+        const token = localStorage.getItem('token');
+        const response = await axios.get('/api/reviews/recent', {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        });
+        setReviews(response.data);
+      } catch (error) {
+        console.error('최근 본 리뷰 목록을 불러오는데 실패했습니다:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchRecentViews();
+  }, []);
 
   const handleTabChange = (event, newValue) => {
     setTabValue(newValue);
   };
+
+  if (loading) {
+    return (
+      <Typography variant="body1" color="text.secondary" align="center">
+        로딩 중...
+      </Typography>
+    );
+  }
 
   return (
     <Box>
@@ -20,14 +49,14 @@ function RecentViews() {
 
       <Grid container spacing={3}>
         {tabValue === 0 ? (
-          recentRecipes.length === 0 ? (
+          recipes.length === 0 ? (
             <Grid item xs={12}>
               <Typography variant="body1" color="text.secondary" align="center">
                 최근 본 레시피가 없습니다.
               </Typography>
             </Grid>
           ) : (
-            recentRecipes.map((recipe) => (
+            recipes.map((recipe) => (
               <Grid item xs={12} sm={6} md={4} key={recipe.id}>
                 <Card>
                   <CardActionArea>
@@ -45,23 +74,36 @@ function RecentViews() {
             ))
           )
         ) : (
-          recentReviews.length === 0 ? (
+          reviews.length === 0 ? (
             <Grid item xs={12}>
               <Typography variant="body1" color="text.secondary" align="center">
                 최근 본 리뷰가 없습니다.
               </Typography>
             </Grid>
           ) : (
-            recentReviews.map((review) => (
+            reviews.map((review) => (
               <Grid item xs={12} sm={6} md={4} key={review.id}>
                 <Card>
                   <CardActionArea>
+                    {review.imageUrl && (
+                      <CardMedia
+                        component="img"
+                        height="140"
+                        image={review.imageUrl}
+                        alt={review.title}
+                      />
+                    )}
                     <CardContent>
                       <Typography gutterBottom variant="h6">
                         {review.title}
                       </Typography>
-                      <Typography variant="caption" display="block">
-                        조회일: {new Date(review.viewedAt).toLocaleDateString()}
+                      <Rating value={review.rating} readOnly />
+                      <Typography variant="body2" color="text.secondary">
+                        {review.content.substring(0, 100)}
+                        {review.content.length > 100 && '...'}
+                      </Typography>
+                      <Typography variant="caption" display="block" sx={{ mt: 1 }}>
+                        작성자: {review.memberName}
                       </Typography>
                     </CardContent>
                   </CardActionArea>
