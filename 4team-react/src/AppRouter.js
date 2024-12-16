@@ -8,7 +8,7 @@ import MainPage from "./pages/MainPage";
 import ReviewList from "./pages/ReviewList";
 import ReviewForm from "./pages/ReviewForm";
 import ReviewDetail from "./pages/ReviewDetail";
-
+import MyPage from './pages/MyPage';
 function AppRouter() {
   return (
     <BrowserRouter>
@@ -26,6 +26,7 @@ function AppRouter() {
               <Route path="/reviews/new" element={<ReviewForm />} />
               <Route path="/reviews/:id" element={<ReviewDetail />} />
               <Route path="/reviews/:id/edit" element={<ReviewForm />} />
+              <Route path="/mypage" element={<MyPage />} />
             </Routes>
           </>
         } />

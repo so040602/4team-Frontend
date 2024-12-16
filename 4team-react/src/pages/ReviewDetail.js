@@ -3,6 +3,10 @@ import { useParams, useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
 import { Container, Card, Button, Form, ListGroup, Image } from 'react-bootstrap';
 import moment from 'moment';
+import BottomNavigation from '../components/BottomNavigation';
+import SingleComment from '../components/comments/SingleComment';
+import ReplyComment from '../components/comments/ReplyComment';
+import '../styles/ReviewDetail.css';
 
 const ReviewDetail = () => {
   const { id } = useParams();
@@ -15,6 +19,7 @@ const ReviewDetail = () => {
   const [editCommentContent, setEditCommentContent] = useState('');
   const [loading, setLoading] = useState(true);
   const [userId, setUserId] = useState(null);
+  const [expandedComments, setExpandedComments] = useState({});
 
   useEffect(() => {
     const token = localStorage.getItem('token');
@@ -65,15 +70,20 @@ const ReviewDetail = () => {
   const handleDelete = async () => {
     if (window.confirm('정말로 이 리뷰를 삭제하시겠습니까?')) {
       try {
-        const token = localStorage.getItem('token'); // 로컬 스토리지에서 토큰 가져오기
+        const token = localStorage.getItem('token');
         await axios.delete(`http://localhost:8989/api/reviews/${id}`, {
           headers: {
-            Authorization: `Bearer ${token}` // 인증 헤더 추가
+            Authorization: `Bearer ${token}`
           }
         });
-        navigate('/reviews');
+        alert('리뷰가 성공적으로 삭제되었습니다.');
+        // 약간의 지연 후 페이지 이동
+        setTimeout(() => {
+          navigate('/reviews', { replace: true });
+        }, 500);
       } catch (error) {
         console.error('리뷰 삭제에 실패했습니다:', error);
+        alert('리뷰 삭제에 실패했습니다. 다시 시도해주세요.');
       }
     }
   };
@@ -160,6 +170,13 @@ const ReviewDetail = () => {
     setEditCommentContent(comment.content);
   };
 
+  const toggleReplies = (commentId) => {
+    setExpandedComments(prev => ({
+      ...prev,
+      [commentId]: !prev[commentId]
+    }));
+  };
+
   const renderReviewActions = () => {
     if (review && review.memberId === userId) {
       return (
@@ -186,172 +203,78 @@ const ReviewDetail = () => {
 
   const renderComments = () => {
     return comments.map((comment) => (
-      <ListGroup.Item key={comment.id} className="d-flex flex-column p-3" style={{ borderBottom: '1px solid #e9ecef' }}>
-        <div className="d-flex align-items-start">
-          <Image
-            src="https://via.placeholder.com/40"
-            roundedCircle
-            className="me-3"
-            alt="프로필 이미지"
+      !comment.parentId && (
+        <React.Fragment key={comment.id}>
+          <SingleComment
+            refreshFunction={fetchComments}
+            comment={comment}
+            reviewId={id}
           />
-          <div className="flex-grow-1">
-            <div className="d-flex justify-content-between align-items-center">
-              <div>
-                <strong className="d-block" style={{ fontSize: '1rem', color: '#333' }}>{comment.memberDisplayName}</strong>
-                <small className="text-muted">{moment(comment.createdAt).fromNow()}</small>
-              </div>
-              <div className="d-flex gap-2">
-                {comment.memberId === userId && (
-                  <Button variant="link" size="sm" onClick={() => startEditingComment(comment)}>수정</Button>
-                )}
-                {comment.memberId === userId && (
-                  <Button variant="link" size="sm" onClick={() => handleDeleteComment(comment.id)}>삭제</Button>
-                )}
-                <Button variant="link" size="sm" onClick={() => setReplyContent(prev => ({ ...prev, [comment.id]: '' }))}>답글</Button>
-              </div>
-            </div>
-            {editingCommentId === comment.id ? (
-              <Form onSubmit={(e) => { e.preventDefault(); handleEditComment(comment.id); }} className="mt-2">
-                <Form.Group className="mb-2">
-                  <Form.Control
-                    as="textarea"
-                    rows={2}
-                    value={editCommentContent}
-                    onChange={(e) => setEditCommentContent(e.target.value)}
-                    required
-                  />
-                </Form.Group>
-                <div className="d-flex gap-2">
-                  <Button type="submit" variant="primary" size="sm">저장</Button>
-                  <Button variant="secondary" size="sm" onClick={() => setEditingCommentId(null)}>취소</Button>
-                </div>
-              </Form>
-            ) : (
-              <p className="mt-2" style={{ fontSize: '0.9rem', color: '#555' }}>{comment.content}</p>
-            )}
-            {replyContent[comment.id] !== undefined && (
-              <Form onSubmit={(e) => { e.preventDefault(); handleReplySubmit(comment.id); }} className="mt-3">
-                <Form.Group className="mb-2">
-                  <Form.Control
-                    as="textarea"
-                    rows={1}
-                    value={replyContent[comment.id] || ''}
-                    onChange={(e) => setReplyContent(prev => ({ ...prev, [comment.id]: e.target.value }))}
-                    placeholder="대댓글을 입력하세요..."
-                  />
-                </Form.Group>
-                <Button type="submit" variant="secondary" size="sm">
-                  대댓글 작성
-                </Button>
-              </Form>
-            )}
-          </div>
-        </div>
-        {comment.childComments && comment.childComments.length > 0 && (
-          <ListGroup variant="flush" className="mt-2 ps-5">
-            {comment.childComments.map((reply) => (
-              <ListGroup.Item key={reply.id} className="d-flex align-items-start" style={{ borderTop: '1px solid #f1f3f5' }}>
-                <Image
-                  src="https://via.placeholder.com/30"
-                  roundedCircle
-                  className="me-2"
-                  alt="프로필 이미지"
-                />
-                <div className="flex-grow-1">
-                  <div className="d-flex justify-content-between align-items-center">
-                    <div>
-                      <strong className="d-block" style={{ fontSize: '0.9rem', color: '#333' }}>{reply.memberDisplayName}</strong>
-                      <small className="text-muted">{moment(reply.createdAt).fromNow()}</small>
-                    </div>
-                    <div className="d-flex gap-2">
-                      {reply.memberId === userId && (
-                        <Button variant="link" size="sm" onClick={() => startEditingComment(reply)}>수정</Button>
-                      )}
-                      {reply.memberId === userId && (
-                        <Button variant="link" size="sm" onClick={() => handleDeleteComment(reply.id)}>삭제</Button>
-                      )}
-                    </div>
-                  </div>
-                  <p className="mt-2" style={{ fontSize: '0.85rem', color: '#555' }}>{reply.content}</p>
-                </div>
-              </ListGroup.Item>
-            ))}
-          </ListGroup>
-        )}
-      </ListGroup.Item>
+          <ReplyComment
+            refreshFunction={fetchComments}
+            commentList={comments}
+            parentCommentId={comment.id}
+            reviewId={id}
+          />
+        </React.Fragment>
+      )
     ));
   };
 
-  if (loading) return <div>Loading...</div>;
-  if (!review) return <div>리뷰를 찾을 수 없습니다.</div>;
-
   return (
-    <Container className="mt-4">
-      <Card className="mb-4">
-        <Card.Header className="d-flex justify-content-between align-items-center">
-          <h3>{review.title}</h3>
-          {renderReviewActions()}
-        </Card.Header>
-        <Card.Body>
-          {review.imageUrl && (
-            <div className="mb-3">
-              <img 
+    <div className="review-detail-container">
+      {loading ? (
+        <p>Loading...</p>
+      ) : review ? (
+        <>
+          <div className="review-detail-content">
+            <h2>{review.title}</h2>
+            {review.imageUrl && (
+              <img
                 src={`http://localhost:8989/api/reviews/images/${review.imageUrl}`}
-                alt="리뷰 이미지" 
-                className="img-fluid" 
+                alt="리뷰 이미지"
+                className="review-detail-image"
               />
+            )}
+            <div className="review-detail-info">
+              <span>작성자: {review.memberDisplayName}</span>
+              <span>조회수: {review.viewCount}</span>
+              <span>작성일: {moment(review.createdAt).format('YYYY-MM-DD')}</span>
             </div>
-          )}
-          <Card.Text>작성자: {review.memberDisplayName}</Card.Text>
-          <Card.Text>{review.content}</Card.Text>
-          <div className="d-flex justify-content-between mt-3">
-            <div>
-              <small className="text-muted">평점: {review.rating}/5</small>
-            </div>
-            <div>
-              <small className="text-muted">조회수: {review.viewCount}</small>
+            <p className="review-detail-text">{review.content}</p>
+            
+            {review.memberId === userId && (
+              <div className="review-detail-actions">
+                <Link to={`/reviews/${id}/edit`} className="edit-button">수정</Link>
+                <button onClick={handleDelete} className="delete-button">삭제</button>
+              </div>
+            )}
+          </div>
+
+          <div className="comments-section">
+            <h3>댓글</h3>
+            <Form onSubmit={handleCommentSubmit} className="comment-form">
+              <Form.Group>
+                <Form.Control
+                  as="textarea"
+                  value={newComment}
+                  onChange={(e) => setNewComment(e.target.value)}
+                  placeholder="댓글을 작성해주세요"
+                />
+              </Form.Group>
+              <Button type="submit" className="comment-submit-btn">댓글 작성</Button>
+            </Form>
+
+            <div className="comments-list">
+              {renderComments()}
             </div>
           </div>
-          <div className="mt-2">
-            <small className="text-muted">
-              작성일: {moment(review.createdAt).fromNow()}
-              {review.updatedAt && review.updatedAt !== review.createdAt && 
-                ` (수정됨: ${moment(review.updatedAt).fromNow()})`}
-            </small>
-          </div>
-        </Card.Body>
-      </Card>
-
-      {/* 댓글 섹션 */}
-      <Card>
-        <Card.Header>
-          <h5 className="mb-0">댓글 ({comments.length})</h5>
-        </Card.Header>
-        <Card.Body>
-          <ListGroup variant="flush" className="mb-3">
-            {renderComments()}
-          </ListGroup>
-
-          <Form onSubmit={handleCommentSubmit}>
-            <Form.Group className="mb-3">
-              <Form.Control
-                as="textarea"
-                rows={2}
-                value={newComment}
-                onChange={(e) => setNewComment(e.target.value)}
-                placeholder="댓글을 입력하세요..."
-                required
-              />
-            </Form.Group>
-            <div className="text-end">
-              <Button type="submit" variant="primary">
-                댓글 작성
-              </Button>
-            </div>
-          </Form>
-        </Card.Body>
-      </Card>
-    </Container>
+        </>
+      ) : (
+        <p>리뷰를 찾을 수 없습니다.</p>
+      )}
+      <BottomNavigation />
+    </div>
   );
 };
 

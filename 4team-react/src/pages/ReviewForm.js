@@ -1,35 +1,22 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
-import { Container, Form, Button, Alert } from 'react-bootstrap';
+import '../styles/ReviewForm.css';
+import BottomNavigation from '../components/BottomNavigation';
 
 const ReviewForm = () => {
-  const navigate = useNavigate();
   const { id } = useParams();
-  const isEditing = !!id;
-
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     title: '',
     content: '',
-    rating: 5
+    image: null,
+    rating: 5  // 기본값 5로 설정
   });
-  const [selectedFile, setSelectedFile] = useState(null);
   const [previewUrl, setPreviewUrl] = useState(null);
-  const [error, setError] = useState('');
+  const [isEditing, setIsEditing] = useState(false);
 
-  useEffect(() => {
-    const token = localStorage.getItem('token');
-    if (!token) {
-      navigate('/login');
-      return;
-    }
-
-    if (isEditing) {
-      fetchReview();
-    }
-  }, [id, navigate]);
-
-  const fetchReview = async () => {
+  const fetchReview = useCallback(async () => {
     try {
       const token = localStorage.getItem('token');
       const response = await axios.get(`http://localhost:8989/api/reviews/${id}`, {
@@ -37,18 +24,27 @@ const ReviewForm = () => {
           Authorization: `Bearer ${token}`
         }
       });
-      const { title, content, imageUrl, rating } = response.data;
-      setFormData({ title, content, rating });
-      if (imageUrl) {
-        setPreviewUrl(`http://localhost:8989/api/reviews/images/${imageUrl}`);
-      }
+      const review = response.data;
+      setFormData({
+        title: review.title,
+        content: review.content,
+        image: null,
+        rating: review.rating || 5
+      });
+      setPreviewUrl(review.imageUrl);
     } catch (error) {
-      console.error('리뷰를 불러오는데 실패했습니다:', error);
-      setError('리뷰를 불러오는데 실패했습니다. 다시 시도해주세요.');
+      console.error('Error fetching review:', error);
     }
-  };
+  }, [id]);
 
-  const handleChange = (e) => {
+  useEffect(() => {
+    if (id) {
+      setIsEditing(true);
+      fetchReview();
+    }
+  }, [id, fetchReview]);
+
+  const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData(prev => ({
       ...prev,
@@ -56,124 +52,147 @@ const ReviewForm = () => {
     }));
   };
 
-  const handleFileChange = (e) => {
+  const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
-      setSelectedFile(file);
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setPreviewUrl(reader.result);
-      };
-      reader.readAsDataURL(file);
+      setFormData(prev => ({
+        ...prev,
+        image: file
+      }));
+      setPreviewUrl(URL.createObjectURL(file));
     }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError('');
-    
+    const token = localStorage.getItem('token');
+    const formDataToSend = new FormData();
+    formDataToSend.append('title', formData.title);
+    formDataToSend.append('content', formData.content);
+    formDataToSend.append('rating', formData.rating);  // rating 추가
+    if (formData.image) {
+      formDataToSend.append('image', formData.image);
+    }
+
     try {
-      const token = localStorage.getItem('token');
-      if (!token) {
-        navigate('/login');
-        return;
-      }
-
-      const submitData = new FormData();
-      submitData.append('title', formData.title);
-      submitData.append('content', formData.content);
-      submitData.append('rating', formData.rating);
-      
-      if (selectedFile) {
-        submitData.append('image', selectedFile);
-      }
-
-      const config = {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-          'Authorization': `Bearer ${token}`
-        }
-      };
-
       if (isEditing) {
-        await axios.put(`http://localhost:8989/api/reviews/${id}`, submitData, config);
+        await axios.put(`http://localhost:8989/api/reviews/${id}`, formDataToSend, {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+            Authorization: `Bearer ${token}`
+          }
+        });
+        navigate(`/reviews/${id}`); // 수정 후 상세 페이지로 이동
       } else {
-        await axios.post('http://localhost:8989/api/reviews', submitData, config);
+        const response = await axios.post('http://localhost:8989/api/reviews', formDataToSend, {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+            Authorization: `Bearer ${token}`
+          }
+        });
+        navigate('/reviews'); // 새 리뷰 작성 후에는 목록으로 이동
       }
-      navigate('/reviews');
     } catch (error) {
       console.error('리뷰 저장에 실패했습니다:', error);
-      if (error.response) {
-        setError(error.response.data.message || '리뷰 저장에 실패했습니다. 다시 시도해주세요.');
-      } else {
-        setError('서버와의 통신에 실패했습니다. 다시 시도해주세요.');
-      }
     }
   };
 
   return (
-    <Container className="mt-4">
-      <h2>{isEditing ? '리뷰 수정' : '새 리뷰 작성'}</h2>
-      {error && <Alert variant="danger">{error}</Alert>}
-      <Form onSubmit={handleSubmit}>
-        <Form.Group className="mb-3">
-          <Form.Label>제목</Form.Label>
-          <Form.Control
-            type="text"
-            name="title"
-            value={formData.title}
-            onChange={handleChange}
-            required
-          />
-        </Form.Group>
-        <Form.Group className="mb-3">
-          <Form.Label>내용</Form.Label>
-          <Form.Control
-            as="textarea"
-            name="content"
-            value={formData.content}
-            onChange={handleChange}
-            rows={5}
-            required
-          />
-        </Form.Group>
-        <Form.Group className="mb-3">
-          <Form.Label>평점</Form.Label>
-          <Form.Control
-            type="number"
-            name="rating"
-            value={formData.rating}
-            onChange={handleChange}
-            min="1"
-            max="5"
-            required
-          />
-        </Form.Group>
-        <Form.Group className="mb-3">
-          <Form.Label>이미지</Form.Label>
-          <Form.Control
-            type="file"
-            onChange={handleFileChange}
-            accept="image/*"
-          />
-          {previewUrl && (
-            <img
-              src={previewUrl}
-              alt="Preview"
-              style={{ maxWidth: '200px', marginTop: '10px' }}
+    <div className="review-form-container">
+      <div className="review-form-content">
+        <h2>{isEditing ? '리뷰 수정' : '새 리뷰 작성'}</h2>
+        <form onSubmit={handleSubmit}>
+          <div className="form-group">
+            <label>제목</label>
+            <input
+              type="text"
+              name="title"
+              value={formData.title}
+              onChange={handleInputChange}
+              required
             />
-          )}
-        </Form.Group>
-        <div className="d-flex gap-2">
-          <Button variant="primary" type="submit">
-            {isEditing ? '수정하기' : '작성하기'}
-          </Button>
-          <Button variant="secondary" onClick={() => navigate('/reviews')}>
-            취소
-          </Button>
-        </div>
-      </Form>
-    </Container>
+          </div>
+          <div className="form-group">
+            <label>내용</label>
+            <textarea
+              name="content"
+              value={formData.content}
+              onChange={handleInputChange}
+              required
+            />
+          </div>
+          <div className="form-group">
+            <label>평점</label>
+            <div className="star-rating">
+              {[1, 2, 3, 4, 5].map((star) => (
+                <span
+                  key={star}
+                  className={`star ${star <= formData.rating ? 'filled' : ''}`}
+                  onClick={() => setFormData(prev => ({ ...prev, rating: star }))}
+                  onMouseEnter={() => {
+                    const stars = document.querySelectorAll('.star');
+                    stars.forEach((s, index) => {
+                      if (index < star) {
+                        s.classList.add('hover');
+                      } else {
+                        s.classList.remove('hover');
+                      }
+                    });
+                  }}
+                  onMouseLeave={() => {
+                    const stars = document.querySelectorAll('.star');
+                    stars.forEach(s => s.classList.remove('hover'));
+                  }}
+                >
+                  {star <= formData.rating ? '★' : '☆'}
+                </span>
+              ))}
+            </div>
+          </div>
+          <div className="form-group">
+            <label>이미지</label>
+            <div className="image-upload-container">
+              <label className="image-upload-label" htmlFor="image-upload">
+                {previewUrl ? (
+                  <div className="image-preview">
+                    <img src={previewUrl} alt="Preview" />
+                    <div className="image-overlay">
+                      <span>이미지 변경</span>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="upload-placeholder">
+                    <div className="upload-icon">📸</div>
+                    <span>이미지를 선택하거나 드래그하세요</span>
+                    <span className="upload-hint">권장 크기: 1200 x 800px</span>
+                  </div>
+                )}
+              </label>
+              <input
+                id="image-upload"
+                type="file"
+                accept="image/*"
+                onChange={handleImageChange}
+                style={{ display: 'none' }}
+              />
+            </div>
+          </div>
+          <div className="form-actions">
+            <button type="submit" className="submit-button">
+              {isEditing ? '수정하기' : '작성하기'}
+            </button>
+            <button
+              type="button"
+              className="cancel-button"
+              onClick={() => navigate('/reviews')}
+            >
+              취소
+            </button>
+          </div>
+        </form>
+      </div>
+      <BottomNavigation />
+    </div>
   );
 };
 
