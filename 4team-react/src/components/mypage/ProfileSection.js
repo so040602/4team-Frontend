@@ -22,11 +22,11 @@ function ProfileSection({ userId }) {
       try {
         if (userId) {
           const token = localStorage.getItem('token');
-          const response = await axios.get(`/api/members/${userId}`, {
+          const response = await axios.get(`http://localhost:8989/api/members/${userId}`, {
             headers: { Authorization: `Bearer ${token}` }
           });
-          setProfileUser(response.data);
-          setDisplayName(response.data.displayName);
+          setProfileUser(response.data.data);
+          setDisplayName(response.data.data.displayName);
         } else {
           setProfileUser(user);
           setDisplayName(user?.displayName || '');
@@ -40,14 +40,11 @@ function ProfileSection({ userId }) {
       try {
         const token = localStorage.getItem('token');
         const targetId = userId || user?.memberId;
-        const [reviewsResponse, followersResponse, followingResponse] = await Promise.all([
-          axios.get(`/api/reviews/user/${targetId}`, {
+        const [reviewsResponse, followCountResponse] = await Promise.all([
+          axios.get(`http://localhost:8989/api/reviews/member/${targetId}`, {
             headers: { Authorization: `Bearer ${token}` }
           }),
-          axios.get(`/api/follows/${targetId}/followers`, {
-            headers: { Authorization: `Bearer ${token}` }
-          }),
-          axios.get(`/api/follows/${targetId}/following`, {
+          axios.get(`http://localhost:8989/api/follow/count/${targetId}`, {
             headers: { Authorization: `Bearer ${token}` }
           })
         ]);
@@ -55,8 +52,8 @@ function ProfileSection({ userId }) {
         setStats({
           recipeCount: 0,  // 레시피 기능 구현 시 추가
           reviewCount: reviewsResponse.data.length,
-          followerCount: followersResponse.data.length,
-          followingCount: followingResponse.data.length
+          followerCount: followCountResponse.data.data.followerCount,
+          followingCount: followCountResponse.data.data.followingCount
         });
       } catch (error) {
         console.error('프로필 통계를 불러오는데 실패했습니다:', error);

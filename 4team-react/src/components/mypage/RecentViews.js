@@ -12,7 +12,7 @@ function RecentViews() {
     const fetchRecentViews = async () => {
       try {
         const token = localStorage.getItem('token');
-        const response = await axios.get('/api/reviews/recent', {
+        const response = await axios.get('http://localhost:8989/api/reviews/recent', {
           headers: {
             Authorization: `Bearer ${token}`
           }
@@ -89,7 +89,7 @@ function RecentViews() {
                       <CardMedia
                         component="img"
                         height="140"
-                        image={review.imageUrl}
+                        image={`http://localhost:8989/api/reviews/images/${review.imageUrl}`}
                         alt={review.title}
                       />
                     )}

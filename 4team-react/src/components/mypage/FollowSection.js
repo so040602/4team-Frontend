@@ -1,23 +1,88 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Box, List, ListItem, ListItemAvatar, ListItemText, Avatar, Typography, Tabs, Tab, Button } from '@mui/material';
+import axios from 'axios';
+import { useAuth } from '../../contexts/AuthContext';
 
 function FollowSection() {
   const [tabValue, setTabValue] = useState(0);
-  // TODO: API로 팔로워/팔로잉 목록 가져오기
-  const followers = [];
-  const following = [];
+  const [followers, setFollowers] = useState([]);
+  const [following, setFollowing] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const { user } = useAuth();
+
+  useEffect(() => {
+    const fetchFollowData = async () => {
+      try {
+        const token = localStorage.getItem('token');
+        const headers = { Authorization: `Bearer ${token}` };
+        const memberId = user?.memberId;
+
+        // 팔로워 목록 가져오기
+        const followersResponse = await axios.get(
+          `http://localhost:8989/api/follow/followers/${memberId}`,
+          { headers }
+        );
+        
+        // 팔로잉 목록 가져오기
+        const followingResponse = await axios.get(
+          `http://localhost:8989/api/follow/following/${memberId}`,
+          { headers }
+        );
+
+        setFollowers(followersResponse.data.data || []);
+        setFollowing(followingResponse.data.data || []);
+      } catch (error) {
+        console.error('팔로우 데이터를 불러오는데 실패했습니다:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    if (user?.memberId) {
+      fetchFollowData();
+    }
+  }, [user]);
 
   const handleTabChange = (event, newValue) => {
     setTabValue(newValue);
   };
 
-  const handleFollow = (userId) => {
-    // TODO: 팔로우 API 호출
+  const handleFollow = async (userId) => {
+    try {
+      const token = localStorage.getItem('token');
+      await axios.post(
+        `http://localhost:8989/api/follow/${userId}`,
+        {},
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+      // 팔로우 목록 새로고침
+      window.location.reload();
+    } catch (error) {
+      console.error('팔로우 실패:', error);
+    }
   };
 
-  const handleUnfollow = (userId) => {
-    // TODO: 언팔로우 API 호출
+  const handleUnfollow = async (userId) => {
+    try {
+      const token = localStorage.getItem('token');
+      await axios.delete(
+        `http://localhost:8989/api/follow/${userId}`,
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+      // 팔로우 목록 새로고침
+      window.location.reload();
+    } catch (error) {
+      console.error('언팔로우 실패:', error);
+    }
   };
+
+  if (loading) {
+    return (
+      <Typography variant="body1" color="text.secondary" align="center">
+        로딩 중...
+      </Typography>
+    );
+  }
 
   return (
     <Box>
@@ -35,22 +100,23 @@ function FollowSection() {
           <List>
             {followers.map((user) => (
               <ListItem
-                key={user.id}
+                key={user.memberId}
                 secondaryAction={
-                  <Button
-                    variant="outlined"
-                    onClick={() => handleFollow(user.id)}
-                  >
-                    {user.isFollowing ? '팔로잉' : '팔로우'}
-                  </Button>
+                  user.memberId !== user?.memberId && (
+                    <Button
+                      variant={user.isFollowing ? "contained" : "outlined"}
+                      onClick={() => user.isFollowing ? handleUnfollow(user.memberId) : handleFollow(user.memberId)}
+                    >
+                      {user.isFollowing ? '팔로잉' : '팔로우'}
+                    </Button>
+                  )
                 }
               >
                 <ListItemAvatar>
-                  <Avatar>{user.displayName[0]}</Avatar>
+                  <Avatar>{user.displayName[0].toUpperCase()}</Avatar>
                 </ListItemAvatar>
                 <ListItemText
                   primary={user.displayName}
-                  secondary={`레시피 ${user.recipeCount} · 리뷰 ${user.reviewCount}`}
                 />
               </ListItem>
             ))}
@@ -65,22 +131,22 @@ function FollowSection() {
           <List>
             {following.map((user) => (
               <ListItem
-                key={user.id}
+                key={user.memberId}
                 secondaryAction={
                   <Button
                     variant="contained"
-                    onClick={() => handleUnfollow(user.id)}
+                    color="error"
+                    onClick={() => handleUnfollow(user.memberId)}
                   >
-                    팔로잉
+                    언팔로우
                   </Button>
                 }
               >
                 <ListItemAvatar>
-                  <Avatar>{user.displayName[0]}</Avatar>
+                  <Avatar>{user.displayName[0].toUpperCase()}</Avatar>
                 </ListItemAvatar>
                 <ListItemText
                   primary={user.displayName}
-                  secondary={`레시피 ${user.recipeCount} · 리뷰 ${user.reviewCount}`}
                 />
               </ListItem>
             ))}
