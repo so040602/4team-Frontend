@@ -84,7 +84,7 @@ const ReviewForm = () => {
         });
         navigate(`/reviews/${id}`); // 수정 후 상세 페이지로 이동
       } else {
-        const response = await axios.post('http://localhost:8989/api/reviews', formDataToSend, {
+        await axios.post('http://localhost:8989/api/reviews', formDataToSend, {
           headers: {
             'Content-Type': 'multipart/form-data',
             Authorization: `Bearer ${token}`

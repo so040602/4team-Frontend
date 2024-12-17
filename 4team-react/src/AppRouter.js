@@ -10,6 +10,7 @@ import ReviewForm from "./pages/ReviewForm";
 import ReviewDetail from "./pages/ReviewDetail";
 import MyPage from './pages/MyPage';
 import ChatBot from "./components/chatbot/ChatBot";
+import UserProfile from './pages/UserProfile';
 function AppRouter() {
   return (
     <BrowserRouter>
@@ -29,6 +30,7 @@ function AppRouter() {
               <Route path="/reviews/:id/edit" element={<ReviewForm />} />
               <Route path="/mypage" element={<MyPage />} />
               <Route path="/chatbot/Chatbot" element={<ChatBot />} />
+              <Route path="/users/:memberId" element={<UserProfile />} />
             </Routes>
           </>
         } />

@@ -5,7 +5,7 @@ import axios from 'axios';
 function RecentViews() {
   const [tabValue, setTabValue] = useState(0);
   const [reviews, setReviews] = useState([]);
-  const [recipes, setRecipes] = useState([]);
+  const [recipes] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {

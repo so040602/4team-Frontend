@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
+import { Button, Form, Card } from 'react-bootstrap';
 import axios from 'axios';
-import { Container, Card, Button, Form, ListGroup, Image } from 'react-bootstrap';
 import moment from 'moment';
 import BottomNavigation from '../components/BottomNavigation';
 import SingleComment from '../components/comments/SingleComment';
@@ -14,41 +14,24 @@ const ReviewDetail = () => {
   const [review, setReview] = useState(null);
   const [comments, setComments] = useState([]);
   const [newComment, setNewComment] = useState('');
-  const [replyContent, setReplyContent] = useState({});
-  const [editingCommentId, setEditingCommentId] = useState(null);
-  const [editCommentContent, setEditCommentContent] = useState('');
   const [loading, setLoading] = useState(true);
   const [userId, setUserId] = useState(null);
-  const [expandedComments, setExpandedComments] = useState({});
 
-  useEffect(() => {
-    const token = localStorage.getItem('token');
-    if (token) {
-      const payload = JSON.parse(atob(token.split('.')[1]));
-      setUserId(payload.memberId);
-    }
-    fetchReview();
-    fetchComments();
-  }, [id]);
-
-  const fetchReview = async () => {
+  const fetchReview = useCallback(async () => {
     try {
-      const token = localStorage.getItem('token'); // 로컬 스토리지에서 토큰 가져오기
-      const response = await axios.get(`http://localhost:8989/api/reviews/${id}`, {
-        headers: {
-          Authorization: `Bearer ${token}` // 인증 헤더 추가
-        }
-      });
-      console.log('리뷰 데이터:', response.data); // 응답 데이터 로그 추가
+      const token = localStorage.getItem('token');
+      const headers = token ? { Authorization: `Bearer ${token}` } : {};
+      const response = await axios.get(`http://localhost:8989/api/reviews/${id}`, { headers });
+      console.log('리뷰 데이터:', response.data);
       setReview(response.data);
       setLoading(false);
     } catch (error) {
       console.error('리뷰를 불러오는데 실패했습니다:', error);
       setLoading(false);
     }
-  };
+  }, [id]);
 
-  const fetchComments = async () => {
+  const fetchComments = useCallback(async () => {
     try {
       const token = localStorage.getItem('token'); // 로컬 스토리지에서 토큰 가져오기
       const response = await axios.get(`http://localhost:8989/api/reviews/${id}/comments`, {
@@ -65,7 +48,17 @@ const ReviewDetail = () => {
     } catch (error) {
       console.error('댓글을 불러오는데 실패했습니다:', error);
     }
-  };
+  }, [id]);
+
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      const payload = JSON.parse(atob(token.split('.')[1]));
+      setUserId(payload.memberId);
+    }
+    fetchReview();
+    fetchComments();
+  }, [fetchReview, fetchComments, id]);
 
   const handleDelete = async () => {
     if (window.confirm('정말로 이 리뷰를 삭제하시겠습니까?')) {
@@ -109,98 +102,6 @@ const ReviewDetail = () => {
     }
   };
 
-  const handleReplySubmit = async (parentId) => {
-    try {
-      const token = localStorage.getItem('token'); // 로컬 스토리지에서 토큰 가져오기
-      const replyData = {
-        parentId: parentId,
-        content: replyContent[parentId] || '',
-        memberId: userId // 로그인한 사용자 ID로 설정
-      };
-      await axios.post(`http://localhost:8989/api/reviews/comments/reply`, replyData, {
-        headers: {
-          Authorization: `Bearer ${token}` // 인증 헤더 추가
-        }
-      });
-      setReplyContent(prev => ({ ...prev, [parentId]: '' }));
-      fetchComments();
-    } catch (error) {
-      console.error('대댓글 작성에 실패했습니다:', error);
-    }
-  };
-
-  const handleEditComment = async (commentId) => {
-    try {
-      const token = localStorage.getItem('token'); // 로컬 스토리지에서 토큰 가져오기
-      const commentData = {
-        content: editCommentContent,
-        memberId: userId // 로그인한 사용자 ID로 설정
-      };
-      await axios.put(`http://localhost:8989/api/reviews/comments/${commentId}`, commentData, {
-        headers: {
-          Authorization: `Bearer ${token}` // 인증 헤더 추가
-        }
-      });
-      setEditingCommentId(null);
-      setEditCommentContent('');
-      fetchComments();
-    } catch (error) {
-      console.error('댓글 수정에 실패했습니다:', error);
-    }
-  };
-
-  const handleDeleteComment = async (commentId) => {
-    if (window.confirm('정말로 이 댓글을 삭제하시겠습니까?')) {
-      try {
-        const token = localStorage.getItem('token'); // 로컬 스토리지에서 토큰 가져오기
-        await axios.delete(`http://localhost:8989/api/reviews/comments/${commentId}`, {
-          headers: {
-            Authorization: `Bearer ${token}` // 인증 헤더 추가
-          }
-        });
-        fetchComments();
-      } catch (error) {
-        console.error('댓글 삭제에 실패했습니다:', error);
-      }
-    }
-  };
-
-  const startEditingComment = (comment) => {
-    setEditingCommentId(comment.id);
-    setEditCommentContent(comment.content);
-  };
-
-  const toggleReplies = (commentId) => {
-    setExpandedComments(prev => ({
-      ...prev,
-      [commentId]: !prev[commentId]
-    }));
-  };
-
-  const renderReviewActions = () => {
-    if (review && review.memberId === userId) {
-      return (
-        <div>
-          <Link to={`/reviews/${id}/edit`} className="btn btn-warning">수정</Link>
-          <Button variant="danger" onClick={handleDelete}>삭제</Button>
-        </div>
-      );
-    }
-    return null;
-  };
-
-  const renderCommentActions = (comment) => {
-    if (comment.memberId === userId) {
-      return (
-        <div>
-          <Button variant="warning" onClick={() => startEditingComment(comment)}>수정</Button>
-          <Button variant="danger" onClick={() => handleDeleteComment(comment.id)}>삭제</Button>
-        </div>
-      );
-    }
-    return null;
-  };
-
   const renderComments = () => {
     return comments.map((comment) => (
       !comment.parentId && (
@@ -226,7 +127,7 @@ const ReviewDetail = () => {
       {loading ? (
         <p>Loading...</p>
       ) : review ? (
-        <>
+        <div>
           <div className="review-detail-content">
             <h2>{review.title}</h2>
             {review.imageUrl && (
@@ -237,12 +138,14 @@ const ReviewDetail = () => {
               />
             )}
             <div className="review-detail-info">
-              <span>작성자: 
-                <Link to={`/mypage/${review.memberId}`} style={{ textDecoration: 'none', color: '#007bff' }}>
+              <Card.Text>
+                작성자:{' '}
+                <Link to={`/users/${review.memberId}`} style={{ textDecoration: 'none', color: '#007bff' }}>
                   {review.memberDisplayName}
                 </Link>
-              </span>
-              <span>조회수: {review.viewCount}</span>
+                <br />
+              </Card.Text>
+              <span>조회수: {review.viewCount?.toLocaleString() || 0}</span>
               <span>작성일: {moment(review.createdAt).format('YYYY-MM-DD')}</span>
             </div>
             <p className="review-detail-text">{review.content}</p>
@@ -273,7 +176,7 @@ const ReviewDetail = () => {
               {renderComments()}
             </div>
           </div>
-        </>
+        </div>
       ) : (
         <p>리뷰를 찾을 수 없습니다.</p>
       )}

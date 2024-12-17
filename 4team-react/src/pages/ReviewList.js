@@ -6,46 +6,20 @@ import BottomNavigation from '../components/BottomNavigation';
 
 const ReviewList = () => {
   const [reviews, setReviews] = useState([]);
-  const [userId, setUserId] = useState(null);
 
   useEffect(() => {
-    const token = localStorage.getItem('token');
-    if (token) {
-      const payload = JSON.parse(atob(token.split('.')[1]));
-      setUserId(payload.memberId);
-      console.log('Current User ID:', payload.memberId);
-    }
     fetchReviews();
   }, []);
 
   const fetchReviews = async () => {
     try {
       const token = localStorage.getItem('token');
-      const response = await axios.get('http://localhost:8989/api/reviews', {
-        headers: {
-          Authorization: `Bearer ${token}`
-        }
-      });
+      const headers = token ? { Authorization: `Bearer ${token}` } : {};
+      const response = await axios.get('http://localhost:8989/api/reviews', { headers });
       console.log('Reviews Data:', response.data);
       setReviews(response.data);
     } catch (error) {
       console.error('리뷰 목록을 불러오는데 실패했습니다:', error);
-    }
-  };
-
-  const handleDelete = async (reviewId) => {
-    if (window.confirm('정말로 이 리뷰를 삭제하시겠습니까?')) {
-      try {
-        const token = localStorage.getItem('token');
-        await axios.delete(`http://localhost:8989/api/reviews/${reviewId}`, {
-          headers: {
-            Authorization: `Bearer ${token}`
-          }
-        });
-        fetchReviews();
-      } catch (error) {
-        console.error('리뷰 삭제에 실패했습니다:', error);
-      }
     }
   };
 
@@ -78,7 +52,7 @@ const ReviewList = () => {
                     <span>{review.memberDisplayName}</span>
                     <span className="rating">{'★'.repeat(review.rating)}{'☆'.repeat(5-review.rating)}</span>
                   </div>
-                  <span>조회수: {review.viewCount}</span>
+                  <span>조회수: {review.viewCount?.toLocaleString() || 0}</span>
                 </div>
               </div>
             </Link>
