@@ -5,7 +5,7 @@ function RecommendRecipe(props) {
     console.log(props.recommedRecipes);
 
     return(
-        <div className="space-y-6">
+        <div className="space-y-4">
             {/* 추천 레시피 */}
             <div className="card">
                 <h2 className="section-title">추천 레시피</h2>

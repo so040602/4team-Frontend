@@ -168,18 +168,20 @@ function RefriIngred(props) {
     }, [props.refriIngredient]);
 
     return (
-        <div className="refrigerator-container">
+        <div>
             {/* 냉장고 재료 목록 */}
             <div className="card">
                 <h2 className="section-title">냉장고 재료 목록</h2>
                 <div className="space-y-2">
                     {refriIngredient && refriIngredient.map((refriItem, index) => (
                         <div key={index} className="ingredient-item">
-                            <p onClick={() => handleIngredientClick(refriItem.ingredientId)}>{getIngredienName(refriItem.ingredientId)}</p>
-                            <button key={index}
-                                onClick={() => handleRemoveMyrefriIngred(refriItem.ingredientId)}
-                                className="remove-button"
-                            >X</button>
+                            <div className = "ingredient-content">
+                                <p onClick={() => handleIngredientClick(refriItem.ingredientId)}>{getIngredienName(refriItem.ingredientId)}</p>
+                                <button key={index}
+                                    onClick={() => handleRemoveMyrefriIngred(refriItem.ingredientId)}
+                                    className="remove-button"
+                                >취소</button>
+                            </div>   
                         </div>
                 ))}
                 </div>
@@ -189,7 +191,7 @@ function RefriIngred(props) {
             <div className="card">
                 {/* 재료 검색 */}
                 <div className="mt-4">
-                    <h3 className="text-lg font-medium mb-2">재료 검색</h3>
+                    <h3 className="section-title">재료 검색</h3>
                     <div className="search-container">
                         <input
                             type="text"
@@ -207,25 +209,24 @@ function RefriIngred(props) {
                                 {item.ingredientName}  
                             </button>
                         ))}
-                        <button className="search-button">
-                            검색
-                        </button>
                     </div>
                 </div>
                 <h2 className="section-title">추가할 재료</h2>
-                <div>
+                <div className="space-y-2">
                     {[...selectedIngredients].map((item, index) => (
                         item.ingredientName && (
                         <div key={index}
-                            className="selected-ingredient"
+                            className="ingredient-item"
                         >
-                            <p className="cursor-pointer" onClick={() => handleIngredientClick(item.ingredientId)}>{item.ingredientName}</p>
-                            <button
-                                onClick={() => handleRemove(item)}
-                                className="remove-button"
-                            >
-                                X
-                            </button>
+                                <div className="ingredient-content">
+                                <p className="cursor-pointer" onClick={() => handleIngredientClick(item.ingredientId)}>{item.ingredientName}</p>
+                                <button
+                                    onClick={() => handleRemove(item)}
+                                    className="remove-button"
+                                >
+                                    취소
+                                </button>
+                            </div>
                         </div>
                         )
                     ))}

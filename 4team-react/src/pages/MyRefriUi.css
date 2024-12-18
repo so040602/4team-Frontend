@@ -3,7 +3,7 @@
     max-width: 1200px;
     margin: 0 auto;
     padding: 20px;
-    min-height: 100vh;
+    min-height: 70vh;
     background-color: #ffffff;
 }
 
@@ -66,6 +66,36 @@
     font-size: 16px;
 }
 
+.section-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #333;
+    padding: 10px 0;
+    margin: 25px 0 15px 0;  /* 상하 여백 증가 */
+    border-bottom: 2px solid #4a90e2;
+    position: relative;
+}
+
+.section-title:first-child {
+    margin-top: 0;  /* 첫 번째 section-title의 상단 여백 제거 */
+}
+
+.mt-4 {
+    margin-top: 20px;
+}
+
+.search-container {
+    margin: 15px 0;
+}
+
+.card {
+    background: white;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
 /* 재료 목록 그리드 */
 .ingredients-grid {
     display: grid;
@@ -85,6 +115,33 @@
 
 .ingredient-card:hover {
     transform: translateY(-3px);
+}
+
+.ingredient-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.space-y-2 {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    padding: 10px;
+}
+
+.ingredient-item {
+    display: flex;
+    align-items: center;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.ingredient-content p {
+    margin: 0;
+    cursor: pointer;
 }
 
 /* 선택된 재료 섹션 */
