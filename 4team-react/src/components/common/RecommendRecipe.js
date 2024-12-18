@@ -1,13 +1,27 @@
+import { Button } from "react-bootstrap";
 import "../../pages/MyRefriUi.css"
+import { useState } from 'react';
 
 function RecommendRecipe(props) {
     const recommedList = props.recommedRecipes;
     console.log(props.recommedRecipes);
 
+    const [visibleCount, setVisibleCount] = useState(3);
+
+    if(!recommedList){
+        return <div>Loading</div>
+    }
+
+    const showMoreRecipes = () => {
+        setVisibleCount(prevCount => prevCount + 3);
+    };
+
+    const visibleRecipes = recommedList.slice(0, visibleCount);
+
     return(
 
         <div className="recipe-card-container">
-            {recommedList && recommedList.map((recipe, index) => (
+            {visibleRecipes && visibleRecipes.map((recipe, index) => (
                 <div key={index} className="recipe-card">
                     <img 
                         src={recipe.recipeThumbnail} 
@@ -25,6 +39,10 @@ function RecommendRecipe(props) {
                     </div>
                 </div>    
             ))}
+
+            {visibleCount < recommedList.length && (
+                <Button onClick={showMoreRecipes}>더 보기</Button>
+            )}
         </div>
 
     );
