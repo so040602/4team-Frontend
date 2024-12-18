@@ -61,7 +61,7 @@ const MainPage = () => {
                     <section className="menu-icons-section">
                         <div className="content-container">
                             <div className="menu-icons-grid">
-                                <Link to="/refrigerator" className="menu-icon-item">
+                                <Link to="/refriUI" className="menu-icon-item">
                                     <div className="icon-wrapper yellow">
                                         <img src="/icons/fridge.svg" alt="냉장고 파먹기" />
                                     </div>
