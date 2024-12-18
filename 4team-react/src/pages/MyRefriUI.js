@@ -171,8 +171,14 @@ function MyRefriUI() {
                 {/* 메인 콘텐츠 */}
                 {receivedData && (
                     <div className="grid">
-                        <RefriIngred ingredient={ingredient} refriIngredient={refriIngredient} refriId={refriId}/>               
-                        <RecommendRecipe recommedRecipes={recommedRecipes}/>
+                        <RefriIngred ingredient={ingredient} refriIngredient={refriIngredient} refriId={refriId}/>    
+                        <div className="space-y-4">
+                            {/* 추천 레시피 */}
+                            <div className="card">
+                            <h2 className="section-title">추천 레시피</h2>           
+                                <RecommendRecipe recommedRecipes={recommedRecipes}/>
+                            </div>
+                        </div>
                     </div>
                 )}
             </div>
