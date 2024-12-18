@@ -32,6 +32,12 @@ function RecentViews() {
     setTabValue(newValue);
   };
 
+  const formatDate = (dateArray) => {
+    if (!dateArray || !Array.isArray(dateArray)) return '-';
+    const [year, month, day] = dateArray;
+    return `${year}. ${String(month).padStart(2, '0')}. ${String(day).padStart(2, '0')}`;
+  };
+
   if (loading) {
     return (
       <Typography variant="body1" color="text.secondary" align="center">
@@ -103,7 +109,7 @@ function RecentViews() {
                         {review.content.length > 100 && '...'}
                       </Typography>
                       <Typography variant="caption" display="block" sx={{ mt: 1 }}>
-                        작성자: {review.memberName}
+                        작성일: {formatDate(review.createdAt)}
                       </Typography>
                     </CardContent>
                   </CardActionArea>

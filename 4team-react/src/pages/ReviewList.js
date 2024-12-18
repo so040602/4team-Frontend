@@ -16,11 +16,18 @@ const ReviewList = () => {
       const token = localStorage.getItem('token');
       const headers = token ? { Authorization: `Bearer ${token}` } : {};
       const response = await axios.get('http://localhost:8989/api/reviews', { headers });
-      console.log('Reviews Data:', response.data);
+      console.log('Reviews Data:', JSON.stringify(response.data, null, 2));
       setReviews(response.data);
     } catch (error) {
       console.error('리뷰 목록을 불러오는데 실패했습니다:', error);
     }
+  };
+
+  const formatDate = (dateArray) => {
+    if (!dateArray || !Array.isArray(dateArray)) return '-';
+    const [year, month, day] = dateArray;
+    const date = new Date(year, month - 1, day);
+    return `${year}. ${String(month).padStart(2, '0')}. ${String(day).padStart(2, '0')}`;
   };
 
   return (
@@ -52,7 +59,10 @@ const ReviewList = () => {
                     <span>{review.memberDisplayName}</span>
                     <span className="rating">{'★'.repeat(review.rating)}{'☆'.repeat(5-review.rating)}</span>
                   </div>
-                  <span>조회수: {review.viewCount?.toLocaleString() || 0}</span>
+                  <div>
+                    <span>조회수: {review.viewCount?.toLocaleString() || 0}</span>
+                    <span>작성일: {formatDate(review.createdAt)}</span>
+                  </div>
                 </div>
               </div>
             </Link>

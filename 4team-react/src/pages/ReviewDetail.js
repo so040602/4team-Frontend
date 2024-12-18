@@ -102,6 +102,12 @@ const ReviewDetail = () => {
     }
   };
 
+  const formatDate = (dateArray) => {
+    if (!dateArray || !Array.isArray(dateArray)) return '-';
+    const [year, month, day] = dateArray;
+    return `${year}. ${String(month).padStart(2, '0')}. ${String(day).padStart(2, '0')}`;
+  };
+
   const renderComments = () => {
     return comments.map((comment) => (
       !comment.parentId && (
@@ -146,7 +152,7 @@ const ReviewDetail = () => {
                 <br />
               </Card.Text>
               <span>조회수: {review.viewCount?.toLocaleString() || 0}</span>
-              <span>작성일: {moment(review.createdAt).format('YYYY-MM-DD')}</span>
+              <span>작성일: {formatDate(review.createdAt)}</span>
             </div>
             <p className="review-detail-text">{review.content}</p>
             

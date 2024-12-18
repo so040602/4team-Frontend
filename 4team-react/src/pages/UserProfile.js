@@ -109,6 +109,12 @@ const UserProfile = () => {
     }
   };
 
+  const formatDate = (dateArray) => {
+    if (!dateArray || !Array.isArray(dateArray)) return '-';
+    const [year, month, day] = dateArray;
+    return `${year}. ${String(month).padStart(2, '0')}. ${String(day).padStart(2, '0')}`;
+  };
+
   if (loading) {
     return <div>Loading...</div>;
   }
@@ -142,7 +148,7 @@ const UserProfile = () => {
             </Col>
             <Col md={8}>
               <h2>{profile.displayName}</h2>
-              <p className="text-muted">가입일: {moment(profile.createdAt).format('YYYY-MM-DD')}</p>
+              <p className="text-muted">가입일: {formatDate(profile.createdAt)}</p>
               <div className="d-flex align-items-center mb-3">
                 <span className="me-3">팔로워 {followCounts.followerCount}</span>
                 <span className="me-3">팔로잉 {followCounts.followingCount}</span>
@@ -193,7 +199,7 @@ const UserProfile = () => {
                         <span className="rating">{'★'.repeat(review.rating)}{'☆'.repeat(5-review.rating)}</span>
                         <br />
                         <small className="text-muted">
-                          작성일: {moment(review.createdAt).format('YYYY-MM-DD')}
+                          작성일: {formatDate(review.createdAt)}
                         </small>
                         <br />
                         <small className="text-muted">
@@ -224,7 +230,7 @@ const UserProfile = () => {
                         </Link>
                         <br />
                         <small className="text-muted">
-                          작성일: {moment(comment.createdAt).format('YYYY-MM-DD')}
+                          작성일: {formatDate(comment.createdAt)}
                         </small>
                       </Card.Text>
                     </Card.Body>

@@ -4,12 +4,16 @@ import EditIcon from '@mui/icons-material/Edit';
 import { useAuth } from '../../contexts/AuthContext';
 import axios from 'axios';
 import FollowButton from '../common/FollowButton';
+import GradeInfoModal from '../common/GradeInfoModal';
+import GradeBadge from '../common/GradeBadge';
 
 function ProfileSection({ userId }) {
-  const { user } = useAuth();
+  const { user, refreshUserInfo } = useAuth();
   const [open, setOpen] = useState(false);
   const [displayName, setDisplayName] = useState('');
   const [profileUser, setProfileUser] = useState(null);
+  const [showGradeInfo, setShowGradeInfo] = useState(false);
+  const [userGrade, setUserGrade] = useState(null);
   const [stats, setStats] = useState({
     recipeCount: 0,
     reviewCount: 0,
@@ -27,9 +31,24 @@ function ProfileSection({ userId }) {
           });
           setProfileUser(response.data.data);
           setDisplayName(response.data.data.displayName);
+          
+          // 등급 정보도 함께 가져오기
+          const gradeResponse = await axios.get(`http://localhost:8989/api/members/${userId}/grade`, {
+            headers: { Authorization: `Bearer ${token}` }
+          });
+          console.log('Grade response:', gradeResponse.data);
+          setUserGrade(gradeResponse.data);
         } else {
           setProfileUser(user);
           setDisplayName(user?.displayName || '');
+          
+          // 현재 로그인한 사용자의 등급 정보 가져오기
+          const token = localStorage.getItem('token');
+          const gradeResponse = await axios.get(`http://localhost:8989/api/members/${user.memberId}/grade`, {
+            headers: { Authorization: `Bearer ${token}` }
+          });
+          console.log('Grade response:', gradeResponse.data);
+          setUserGrade(gradeResponse.data);
         }
       } catch (error) {
         console.error('사용자 정보를 불러오는데 실패했습니다:', error);
@@ -105,6 +124,16 @@ function ProfileSection({ userId }) {
         <Box flex={1}>
           <Box display="flex" alignItems="center" gap={1}>
             <Typography variant="h5">{profileUser.displayName}</Typography>
+            <GradeBadge grade={userGrade} />
+            {isOwnProfile && (
+              <Button
+                variant="text"
+                size="small"
+                onClick={() => setShowGradeInfo(true)}
+              >
+                등급 안내
+              </Button>
+            )}
             {isOwnProfile ? (
               <Button startIcon={<EditIcon />} onClick={handleEditClick}>
                 프로필 수정
@@ -143,6 +172,11 @@ function ProfileSection({ userId }) {
           <Button onClick={handleSave}>저장</Button>
         </DialogActions>
       </Dialog>
+
+      <GradeInfoModal
+        open={showGradeInfo}
+        onClose={() => setShowGradeInfo(false)}
+      />
     </Paper>
   );
 }
