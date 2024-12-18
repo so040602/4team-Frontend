@@ -34,7 +34,7 @@ const MainPage = () => {
                     <div className="nav-content">
                         <Link to="/" className="nav-item active">홈</Link>
                         <Link to="/recipes" className="nav-item">레시피</Link>
-                        <Link to="/refrigerator" className="nav-item">냉장고 파먹기</Link>
+                        <Link to="/refriUI" className="nav-item">냉장고 파먹기</Link>
                         <Link to="/reviews" className="nav-item">리뷰</Link>
                         <Link to="/chatbot/Chatbot" className="nav-item">챗봇</Link>
                     </div>
