@@ -1,0 +1,89 @@
+.section {
+  margin: 20px 0;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.section-title {
+  font-size: 1.5rem;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 500;
+  color: #555;
+}
+
+.form-group input[type="text"] {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+  transition: border-color 0.3s ease;
+}
+
+.form-group input[type="text"]:focus {
+  outline: none;
+  border-color: #4caf50;
+  box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.1);
+}
+
+.form-group input[type="text"]::placeholder {
+  color: #999;
+}
+
+/* 대표 이미지 컨테이너 스타일 */
+.main-image-container {
+  aspect-ratio: 16 / 9;
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+  background-color: #f8f8f8;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+/* 반응형 디자인 */
+@media (max-width: 768px) {
+  .section {
+    padding: 15px;
+    margin: 15px 0;
+  }
+
+  .section-title {
+    font-size: 1.3rem;
+  }
+
+  .main-image-container {
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .section {
+    padding: 10px;
+    margin: 10px 0;
+  }
+
+  .section-title {
+    font-size: 1.2rem;
+  }
+
+  .form-group label {
+    font-size: 14px;
+  }
+
+  .form-group input[type="text"] {
+    padding: 8px;
+  }
+}
