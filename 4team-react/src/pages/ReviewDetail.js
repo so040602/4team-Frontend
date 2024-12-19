@@ -2,7 +2,6 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { Button, Form, Card } from 'react-bootstrap';
 import axios from 'axios';
-import moment from 'moment';
 import BottomNavigation from '../components/BottomNavigation';
 import SingleComment from '../components/comments/SingleComment';
 import ReplyComment from '../components/comments/ReplyComment';
@@ -16,6 +15,28 @@ const ReviewDetail = () => {
   const [newComment, setNewComment] = useState('');
   const [loading, setLoading] = useState(true);
   const [userId, setUserId] = useState(null);
+
+  const formatDate = (dateInput) => {
+    if (!dateInput) return '-';
+  
+    // 날짜가 배열이 아니라면 Date 객체로 변환
+    let date;
+    if (Array.isArray(dateInput)) {
+      const [year, month, day] = dateInput;
+      date = new Date(year, month - 1, day); // Date 객체로 변환
+    } else {
+      date = new Date(dateInput); // 문자열 또는 다른 형식이 Date로 변환
+    }
+  
+    // 날짜가 유효한지 확인
+    if (isNaN(date.getTime())) return '-';
+  
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0'); // 월은 0부터 시작하므로 +1
+    const day = String(date.getDate()).padStart(2, '0');
+  
+    return `${year}. ${month}. ${day}`;
+  };
 
   const fetchReview = useCallback(async () => {
     try {
@@ -102,12 +123,6 @@ const ReviewDetail = () => {
     }
   };
 
-  const formatDate = (dateArray) => {
-    if (!dateArray || !Array.isArray(dateArray)) return '-';
-    const [year, month, day] = dateArray;
-    return `${year}. ${String(month).padStart(2, '0')}. ${String(day).padStart(2, '0')}`;
-  };
-
   const renderComments = () => {
     return comments.map((comment) => (
       !comment.parentId && (
@@ -135,7 +150,17 @@ const ReviewDetail = () => {
       ) : review ? (
         <div>
           <div className="review-detail-content">
-            <h2>{review.title}</h2>
+            <div className="review-header">
+              <h2>{review.title}</h2>
+              {review.recipeId && review.recipeTitle && (
+                <div className="recipe-info">
+                  <span className="recipe-label">레시피</span>
+                  <Link to={`/recipes/${review.recipeId}`} className="recipe-link">
+                    {review.recipeTitle}
+                  </Link>
+                </div>
+              )}
+            </div>
             {review.imageUrl && (
               <img
                 src={`http://localhost:8989/api/reviews/images/${review.imageUrl}`}

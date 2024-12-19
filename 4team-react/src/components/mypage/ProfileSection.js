@@ -8,7 +8,7 @@ import GradeInfoModal from '../common/GradeInfoModal';
 import GradeBadge from '../common/GradeBadge';
 
 function ProfileSection({ userId }) {
-  const { user, refreshUserInfo } = useAuth();
+  const { user } = useAuth();
   const [open, setOpen] = useState(false);
   const [displayName, setDisplayName] = useState('');
   const [profileUser, setProfileUser] = useState(null);
@@ -32,6 +32,12 @@ function ProfileSection({ userId }) {
           setProfileUser(response.data.data);
           setDisplayName(response.data.data.displayName);
           
+          // 통계 정보 업데이트
+          setStats(prevStats => ({
+            ...prevStats,
+            recipeCount: response.data.data.recipeCount || 0
+          }));
+          
           // 등급 정보도 함께 가져오기
           const gradeResponse = await axios.get(`http://localhost:8989/api/members/${userId}/grade`, {
             headers: { Authorization: `Bearer ${token}` }
@@ -41,6 +47,12 @@ function ProfileSection({ userId }) {
         } else {
           setProfileUser(user);
           setDisplayName(user?.displayName || '');
+          
+          // 통계 정보 업데이트
+          setStats(prevStats => ({
+            ...prevStats,
+            recipeCount: user.recipeCount || 0
+          }));
           
           // 현재 로그인한 사용자의 등급 정보 가져오기
           const token = localStorage.getItem('token');
@@ -58,22 +70,27 @@ function ProfileSection({ userId }) {
     const fetchStats = async () => {
       try {
         const token = localStorage.getItem('token');
+        const headers = token ? { Authorization: `Bearer ${token}` } : {};
         const targetId = userId || user?.memberId;
-        const [reviewsResponse, followCountResponse] = await Promise.all([
-          axios.get(`http://localhost:8989/api/reviews/member/${targetId}`, {
-            headers: { Authorization: `Bearer ${token}` }
-          }),
-          axios.get(`http://localhost:8989/api/follow/count/${targetId}`, {
-            headers: { Authorization: `Bearer ${token}` }
-          })
-        ]);
-        
-        setStats({
-          recipeCount: 0,  // 레시피 기능 구현 시 추가
+
+        // 리뷰 수 가져오기
+        const reviewsResponse = await axios.get(
+          `http://localhost:8989/api/reviews/member/${targetId}`,
+          { headers }
+        );
+
+        // 팔로우 수 가져오기
+        const followCountResponse = await axios.get(
+          `http://localhost:8989/api/follow/count/${targetId}`,
+          { headers }
+        );
+
+        setStats(prevStats => ({
+          recipeCount: prevStats.recipeCount,
           reviewCount: reviewsResponse.data.length,
           followerCount: followCountResponse.data.data.followerCount,
           followingCount: followCountResponse.data.data.followingCount
-        });
+        }));
       } catch (error) {
         console.error('프로필 통계를 불러오는데 실패했습니다:', error);
       }

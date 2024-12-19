@@ -23,11 +23,26 @@ const ReviewList = () => {
     }
   };
 
-  const formatDate = (dateArray) => {
-    if (!dateArray || !Array.isArray(dateArray)) return '-';
-    const [year, month, day] = dateArray;
-    const date = new Date(year, month - 1, day);
-    return `${year}. ${String(month).padStart(2, '0')}. ${String(day).padStart(2, '0')}`;
+  const formatDate = (dateInput) => {
+    if (!dateInput) return '-';
+  
+    // 날짜가 배열이 아니라면 Date 객체로 변환
+    let date;
+    if (Array.isArray(dateInput)) {
+      const [year, month, day] = dateInput;
+      date = new Date(year, month - 1, day); // Date 객체로 변환
+    } else {
+      date = new Date(dateInput); // 문자열 또는 다른 형식이 Date로 변환
+    }
+  
+    // 날짜가 유효한지 확인
+    if (isNaN(date.getTime())) return '-';
+  
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0'); // 월은 0부터 시작하므로 +1
+    const day = String(date.getDate()).padStart(2, '0');
+  
+    return `${year}. ${month}. ${day}`;
   };
 
   return (

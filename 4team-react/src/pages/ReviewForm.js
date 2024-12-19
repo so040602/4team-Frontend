@@ -7,14 +7,34 @@ import BottomNavigation from '../components/BottomNavigation';
 const ReviewForm = () => {
   const { id } = useParams();
   const navigate = useNavigate();
+  const [recipes, setRecipes] = useState([]);
   const [formData, setFormData] = useState({
     title: '',
     content: '',
     image: null,
-    rating: 5  // 기본값 5로 설정
+    rating: 5,  // 기본값 5로 설정
+    recipeId: ''
   });
   const [previewUrl, setPreviewUrl] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
+
+  // 레시피 목록 가져오기
+  useEffect(() => {
+    const fetchRecipes = async () => {
+      try {
+        const token = localStorage.getItem('token');
+        const response = await axios.get('http://localhost:8989/recipe_form/recipes', {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        });
+        setRecipes(response.data);
+      } catch (error) {
+        console.error('레시피 목록을 불러오는데 실패했습니다:', error);
+      }
+    };
+    fetchRecipes();
+  }, []);
 
   const fetchReview = useCallback(async () => {
     try {
@@ -29,7 +49,8 @@ const ReviewForm = () => {
         title: review.title,
         content: review.content,
         image: null,
-        rating: review.rating || 5
+        rating: review.rating || 5,
+        recipeId: review.recipeId
       });
       setPreviewUrl(review.imageUrl);
     } catch (error) {
@@ -69,7 +90,8 @@ const ReviewForm = () => {
     const formDataToSend = new FormData();
     formDataToSend.append('title', formData.title);
     formDataToSend.append('content', formData.content);
-    formDataToSend.append('rating', formData.rating);  // rating 추가
+    formDataToSend.append('rating', formData.rating);
+    formDataToSend.append('recipeId', formData.recipeId);
     if (formData.image) {
       formDataToSend.append('image', formData.image);
     }
@@ -82,7 +104,7 @@ const ReviewForm = () => {
             Authorization: `Bearer ${token}`
           }
         });
-        navigate(`/reviews/${id}`); // 수정 후 상세 페이지로 이동
+        navigate(`/reviews/${id}`);
       } else {
         await axios.post('http://localhost:8989/api/reviews', formDataToSend, {
           headers: {
@@ -90,7 +112,7 @@ const ReviewForm = () => {
             Authorization: `Bearer ${token}`
           }
         });
-        navigate('/reviews'); // 새 리뷰 작성 후에는 목록으로 이동
+        navigate('/reviews');
       }
     } catch (error) {
       console.error('리뷰 저장에 실패했습니다:', error);
@@ -102,6 +124,22 @@ const ReviewForm = () => {
       <div className="review-form-content">
         <h2>{isEditing ? '리뷰 수정' : '새 리뷰 작성'}</h2>
         <form onSubmit={handleSubmit}>
+          <div className="form-group">
+            <label>레시피 선택</label>
+            <select
+              name="recipeId"
+              value={formData.recipeId}
+              onChange={handleInputChange}
+              required
+            >
+              <option value="">레시피를 선택하세요</option>
+              {recipes.map((recipe) => (
+                <option key={recipe.recipeId} value={recipe.recipeId}>
+                  {recipe.recipeTitle}
+                </option>
+              ))}
+            </select>
+          </div>
           <div className="form-group">
             <label>제목</label>
             <input

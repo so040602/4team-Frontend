@@ -230,6 +230,29 @@
     background-color: #02b150 !important;
 }
 
+.recipe-info {
+  margin: 10px 0;
+  padding: 10px;
+  background-color: #f8f9fa;
+  border-radius: 4px;
+}
+
+.recipe-label {
+  font-weight: 500;
+  color: #6c757d;
+  margin-right: 8px;
+}
+
+.recipe-link {
+  color: #007bff;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.recipe-link:hover {
+  text-decoration: underline;
+}
+
 @media (max-width: 768px) {
     .review-detail-container {
         padding-bottom: 100px;
