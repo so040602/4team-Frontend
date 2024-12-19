@@ -1,18 +1,57 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import '../styles/MainPage.css';
+import axios from 'axios';
 
 const MainPage = () => {
     const [searchQuery, setSearchQuery] = useState('');
+    const [selectedImage, setSelectedImage] = useState(null);
+    const [error, setError] = useState(null);
+    const navigate = useNavigate();
 
-    const handleSearch = () => {
-        // 검색 처리
-        setSearchQuery(searchQuery);
-        document.activeElement.blur(); // 키보드 숨기기
-        console.log(searchQuery);
+    const handleSearch = (e) => {
+       if(e.key === 'Enter' && searchQuery.trim() !== ''){
+            navigate(`/searchrecipe?searchQuery=${searchQuery}`);       
+       }
+    };
 
-
+    const handleImageChange = (e) => {
+        const file = e.target.files[0]; // 파일을 선택하여 첫 번째 파일만 가져옵니다.
+        if (file){
+            setSelectedImage(file);
+        }
     }
+
+    const handleImageSearch = () => {
+        document.getElementById('file-input').click();
+    };
+
+    useEffect(() => {
+        if (selectedImage) {
+            handleImageSubmit(); // selectedImage가 업데이트되면 자동 실행
+        }
+    }, [selectedImage]); // selectedImage 값이 변경될 때마다 실행
+
+    const handleImageSubmit = async () => {
+        const formData = new FormData();
+        formData.append('image', selectedImage);
+
+        try {
+            console.log(1);
+            const response = await axios.post('http://192.168.0.28:5000/predict', formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                },
+            });
+            console.log(response.data.prediction);
+
+            setSearchQuery(response.data.prediction);
+        } catch (error) {
+            setError(error);
+        }
+    }
+
+
 
     return (
         <div className="main-page">
@@ -29,12 +68,20 @@ const MainPage = () => {
                                 placeholder="레시피나 재료를 검색해보세요"
                                 value={searchQuery}
                                 onChange={(e) => setSearchQuery(e.target.value)}
-                                onKeyDown={(e) => {
-                                    if (e.key === 'Enter'){
-                                        handleSearch();
-                                    }
-                                }}
+                                onKeyDown={(e)=>{handleSearch(e);}}
                             />
+                            <div>
+                                <button className='search-icon'
+                                onClick={handleImageSearch}>🎨</button>
+                                <input
+                                    type='file'
+                                    id='file-input'
+                                    accept='image/*'
+                                    onChange={handleImageChange}
+                                    style={{display:'none'}}
+                                >
+                                </input>  
+                            </div> 
                         </div>
                         <div className="header-actions">
                             <button className="notification-btn">🔔</button>

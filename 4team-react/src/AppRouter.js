@@ -13,6 +13,7 @@ import ChatBot from "./components/chatbot/ChatBot";
 import UserProfile from "./pages/UserProfile";
 import RefriUI from "./pages/MyRefriUI";
 import RecipeCreate from "./pages/RecipeCreate";
+import SearchRecipes from "./pages/SearchRecipe"
 
 function AppRouter() {
   return (
@@ -38,6 +39,7 @@ function AppRouter() {
                 <Route path="/users/:memberId" element={<UserProfile />} />
                 <Route path="/refriUI" element={<RefriUI />} />
                 <Route path="/recipe/create" element={<RecipeCreate />} />
+                <Route path="/searchrecipe" element={<SearchRecipes/>}/>
               </Routes>
             </>
           }
