@@ -5,6 +5,15 @@ import '../styles/MainPage.css';
 const MainPage = () => {
     const [searchQuery, setSearchQuery] = useState('');
 
+    const handleSearch = () => {
+        // 검색 처리
+        setSearchQuery(searchQuery);
+        document.activeElement.blur(); // 키보드 숨기기
+        console.log(searchQuery);
+
+
+    }
+
     return (
         <div className="main-page">
             <div className="main-page-content">
@@ -20,6 +29,11 @@ const MainPage = () => {
                                 placeholder="레시피나 재료를 검색해보세요"
                                 value={searchQuery}
                                 onChange={(e) => setSearchQuery(e.target.value)}
+                                onKeyDown={(e) => {
+                                    if (e.key === 'Enter'){
+                                        handleSearch();
+                                    }
+                                }}
                             />
                         </div>
                         <div className="header-actions">
