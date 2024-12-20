@@ -570,7 +570,7 @@ body {
 /* 플로팅 버튼 */
 .floating-button {
     position: fixed;
-    right: 2rem;
+    right: 68rem;
     bottom: 5rem;
     width: 3.5rem;
     height: 3.5rem;
@@ -719,8 +719,8 @@ body {
     }
 
     .floating-button {
-        bottom: 4.5rem;
-        right: 1rem;
+        bottom: 6.5rem;
+        right: 0.5rem;
     }
 }
 
