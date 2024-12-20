@@ -1,5 +1,4 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import Menu from "./pages/Menu";
 import Login from "./pages/Login";
 import SignUp from "./pages/SignUp";
 import OAuth2Callback from "./pages/OAuth2Callback";
@@ -14,6 +13,9 @@ import UserProfile from "./pages/UserProfile";
 import RefriUI from "./pages/MyRefriUI";
 import RecipeCreate from "./pages/RecipeCreate";
 import SearchRecipes from "./pages/SearchRecipe"
+import SearchPage from "./components/SearchPage";
+import MenuList from "./components/MenuList";
+import LinkList from "./components/LinkList";
 
 function AppRouter() {
   return (
@@ -26,7 +28,9 @@ function AppRouter() {
             <>
               <Navbar />
               <Routes>
-                <Route path="/Menu" element={<Menu />} />
+                <Route path="/SearchPage" element={<SearchPage />} />
+                <Route path="/MenuList" element={<MenuList />} />
+                <Route path="/LinkList" element={<LinkList />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/signup" element={<SignUp />} />
                 <Route path="/oauth2/callback" element={<OAuth2Callback />} />

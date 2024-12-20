@@ -128,7 +128,7 @@ const MainPage = () => {
                                     </div>
                                     <span>냉장고 파먹기</span>
                                 </Link>
-                                <Link to="/recipes/today" className="menu-icon-item">
+                                <Link to="/MenuList" className="menu-icon-item">
                                     <div className="icon-wrapper pink">
                                         <img src="/icons/heart.svg" alt="오늘 뭐먹지?" />
                                     </div>
@@ -141,18 +141,18 @@ const MainPage = () => {
                                     </div>
                                     <span>인기 레시피</span>
                                 </Link>
-                                <Link to="/recipes/book" className="menu-icon-item">
+                                <Link to="/LinkList" className="menu-icon-item">
                                     <div className="icon-wrapper red">
                                         <img src="/icons/book.svg" alt="레시피 북" />
                                     </div>
-                                    <span>레시피 북</span>
+                                    <span>맛이슈</span>
                                 </Link>
-                                <Link to="/promotion" className="menu-icon-item">
+                                <Link to="/Searchpage" className="menu-icon-item">
                                     <div className="icon-wrapper green">
                                         <span className="badge sale">SALE</span>
                                         <img src="/icons/sale.svg" alt="할인/특가" />
                                     </div>
-                                    <span>할인/특가</span>
+                                    <span>식자재</span>
                                 </Link>
                             </div>
                         </div>
