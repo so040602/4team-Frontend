@@ -44,15 +44,18 @@ const MenuCard = styled.div`
     }
 
     .card-header {
-        height: 160px;
-        background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 3rem;
-        color: #fff;
-        text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        height: 200px;
+        overflow: hidden;
+        padding: 0;
+        background: none;
         border: none;
+    }
+
+    .card-img-top {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center;
     }
 
     .card-body {
@@ -290,7 +293,11 @@ const MenuList = () => {
                             <div key={menu.menuIdx || index} className="col-md-4 mb-4">
                                 <MenuCard className="card h-100">
                                     <div className="card-header">
-                                        🍽️
+                                    <img 
+                                        src={`http://localhost:8989/images/${menu.image}`}
+                                        alt={menu.name} 
+                                        className="card-img-top" 
+                                    />
                                     </div>
                                     <div className="card-body">
                                         <h5 className="card-title">{menu.name}</h5>
