@@ -356,6 +356,27 @@ body {
     color: #ff8787;
 }
 
+
+
+/* 리뷰 섹션 공통 스타일 */
+.review-section {
+    width: 100%;
+    padding: 3rem 0;
+}
+
+.review-section-title {
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 2rem;
+}
+
+.review-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+    gap: 2rem;
+}
+
 /* 레시피 섹션 공통 스타일 */
 .recipe-section {
     width: 100%;
@@ -383,6 +404,11 @@ body {
 /* 최신 레시피 섹션 */
 .latest-recipes {
     background-color: white;
+}
+
+/* 최신 레시피 섹션 */
+.latest-reviews {
+    background-color: #f8f9fa;
 }
 
 /* 레시피 카드 스타일 */
