@@ -107,7 +107,6 @@ const MainPage = () => {
                         <div className="content-container">
                             <div className="banner-slider">
                                 <div className="banner-slide">
-                                    <img src="/banner1.jpg" alt="특별한 연말 레시피" className="banner-image" />
                                     <div className="banner-content">
                                         <h2>특별한 연말 레시피</h2>
                                         <p>사랑하는 사람들과 함께 나누는 따뜻한 요리</p>
