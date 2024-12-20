@@ -69,7 +69,7 @@ body {
 /* 상단 네비게이션 */
 .top-nav {
     position: fixed;
-    top: 4rem;
+    top: 38px;
     left: 0;
     right: 0;
     background-color: white;

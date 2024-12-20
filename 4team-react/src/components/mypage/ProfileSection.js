@@ -123,15 +123,27 @@ function ProfileSection({ userId }) {
   const handleSave = async () => {
     try {
       const token = localStorage.getItem('token');
-      await axios.put('/api/members/profile', 
+      const targetId = userId || user?.memberId;
+      const response = await axios.put(
+        `http://localhost:8989/api/members/${targetId}/displayName`,
         { displayName },
         { headers: { Authorization: `Bearer ${token}` }}
       );
+      
+      // 상태 업데이트
+      setProfileUser(prev => ({
+        ...prev,
+        displayName: displayName
+      }));
+      
       setOpen(false);
-      // 프로필 업데이트 후 새로고침
-      window.location.reload();
     } catch (error) {
-      console.error('프로필 수정 실패:', error);
+      if (error.response?.data?.message) {
+        alert(error.response.data.message);
+      } else {
+        console.error('프로필 수정 실패:', error);
+        alert('프로필 수정에 실패했습니다.');
+      }
     }
   };
 
