@@ -10,6 +10,7 @@ const UserProfile = () => {
   const [profile, setProfile] = useState(null);
   const [reviews, setReviews] = useState([]);
   const [comments, setComments] = useState([]);
+  const [recipes, setRecipes] = useState([]);
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState('reviews');
   const [isFollowing, setIsFollowing] = useState(false);
@@ -57,6 +58,13 @@ const UserProfile = () => {
           { headers }
         );
         setComments(commentsResponse.data);
+
+        // 사용자의 레시피 목록 가져오기
+        const recipesResponse = await axios.get(
+          `http://localhost:8989/recipe_form/member/${memberId}`,
+          { headers }
+        );
+        setRecipes(recipesResponse.data);
         
         setLoading(false);
       } catch (error) {
@@ -187,6 +195,39 @@ const UserProfile = () => {
         onSelect={(k) => setActiveTab(k)}
         className="mb-3"
       >
+        <Tab eventKey="recipes" title="작성한 레시피">
+          <Row>
+            {recipes.length === 0 ? (
+              <Col>
+                <p>작성한 레시피가 없습니다.</p>
+              </Col>
+            ) : (
+              recipes.map((recipe) => (
+                <Col md={4} key={recipe.recipeId} className="mb-4">
+                  <Card>
+                    <Card.Img
+                      variant="top"
+                      src={recipe.recipeThumbnail || '/default-recipe-image.jpg'}
+                      alt={recipe.recipeTitle}
+                    />
+                    <Card.Body>
+                      <Card.Title>
+                        <Link to={`/recipe/${recipe.recipeId}`} style={{ textDecoration: 'none', color: 'inherit' }}>
+                          {recipe.recipeTitle}
+                        </Link>
+                      </Card.Title>
+                      <Card.Text>
+                        <small className="text-muted">
+                          작성일: {formatDate(recipe.createdAt)}
+                        </small>
+                      </Card.Text>
+                    </Card.Body>
+                  </Card>
+                </Col>
+              ))
+            )}
+          </Row>
+        </Tab>
         <Tab eventKey="reviews" title="작성한 리뷰">
           <Row>
             {reviews.length === 0 ? (

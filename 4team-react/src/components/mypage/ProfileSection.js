@@ -32,10 +32,15 @@ function ProfileSection({ userId }) {
           setProfileUser(response.data.data);
           setDisplayName(response.data.data.displayName);
           
+          // 레시피 수 가져오기
+          const recipeCountResponse = await axios.get(`http://localhost:8989/recipe_form/member/${userId}/count`, {
+            headers: { Authorization: `Bearer ${token}` }
+          });
+          
           // 통계 정보 업데이트
           setStats(prevStats => ({
             ...prevStats,
-            recipeCount: response.data.data.recipeCount || 0
+            recipeCount: recipeCountResponse.data
           }));
           
           // 등급 정보도 함께 가져오기
@@ -48,14 +53,19 @@ function ProfileSection({ userId }) {
           setProfileUser(user);
           setDisplayName(user?.displayName || '');
           
+          // 레시피 수 가져오기
+          const token = localStorage.getItem('token');
+          const recipeCountResponse = await axios.get(`http://localhost:8989/recipe_form/member/${user.memberId}/count`, {
+            headers: { Authorization: `Bearer ${token}` }
+          });
+          
           // 통계 정보 업데이트
           setStats(prevStats => ({
             ...prevStats,
-            recipeCount: user.recipeCount || 0
+            recipeCount: recipeCountResponse.data
           }));
           
           // 현재 로그인한 사용자의 등급 정보 가져오기
-          const token = localStorage.getItem('token');
           const gradeResponse = await axios.get(`http://localhost:8989/api/members/${user.memberId}/grade`, {
             headers: { Authorization: `Bearer ${token}` }
           });
@@ -73,9 +83,9 @@ function ProfileSection({ userId }) {
         const headers = token ? { Authorization: `Bearer ${token}` } : {};
         const targetId = userId || user?.memberId;
 
-        // 리뷰 수 가져오기
+        // 리뷰 목록 가져오기
         const reviewsResponse = await axios.get(
-          `http://localhost:8989/api/reviews/member/${targetId}`,
+          `http://localhost:8989/api/reviews/my`,
           { headers }
         );
 
@@ -100,7 +110,7 @@ function ProfileSection({ userId }) {
       fetchUser();
       fetchStats();
     }
-  }, [userId, user]);
+  }, [user, userId]);
 
   const handleEditClick = () => {
     setOpen(true);
