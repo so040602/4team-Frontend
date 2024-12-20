@@ -136,6 +136,7 @@ body {
     margin-right: 0.75rem;
     color: #666;
     font-size: 1.1rem;
+    border: none
 }
 
 .search-input {
