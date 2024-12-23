@@ -10,10 +10,10 @@ const LinkList = () => {
   };
 
   return (
-    <div className="container mt-4">
+    <div className="container mt-4" >
       
       {/* YouTube 영상 섹션 */}
-      <div className="card mb-4">
+      <div className="card mb-4" style={{margin: '120px auto' }}>
         <div className="card-body">
           <h5 className="card-title">요즘 인기 있는 요리 유튜브 영상</h5>
           <div className="ratio ratio-16x9">

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import '../styles/MainPage.css';
 import axios from 'axios';
+import Header from '../components/Header';
 
 const MainPage = () => {
     const [searchQuery, setSearchQuery] = useState('');
@@ -94,39 +95,7 @@ const MainPage = () => {
     return (
         <div className="main-page">
             <div className="main-page-content">
-                {/* 헤더 */}
-                <header className="header">
-                    <div className="header-content">
-                        <h1 className="header-title">오늘의 레시피</h1>
-                        <div className="search-bar">
-                            <span className="search-icon">🔍</span>
-                            <input 
-                                type="text" 
-                                className="search-input" 
-                                placeholder="레시피나 재료를 검색해보세요"
-                                value={searchQuery}
-                                onChange={(e) => setSearchQuery(e.target.value)}
-                                onKeyDown={(e)=>{handleSearch(e);}}
-                            />
-                            <div>
-                                <button className='search-icon'
-                                onClick={handleImageSearch}>🎨</button>
-                                <input
-                                    type='file'
-                                    id='file-input'
-                                    accept='image/*'
-                                    onChange={handleImageChange}
-                                    style={{display:'none'}}
-                                >
-                                </input>  
-                            </div> 
-                        </div>
-                        <div className="header-actions">
-                            <button className="notification-btn">🔔</button>
-                            <Link to="/mypage" className="profile-btn">👤</Link>
-                        </div>
-                    </div>
-                </header>
+                <Header/>
 
                 {/* 상단 네비게이션 */}
                 <nav className="top-nav">

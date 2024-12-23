@@ -1,7 +1,7 @@
 /* 전체 레이아웃 컨테이너 */
 .refrigerator-container {
     max-width: 1200px;
-    margin: 0 auto;
+    margin: 100px auto;
     padding: 20px;
     min-height: 70vh;
     background-color: #ffffff;

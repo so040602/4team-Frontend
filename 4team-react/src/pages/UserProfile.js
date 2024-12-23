@@ -148,7 +148,7 @@ const UserProfile = () => {
 
   return (
     <Container className="mt-4">
-      <Card className="mb-4">
+      <Card className="mb-4" style={{ marginTop: '120px' }}>
         <Card.Body>
           <Row>
             <Col md={4} className="text-center">

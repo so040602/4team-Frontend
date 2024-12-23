@@ -6,6 +6,7 @@ import axios from 'axios';
 import FollowButton from '../common/FollowButton';
 import GradeInfoModal from '../common/GradeInfoModal';
 import GradeBadge from '../common/GradeBadge';
+import '../../styles/ProfileSection.css';
 
 function ProfileSection({ userId }) {
   const { user } = useAuth();
@@ -156,7 +157,7 @@ function ProfileSection({ userId }) {
 
   return (
     <Paper sx={{ p: 3 }}>
-      <Box display="flex" alignItems="center" gap={3}>
+      <Box display="flex" alignItems="center" gap={3} className="profile-section">
         <Avatar sx={{ width: 100, height: 100, bgcolor: 'primary.main' }}>
           {avatarLetter}
         </Avatar>

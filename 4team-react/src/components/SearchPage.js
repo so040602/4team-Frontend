@@ -42,7 +42,7 @@ const SearchPage = () => {
   };
 
   return (
-    <div style={{ padding: '20px', fontFamily: 'Arial, sans-serif' }}>
+    <div style={{ padding: '20px', fontFamily: 'Arial, sans-serif', margin: '100px' }}>
       <div style={{ textAlign: 'center', marginBottom: '30px' }}>
         <input
           type="text"

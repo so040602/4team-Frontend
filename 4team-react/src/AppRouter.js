@@ -2,7 +2,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Login from "./pages/Login";
 import SignUp from "./pages/SignUp";
 import OAuth2Callback from "./pages/OAuth2Callback";
-import Navbar from "./components/Navbar";
+import Header from "./components/Header";
 import MainPage from "./pages/MainPage";
 import ReviewList from "./pages/ReviewList";
 import ReviewForm from "./pages/ReviewForm";
@@ -16,6 +16,7 @@ import SearchRecipes from "./pages/SearchRecipe"
 import SearchPage from "./components/SearchPage";
 import MenuList from "./components/MenuList";
 import LinkList from "./components/LinkList";
+import BottomNavigation from "./components/BottomNavigation";
 
 function AppRouter() {
   return (
@@ -26,7 +27,7 @@ function AppRouter() {
           path="/*"
           element={
             <>
-              <Navbar />
+              <Header />
               <Routes>
                 <Route path="/SearchPage" element={<SearchPage />} />
                 <Route path="/MenuList" element={<MenuList />} />
@@ -45,6 +46,7 @@ function AppRouter() {
                 <Route path="/recipe/create" element={<RecipeCreate />} />
                 <Route path="/searchrecipe" element={<SearchRecipes/>}/>
               </Routes>
+              <BottomNavigation />
             </>
           }
         />
