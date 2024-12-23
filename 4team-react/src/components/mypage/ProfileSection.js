@@ -156,7 +156,7 @@ function ProfileSection({ userId }) {
   const isOwnProfile = !userId || userId === user?.memberId.toString();
 
   return (
-    <Paper sx={{ p: 3 }}>
+    <Paper sx={{ p: '20px 24px' }}>
       <Box display="flex" alignItems="center" gap={3} className="profile-section">
         <Avatar sx={{ width: 100, height: 100, bgcolor: 'primary.main' }}>
           {avatarLetter}

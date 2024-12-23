@@ -15,6 +15,15 @@ const UserProfile = () => {
   const [activeTab, setActiveTab] = useState('reviews');
   const [isFollowing, setIsFollowing] = useState(false);
   const [followCounts, setFollowCounts] = useState({ followerCount: 0, followingCount: 0 });
+  const [isDesktop, setIsDesktop] = useState(window.matchMedia("(min-width: 769px)").matches);
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia("(min-width: 769px)");
+    const handler = (e) => setIsDesktop(e.matches);
+    mediaQuery.addListener(handler);
+    return () => mediaQuery.removeListener(handler);
+    }, []);
+
 
   useEffect(() => {
     const fetchData = async () => {
@@ -148,7 +157,7 @@ const UserProfile = () => {
 
   return (
     <Container className="mt-4">
-      <Card className="mb-4" style={{ marginTop: '120px' }}>
+      <Card className="mb-4" style={{margin: isDesktop ? '180px auto' : '120px auto'}}>
         <Card.Body>
           <Row>
             <Col md={4} className="text-center">
