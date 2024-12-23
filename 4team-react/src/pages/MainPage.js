@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import '../styles/MainPage.css';
 import axios from 'axios';
 import Header from '../components/Header';
+import { useAuth } from '../contexts/AuthContext';
 
 const MainPage = () => {
     const [searchQuery, setSearchQuery] = useState('');
@@ -10,6 +11,18 @@ const MainPage = () => {
     const [error, setError] = useState(null);
     const [reviews, setReviews] = useState([]);
     const navigate = useNavigate();
+    const { user } = useAuth();
+
+    const handleRecipeCreate = (e) => {
+        e.preventDefault();
+        if (!user) {
+            if (window.confirm('레시피를 작성하려면 로그인이 필요합니다. 로그인 페이지로 이동하시겠습니까?')) {
+                navigate('/login');
+            }
+        } else {
+            navigate('/recipe/create');
+        }
+    };
 
     const handleSearch = (e) => {
        if(e.key === 'Enter' && searchQuery.trim() !== ''){
@@ -223,10 +236,10 @@ const MainPage = () => {
                 </main>
 
                 {/* 플로팅 버튼 */}
-                <Link to="/recipe/create" className="floating-button" aria-label="새 레시피 작성">
+                <div onClick={handleRecipeCreate} className="floating-button" aria-label="새 레시피 작성">
                     <span className="plus-icon">+</span>
                     <span className="button-tooltip">레시피 작성</span>
-                </Link>
+                </div>
 
                 {/* 모바일 하단 네비게이션 */}
                 <nav className="bottom-nav">

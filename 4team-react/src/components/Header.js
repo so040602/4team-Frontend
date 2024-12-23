@@ -63,9 +63,9 @@ const handleImageSubmit = async () => {
   };
 
   return (
-    <header className="header">
-        <div className="header-content">
-            <h1 className="header-title" onClick={() => navigate("/")}>레시피</h1>
+    <div className="header-container">
+      <div className="header-content">
+        <Link to="/" className="header-title">레시피</Link>
             <div className="search-bar">
                 <span className="search-icon">🔍</span>
                 <input 
@@ -105,7 +105,7 @@ const handleImageSubmit = async () => {
         )}
       </div>
         </div>
-    </header>
+    </div>
   );
 };
 

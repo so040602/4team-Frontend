@@ -1,10 +1,13 @@
-.navbar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 1rem 2rem;
-  background-color: #fff;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+.header-content {
+  position: fixed;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 1024px;
+  height: 100px;
+  background-color: white;
+  z-index: 1000;
+  border-bottom: 1px solid #eee;
 }
 
 .header-title {
@@ -56,4 +59,13 @@
 
 .logout-btn:hover {
   background-color: #c82333;
+}
+
+@media screen and (max-width: 1024px) {
+  .header-content {
+    width: 100%;
+    left: 0;
+    transform: none;
+    padding: 0 1rem;
+  }
 }

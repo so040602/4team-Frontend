@@ -1,15 +1,40 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import '../styles/ReviewList.css';
 import BottomNavigation from '../components/BottomNavigation';
+import { useAuth } from '../contexts/AuthContext';
 
 const ReviewList = () => {
   const [reviews, setReviews] = useState([]);
+  const { user } = useAuth();
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetchReviews();
   }, []);
+
+  const handleReviewClick = (e, reviewId) => {
+    e.preventDefault();
+    if (!user) {
+      if (window.confirm('리뷰를 보려면 로그인이 필요합니다. 로그인 페이지로 이동하시겠습니까?')) {
+        navigate('/login');
+      }
+    } else {
+      navigate(`/reviews/${reviewId}`);
+    }
+  };
+
+  const handleCreateClick = (e) => {
+    e.preventDefault();
+    if (!user) {
+      if (window.confirm('리뷰를 작성하려면 로그인이 필요합니다. 로그인 페이지로 이동하시겠습니까?')) {
+        navigate('/login');
+      }
+    } else {
+      navigate('/reviews/new');
+    }
+  };
 
   const fetchReviews = async () => {
     try {
@@ -50,16 +75,16 @@ const ReviewList = () => {
       <div className="review-header">
         <h2 className="review-title">리뷰 목록</h2>
 
-        <Link to="/reviews/new" className="floating-button-review" aria-label="새 레시피 작성">
+        <div onClick={handleCreateClick} className="floating-button-review" aria-label="새 리뷰 작성">
             <span className="plus-icon">+</span>
             <span className="button-tooltip">리뷰 작성</span>
-        </Link>
+        </div>
       </div>
       
       <div className="review-grid">
         {reviews.map((review) => (
           <div key={review.id} className="review-card">
-            <Link to={`/reviews/${review.id}`}>
+            <div onClick={(e) => handleReviewClick(e, review.id)} style={{ cursor: 'pointer' }}>
               {review.imageUrl ? (
                 <img
                   src={`http://localhost:8989/api/reviews/images/${review.imageUrl}`}
@@ -82,7 +107,7 @@ const ReviewList = () => {
                   </div>
                 </div>
               </div>
-            </Link>
+            </div>
           </div>
         ))}
       </div>

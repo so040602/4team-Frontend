@@ -47,7 +47,11 @@ function RecipeCreate() {
   // 임시저장 레시피 확인 함수
   const checkTempSavedRecipe = () => {
     const user = JSON.parse(localStorage.getItem("user"));
-
+    
+    if (!user) {
+      return; // 로그인하지 않은 경우 함수 종료
+    }
+    
     axios
       .get(`http://localhost:8989/recipe_form/temp-saved/${user.memberId}`, {
         headers: {
