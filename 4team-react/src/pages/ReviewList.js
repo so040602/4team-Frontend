@@ -49,8 +49,10 @@ const ReviewList = () => {
     <div className="review-container">
       <div className="review-header">
         <h2 className="review-title">리뷰 목록</h2>
-        <Link to="/reviews/new" className="new-review-button">
-          새 리뷰 작성
+
+        <Link to="/reviews/new" className="floating-button-review" aria-label="새 레시피 작성">
+            <span className="plus-icon">+</span>
+            <span className="button-tooltip">리뷰 작성</span>
         </Link>
       </div>
       

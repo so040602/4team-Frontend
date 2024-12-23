@@ -1,9 +1,17 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 const SearchPage = () => {
   const [query, setQuery] = useState('');
   const [results, setResults] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [isDesktop, setIsDesktop] = useState(window.matchMedia("(min-width: 769px)").matches);
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia("(min-width: 769px)");
+    const handler = (e) => setIsDesktop(e.matches);
+    mediaQuery.addListener(handler);
+    return () => mediaQuery.removeListener(handler);
+  }, []);
 
   const formatPrice = (price) => {
     return new Intl.NumberFormat('ko-KR').format(price) + '원';
@@ -42,7 +50,7 @@ const SearchPage = () => {
   };
 
   return (
-    <div style={{ padding: '20px', fontFamily: 'Arial, sans-serif', margin: '100px' }}>
+    <div style={{ padding: '20px', fontFamily: 'Arial, sans-serif', margin: isDesktop ? '180px auto' : '100px auto' }}>
       <div style={{ textAlign: 'center', marginBottom: '30px' }}>
         <input
           type="text"

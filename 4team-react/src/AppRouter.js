@@ -17,6 +17,7 @@ import SearchPage from "./components/SearchPage";
 import MenuList from "./components/MenuList";
 import LinkList from "./components/LinkList";
 import BottomNavigation from "./components/BottomNavigation";
+import TopNavigation from "./components/TopNavigation";
 
 function AppRouter() {
   return (
@@ -28,6 +29,7 @@ function AppRouter() {
           element={
             <>
               <Header />
+              <TopNavigation/>
               <Routes>
                 <Route path="/SearchPage" element={<SearchPage />} />
                 <Route path="/MenuList" element={<MenuList />} />

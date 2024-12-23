@@ -253,6 +253,12 @@
   text-decoration: underline;
 }
 
+@media (min-width: 769px) {
+    .review-detail-container {
+        margin: 180px auto; 
+    }
+}
+
 @media (max-width: 768px) {
     .review-detail-container {
         padding-bottom: 100px;

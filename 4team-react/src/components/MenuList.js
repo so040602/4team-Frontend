@@ -158,6 +158,14 @@ const MenuList = () => {
         season: null
     });
     const [error, setError] = useState(null);
+    const [isDesktop, setIsDesktop] = useState(window.matchMedia("(min-width: 769px)").matches);
+
+    useEffect(() => {
+        const mediaQuery = window.matchMedia("(min-width: 769px)");
+        const handler = (e) => setIsDesktop(e.matches);
+        mediaQuery.addListener(handler);
+        return () => mediaQuery.removeListener(handler);
+    }, []);
 
     const fetchMenus = async (type, value) => {
         try {
@@ -233,7 +241,7 @@ const MenuList = () => {
     };
 
     return (
-        <div className="container py-5">
+        <div style={{ margin: isDesktop ? '180px auto': '100px auto'}} className="container py-5">
             <h1 className="text-center mb-5">메뉴 추천 서비스</h1>
             
             <div className="row mb-4">

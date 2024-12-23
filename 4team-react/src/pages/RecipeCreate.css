@@ -257,3 +257,10 @@
 .btn-submit:hover {
   background: #45a049;
 }
+
+
+@media (min-width: 769px) {
+  .recipe-create {
+      margin: 180px auto; 
+  }
+}

@@ -190,6 +190,12 @@
   transform: scale(1.1);
 }
 
+@media (min-width: 769px) {
+    .review-form-container {
+        margin: 180px auto; 
+    }
+}
+
 @media (max-width: 768px) {
     .review-form-container {
         padding-bottom: 100px;

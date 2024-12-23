@@ -16,7 +16,7 @@ const BottomNavigation = () => {
                 <div className="nav-icon">📖</div>
                 <span>레시피</span>
             </Link>
-            <Link to="/refrigerator" className={`nav-item ${isActive('/refrigerator') ? 'active' : ''}`}>
+            <Link to="/refriUI" className={`nav-item ${isActive('/refriUI') ? 'active' : ''}`}>
                 <div className="nav-icon">🗄️</div>
                 <span>냉장고 파먹기</span>
             </Link>
@@ -24,7 +24,7 @@ const BottomNavigation = () => {
                 <div className="nav-icon">⭐</div>
                 <span>리뷰</span>
             </Link>
-            <Link to="/chatbot" className={`nav-item ${isActive('/chatbot') ? 'active' : ''}`}>
+            <Link to="/chatbot/Chatbot" className={`nav-item ${isActive('/chatbot/Chatbot') ? 'active' : ''}`}>
                 <div className="nav-icon">💬</div>
                 <span>챗봇</span>
             </Link>

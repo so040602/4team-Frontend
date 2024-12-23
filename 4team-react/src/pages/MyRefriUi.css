@@ -305,3 +305,9 @@
     max-width: 500px;
     height: auto;
   }
+
+  @media (min-width: 769px) {
+    .refrigerator-container {
+        margin: 180px auto; 
+    }
+}

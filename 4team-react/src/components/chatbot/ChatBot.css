@@ -61,3 +61,9 @@
     border-color: #2196f3;
     box-shadow: 0 0 5px rgba(33, 150, 243, 0.3);
 }
+
+@media (min-width: 769px) {
+    .chat-container {
+        margin: 180px auto; 
+    }
+}

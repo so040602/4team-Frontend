@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 
 const LinkList = () => {
@@ -8,12 +8,20 @@ const LinkList = () => {
     instagram: "https://www.instagram.com/p/C3d9Cu6Scoe/",
     facebook: "https://www.facebook.com/reel/897009902529881"
   };
+  const [isDesktop, setIsDesktop] = useState(window.matchMedia("(min-width: 769px)").matches);
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia("(min-width: 769px)");
+    const handler = (e) => setIsDesktop(e.matches);
+    mediaQuery.addListener(handler);
+    return () => mediaQuery.removeListener(handler);
+}, []);
 
   return (
     <div className="container mt-4" >
       
       {/* YouTube 영상 섹션 */}
-      <div className="card mb-4" style={{margin: '120px auto' }}>
+      <div className="card mb-4" style={{margin: isDesktop ? '180px auto' : '120px auto'}}>
         <div className="card-body">
           <h5 className="card-title">요즘 인기 있는 요리 유튜브 영상</h5>
           <div className="ratio ratio-16x9">
