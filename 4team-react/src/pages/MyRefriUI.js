@@ -18,7 +18,9 @@ function MyRefriUI() {
             try {
                 const user = JSON.parse(localStorage.getItem('user'));
                 if(!user || !user.memberId){
-                    console.error('사용자 정보가 없습니다.')
+                    console.error('사용자 정보가 없습니다.');
+                    alert('로그인이 필요한 서비스 입니다.');
+                    window.location.href="http://localhost:3000/login";
                     return;
                 }
                 /* 요청이 시작 할 때에는 error 와 receivedData 를 초기화하고 */
