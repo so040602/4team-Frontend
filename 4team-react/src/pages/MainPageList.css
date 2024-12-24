@@ -1,0 +1,147 @@
+.mainpagelist-container {
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.mainpagelist-page {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.theme-sections {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
+.mainpagelist-theme-section {
+  margin-bottom: 60px;
+  padding: 20px 0;
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.mainpagelist-theme-section:last-child {
+  margin-bottom: 0;
+}
+
+.mainpagelist-theme-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 20px;
+  padding: 0 20px;
+}
+
+.mainpagelist-theme-title-container {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.mainpagelist-theme-title-container h2 {
+  margin: 0;
+  font-size: 24px;
+  color: #333;
+}
+
+.mainpagelist-theme-desc {
+  color: #666;
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+.mainpagelist-view-all-btn {
+  padding: 8px 16px;
+  background: none;
+  border: none;
+  color: #2196f3;
+  font-weight: 500;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.2s ease;
+}
+
+.mainpagelist-view-all-btn:hover {
+  color: #1976d2;
+  text-decoration: underline;
+}
+
+.recipe-list-section {
+  margin: 40px 0;
+  overflow: hidden;
+}
+
+.recipe-list-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  padding: 0 20px;
+}
+
+.recipe-list-header h2 {
+  font-size: 24px;
+  margin: 0;
+}
+
+.view-all-button {
+  color: #666;
+  text-decoration: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  transition: background-color 0.2s;
+}
+
+.view-all-button:hover {
+  background-color: #f5f5f5;
+}
+
+.recipe-cards-container {
+  position: relative;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 20px;
+  cursor: grab;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  scroll-behavior: smooth;
+}
+
+.recipe-cards-container::-webkit-scrollbar {
+  display: none;
+}
+
+.recipe-cards-container.dragging {
+  cursor: grabbing;
+  scroll-behavior: auto;
+}
+
+.recipe-cards-wrapper {
+  display: flex;
+  gap: 20px;
+  min-width: max-content;
+}
+
+.loading-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 200px;
+}
+
+.loading-spinner {
+  font-size: 18px;
+  color: #666;
+}
+
+.error-message {
+  color: #f44336;
+  text-align: center;
+  padding: 20px;
+  font-size: 16px;
+}

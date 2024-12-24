@@ -1,0 +1,312 @@
+.theme-list-container {
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.theme-list-header {
+  margin-bottom: 30px;
+  position: relative;
+}
+
+.back-button {
+  background: none;
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
+  padding: 8px 16px;
+  margin-bottom: 16px;
+  color: #333;
+}
+
+.back-button:hover {
+  color: #666;
+}
+
+.theme-list-header h1 {
+  font-size: 24px;
+  margin-bottom: 8px;
+  color: #333;
+}
+
+.theme-description {
+  color: #666;
+  font-size: 16px;
+  margin-bottom: 20px;
+}
+
+.theme-recipe-list {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.theme-header {
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+.theme-header h1 {
+  font-size: 32px;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.theme-header p {
+  color: #666;
+  font-size: 16px;
+}
+
+.filters-section {
+  margin-bottom: 30px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  padding: 20px;
+  background: #f8f9fa;
+  border-radius: 8px;
+}
+
+.filters-section select {
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background-color: white;
+  flex: 1;
+  min-width: 0;
+  max-width: calc(25% - 12px);
+}
+
+.cooking-tools-filter {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  width: 100%;
+  margin-top: 10px;
+}
+
+.cooking-tools-filter label {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 10px;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: all 0.2s ease;
+}
+
+.cooking-tools-filter label:hover {
+  background: #f0f0f0;
+}
+
+.cooking-tools-filter input[type="checkbox"] {
+  margin: 0;
+}
+
+.cooking-tools-view-all-btn {
+  padding: 5px 12px;
+  background: white;
+  border: 1px solid #2196f3 !important;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  color: #2196f3 !important;
+  transition: all 0.2s ease;
+  background-color: white !important;
+}
+
+.cooking-tools-view-all-btn:hover {
+  background: #2196f3 !important;
+  color: white !important;
+}
+
+.cooking-tools-filter button {
+  padding: 5px 10px;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  color: #666;
+  transition: all 0.2s ease;
+}
+
+.cooking-tools-filter button:hover {
+  background: #f0f0f0;
+}
+
+.filters-section button {
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.recipes-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 20px;
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+@media (max-width: 1024px) {
+  .theme-recipe-list {
+    padding: 15px;
+  }
+
+  .recipes-grid {
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 15px;
+    padding: 15px;
+  }
+}
+
+@media (max-width: 768px) {
+  .theme-recipe-list {
+    padding: 10px;
+  }
+
+  .recipes-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    padding: 10px;
+  }
+
+  .recipe-card {
+    width: calc((100vw - 30px) / 2); /* 화면 너비에서 패딩과 갭을 뺀 후 2등분 */
+  }
+}
+
+@media (max-width: 480px) {
+  .theme-recipe-list {
+    padding: 8px;
+  }
+
+  .recipes-grid {
+    gap: 8px;
+    padding: 8px;
+  }
+
+  .recipe-card {
+    width: calc((100vw - 24px) / 2); /* 더 작은 화면에서의 조정 */
+  }
+}
+
+@media (max-width: 768px) {
+  .filters-section {
+    padding: 12px;
+    gap: 8px;
+  }
+
+  .filters-section select {
+    padding: 6px 8px;
+    font-size: 13px;
+    max-width: calc(25% - 6px);
+  }
+
+  .cooking-tools-filter {
+    gap: 8px;
+    margin-top: 8px;
+  }
+
+  .cooking-tools-filter label {
+    font-size: 13px;
+    padding: 4px 8px;
+  }
+
+  .cooking-tools-view-all-btn {
+    font-size: 13px;
+    padding: 4px 10px;
+  }
+
+  .cooking-tools-filter button {
+    font-size: 13px;
+    padding: 4px 8px;
+  }
+}
+
+@media (max-width: 480px) {
+  .filters-section {
+    padding: 8px;
+    gap: 6px;
+  }
+
+  .filters-section select {
+    padding: 4px 6px;
+    font-size: 12px;
+    max-width: calc(25% - 5px);
+  }
+
+  .cooking-tools-filter {
+    gap: 6px;
+    margin-top: 6px;
+  }
+}
+
+@media (min-width: 768px) {
+  .recipes-grid {
+    grid-template-columns: repeat(5, 1fr);
+  }
+}
+
+.loading-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 200px;
+}
+
+.loading-spinner {
+  color: #007bff;
+  font-size: 18px;
+}
+
+.error-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 200px;
+}
+
+.error-message {
+  color: #dc3545;
+  font-size: 18px;
+  text-align: center;
+  padding: 20px;
+  background-color: #f8d7da;
+  border-radius: 4px;
+}
+
+.recipe-info {
+  padding: 12px;
+}
+
+.recipe-info h3 {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: #333;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.recipe-likes {
+  font-size: 14px;
+  color: #ff4b4b;
+}
+
+.loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 300px;
+  font-size: 18px;
+  color: #666;
+}

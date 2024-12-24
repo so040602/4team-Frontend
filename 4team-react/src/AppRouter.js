@@ -12,12 +12,15 @@ import ChatBot from "./components/chatbot/ChatBot";
 import UserProfile from "./pages/UserProfile";
 import RefriUI from "./pages/MyRefriUI";
 import RecipeCreate from "./pages/RecipeCreate";
-import SearchRecipes from "./pages/SearchRecipe"
+import SearchRecipes from "./pages/SearchRecipe";
 import SearchPage from "./components/SearchPage";
 import MenuList from "./components/MenuList";
 import LinkList from "./components/LinkList";
 import BottomNavigation from "./components/BottomNavigation";
 import TopNavigation from "./components/TopNavigation";
+import RecipeDetail from "./pages/RecipeDetail";
+import RecipeEdit from "./pages/RecipeEdit";
+import ThemeRecipeList from "./pages/ThemeRecipeList";
 
 function AppRouter() {
   return (
@@ -29,7 +32,7 @@ function AppRouter() {
           element={
             <>
               <Header />
-              <TopNavigation/>
+              <TopNavigation />
               <Routes>
                 <Route path="/SearchPage" element={<SearchPage />} />
                 <Route path="/MenuList" element={<MenuList />} />
@@ -46,7 +49,10 @@ function AppRouter() {
                 <Route path="/users/:memberId" element={<UserProfile />} />
                 <Route path="/refriUI" element={<RefriUI />} />
                 <Route path="/recipe/create" element={<RecipeCreate />} />
-                <Route path="/searchrecipe" element={<SearchRecipes/>}/>
+                <Route path="/searchrecipe" element={<SearchRecipes />} />
+                <Route path="/recipe/:recipeId" element={<RecipeDetail />} />
+                <Route path="/recipe/edit/:recipeId" element={<RecipeEdit />} />
+                <Route path="/theme/:themeId" element={<ThemeRecipeList />} />
               </Routes>
               <BottomNavigation />
             </>

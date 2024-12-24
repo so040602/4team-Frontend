@@ -7,6 +7,7 @@ import CookingSteps from "../components/recipeForm/CookingSteps";
 import CookingTip from "../components/recipeForm/CookingTip";
 import axios from "axios";
 import Swal from "sweetalert2";
+import { useNavigate } from "react-router-dom";
 
 function RecipeCreate() {
   // 기본 정보 상태 관리
@@ -47,11 +48,7 @@ function RecipeCreate() {
   // 임시저장 레시피 확인 함수
   const checkTempSavedRecipe = () => {
     const user = JSON.parse(localStorage.getItem("user"));
-    
-    if (!user) {
-      return; // 로그인하지 않은 경우 함수 종료
-    }
-    
+
     axios
       .get(`http://localhost:8989/recipe_form/temp-saved/${user.memberId}`, {
         headers: {
@@ -430,6 +427,8 @@ function RecipeCreate() {
           text: "레시피가 성공적으로 저장되었습니다!",
           icon: "success",
           confirmButtonText: "확인"
+        }).then(() => {
+          navigate(`/recipe/${response.data.recipeId}`);
         });
       })
       .catch((error) => {
@@ -535,6 +534,8 @@ function RecipeCreate() {
           text: "레시피가 임시저장되었습니다!",
           icon: "success",
           confirmButtonText: "확인"
+        }).then(() => {
+          navigate("/mypage");
         });
       })
       .catch((error) => {
@@ -548,9 +549,10 @@ function RecipeCreate() {
       });
   };
 
+  const navigate = useNavigate();
+
   return (
     <div className="recipe-create">
-      <h2 className="recipe-create-title">레시피 등록</h2>
       <BasicInfo basicInfo={basicInfo} onChange={setBasicInfo} />
       <CookingInfo
         cookingTools={cookingTools}
@@ -575,7 +577,9 @@ function RecipeCreate() {
         <button className="btn btn-save" onClick={handleTempSaveRecipe}>
           임시 저장
         </button>
-        <button className="btn btn-cancel">취소</button>
+        <button className="btn btn-cancel" onClick={() => navigate(-1)}>
+          취소
+        </button>
         <button className="btn btn-submit" onClick={handleSaveRecipe}>
           등록
         </button>

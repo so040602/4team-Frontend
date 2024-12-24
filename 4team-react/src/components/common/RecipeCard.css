@@ -1,0 +1,116 @@
+.recipe-card {
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s;
+  cursor: pointer;
+  background: #fff;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  position: relative;
+}
+
+.recipe-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.recipe-thumbnail {
+  width: 100%;
+  padding-top: 100%; /* 1:1 비율 유지 */
+  position: relative;
+  background: #f5f5f5;
+}
+
+.recipe-thumbnail img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.no-thumbnail {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f5f5f5;
+  color: #999;
+}
+
+.recipe-info {
+  padding: 12px;
+  background: #fff;
+  z-index: 1;
+}
+
+.recipe-info h3 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+  color: #333;
+  line-height: 1.4;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  margin-bottom: 8px;
+}
+
+.recipe-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 14px;
+}
+
+.recipe-card .recipe-info .recipe-meta .recipe-likes {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  color: #333 !important;
+}
+
+.cooking-time {
+  color: #666;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+@media (max-width: 768px) {
+  .recipe-card {
+    border-radius: 6px;
+  }
+
+  .recipe-info {
+    padding: 10px;
+  }
+
+  .recipe-info h3 {
+    font-size: 14px;
+    margin-bottom: 6px;
+  }
+}
+
+@media (max-width: 480px) {
+  .recipe-card {
+    border-radius: 4px;
+  }
+
+  .recipe-info {
+    padding: 8px;
+  }
+
+  .recipe-info h3 {
+    font-size: 13px;
+    margin-bottom: 4px;
+  }
+}

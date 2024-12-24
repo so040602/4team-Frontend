@@ -1,6 +1,6 @@
 .recipe-create {
   max-width: 800px;
-  margin: 100px auto;
+  margin: 0 auto;
   padding: 20px;
 }
 
@@ -258,9 +258,22 @@
   background: #45a049;
 }
 
+/* 삭제 버튼 스타일 */
+.delete-button {
+  padding: 10px 20px;
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s;
+}
 
-@media (min-width: 769px) {
-  .recipe-create {
-      margin: 180px auto; 
-  }
+.delete-button:hover {
+  background-color: #c82333;
+}
+
+.delete-button:active {
+  background-color: #bd2130;
 }
