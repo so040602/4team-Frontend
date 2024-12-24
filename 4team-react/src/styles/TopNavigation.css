@@ -1,5 +1,5 @@
 .top-nav {
-    position: fixed;
+    position: absolute;
     top: 38px;
     left: 50%;
     transform: translateX(-50%);

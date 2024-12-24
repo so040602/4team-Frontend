@@ -15,7 +15,7 @@ function MyPage() {
   };
 
   return (
-    <Container maxWidth="lg" sx={{ py: 4 }}>
+    <Container maxWidth="lg" sx={{ pt: 1, pb: 4 }}>
       <ProfileSection />
       
       <Box sx={{ width: '100%', mt: 4 }}>

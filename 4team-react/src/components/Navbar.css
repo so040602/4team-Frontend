@@ -17,6 +17,14 @@
   cursor: pointer;
 }
 
+.search-bar{
+  height: 3.5rem;
+}
+
+.search-input{
+  margin-top: 0.7rem;
+}
+
 .navbar-menu {
   display: flex;
   align-items: center;
@@ -67,5 +75,11 @@
     left: 0;
     transform: none;
     padding: 0 1rem;
+  }
+}
+
+@media screen and (min-width: 769px) {
+  .header-content {
+    position: absolute;
   }
 }

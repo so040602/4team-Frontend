@@ -1,4 +1,111 @@
 import React, { useState, useEffect } from 'react';
+import styled from 'styled-components';
+
+const PageContainer = styled.div`
+  padding: 20px;
+  font-family: 'Arial, sans-serif';
+  margin: ${props => props.$isDesktop ? '180px auto' : '100px auto'};
+  max-width: 1200px;
+`;
+
+const SearchContainer = styled.div`
+  text-align: center;
+  margin-bottom: 30px;
+`;
+
+const SearchInput = styled.input`
+  padding: 12px 20px;
+  width: 390px;
+  font-size: 16px;
+  border: 2px solid #ff6b6b;
+  border-radius: 10px;
+  margin-right: 10px;
+  transition: all 0.3s ease;
+  
+  &:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(255,107,107,0.1);
+  }
+`;
+
+const SearchButton = styled.button`
+  padding: 12px 30px;
+  font-size: 16px;
+  background-color: #ff6b6b;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  
+  &:hover {
+    background-color: #ff5252;
+    transform: translateY(-2px);
+  }
+`;
+
+const ResultsGrid = styled.div`
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 20px;
+  padding: 20px 0;
+`;
+
+const ProductCard = styled.div`
+  background-color: white;
+  border-radius: 15px;
+  padding: 15px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  border: 1px solid #eee;
+  transition: all 0.3s ease;
+  
+  &:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  }
+`;
+
+const ProductImage = styled.img`
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 10px;
+  margin-bottom: 10px;
+`;
+
+const ProductTitle = styled.h3`
+  margin: 10px 0;
+  font-size: 16px;
+  color: #333;
+  height: 40px;
+  overflow: hidden;
+  font-weight: 600;
+`;
+
+const ProductPrice = styled.div`
+  font-size: 18px;
+  font-weight: bold;
+  color: #ff6b6b;
+  margin: 10px 0;
+`;
+
+const MallName = styled.div`
+  color: #666;
+  font-size: 14px;
+`;
+
+const Category = styled.div`
+  color: #888;
+  font-size: 12px;
+  margin-top: 5px;
+`;
+
+const LoadingText = styled.p`
+  text-align: center;
+  color: #666;
+  font-size: 16px;
+  margin: 20px 0;
+`;
 
 const SearchPage = () => {
   const [query, setQuery] = useState('');
@@ -50,48 +157,23 @@ const SearchPage = () => {
   };
 
   return (
-    <div style={{ padding: '20px', fontFamily: 'Arial, sans-serif', margin: isDesktop ? '180px auto' : '100px auto' }}>
-      <div style={{ textAlign: 'center', marginBottom: '30px' }}>
-        <input
+    <PageContainer $isDesktop={isDesktop}>
+      <SearchContainer>
+        <SearchInput
           type="text"
           value={query}
           onChange={handleSearchInputChange}
           onKeyPress={handleKeyPress}
           placeholder="검색어를 입력하세요"
-          style={{
-            padding: '12px',
-            width: '400px',
-            fontSize: '16px',
-            border: '2px solid #03c75a',
-            borderRadius: '4px',
-            marginRight: '10px'
-          }}
         />
-        <button
-          onClick={handleSearchButtonClick}
-          style={{
-            padding: '12px 30px',
-            fontSize: '16px',
-            backgroundColor: '#03c75a',
-            color: 'white',
-            border: 'none',
-            borderRadius: '4px',
-            cursor: 'pointer',
-            transition: 'background-color 0.2s'
-          }}
-        >
+        <SearchButton onClick={handleSearchButtonClick}>
           검색
-        </button>
-      </div>
+        </SearchButton>
+      </SearchContainer>
 
-      {loading && <p>검색 중...</p>}
+      {loading && <LoadingText>검색 중...</LoadingText>}
 
-      <div style={{
-        display: 'grid',
-        gridTemplateColumns: 'repeat(auto-fill, minmax(250px, 1fr))',
-        gap: '20px',
-        padding: '20px 0'
-      }}>
+      <ResultsGrid>
         {results.map((item) => {
           const title = item.title.replace(/<[^>]*>/g, '');
           const categories = [item.category1, item.category2, item.category3, item.category4]
@@ -99,57 +181,19 @@ const SearchPage = () => {
             .join(' > ');
 
           return (
-            <div
-              key={item.productId}
-              style={{
-                backgroundColor: 'white',
-                borderRadius: '8px',
-                padding: '15px',
-                boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
-                transition: 'transform 0.2s'
-              }}
-            >
+            <ProductCard key={item.productId}>
               <a href={item.link} target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none', color: 'inherit' }}>
-                <img
-                  src={item.image}
-                  alt={title}
-                  style={{
-                    width: '100%',
-                    height: '200px',
-                    objectFit: 'cover',
-                    borderRadius: '4px',
-                    marginBottom: '10px'
-                  }}
-                />
-                <h3 style={{
-                  margin: '10px 0',
-                  fontSize: '16px',
-                  color: '#333',
-                  height: '40px',
-                  overflow: 'hidden'
-                }}>
-                  {title}
-                </h3>
-                <div className="price" style={{
-                  fontSize: '18px',
-                  fontWeight: 'bold',
-                  color: '#03c75a',
-                  margin: '10px 0'
-                }}>
-                  {formatPrice(item.lprice)}
-                </div>
-                <div className="mall-name" style={{ color: '#666', fontSize: '14px' }}>
-                  {item.mallName}
-                </div>
-                <div className="category" style={{ color: '#888', fontSize: '12px', marginTop: '5px' }}>
-                  {categories}
-                </div>
+                <ProductImage src={item.image} alt={title} />
+                <ProductTitle>{title}</ProductTitle>
+                <ProductPrice>{formatPrice(item.lprice)}</ProductPrice>
+                <MallName>{item.mallName}</MallName>
+                <Category>{categories}</Category>
               </a>
-            </div>
+            </ProductCard>
           );
         })}
-      </div>
-    </div>
+      </ResultsGrid>
+    </PageContainer>
   );
 };
 

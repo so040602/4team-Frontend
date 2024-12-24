@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate,Link } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 import axios from 'axios';
+import CameraAltIcon from '@mui/icons-material/CameraAlt';
 import "./Navbar.css";
 
 const Header = () => {
@@ -71,14 +72,25 @@ const handleImageSubmit = async () => {
                 <input 
                     type="text" 
                     className="search-input" 
-                    placeholder="레시피나 재료를 검색해보세요"
+                    placeholder="레시피를 검색해보세요"
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
                     onKeyDown={(e)=>{handleSearch(e);}}
                 />
                 <div>
-                    <button className='search-icon'
-                    onClick={handleImageSearch}>🎨</button>
+                    <button 
+                      onClick={handleImageSearch}
+                      style={{ 
+                        background: 'none',
+                        border: 'none',
+                        cursor: 'pointer',
+                        padding: '8px',
+                        display: 'flex',
+                        alignItems: 'center'
+                      }}
+                    >
+                      <CameraAltIcon style={{ color: '#666', fontSize: '24px' }} />
+                    </button>
                     <input
                         type='file'
                         id='file-input'

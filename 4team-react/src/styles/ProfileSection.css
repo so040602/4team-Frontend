@@ -1,9 +1,32 @@
 .profile-section {
-    margin-top: 100px
+    margin-top: 110px;
+}
+
+.profile-section .MuiBox-root {
+    white-space: nowrap;
+}
+
+.profile-section .MuiTypography-root {
+    display: inline-block;
+    margin-right: 8px;
+}
+
+.profile-section .MuiButton-root {
+    white-space: nowrap;
 }
 
 @media (min-width: 769px) {
     .profile-section {
-        margin: 140px auto 0; 
+        margin: 180px auto 0;
+    }
+}
+
+@media (max-width: 768px) {
+    .profile-section .MuiBox-root {
+        gap: 8px !important;
+    }
+    
+    .profile-section .MuiTypography-root {
+        font-size: 14px;
     }
 }

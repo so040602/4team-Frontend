@@ -2,32 +2,41 @@ import React, { useState, useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import styled from 'styled-components';
 
-const FilterCard = styled.div`
+const FilterCard = styled.div.attrs(props => ({
+    className: props.className,
+    onClick: props.onClick
+}))`
     cursor: pointer;
     transition: all 0.3s ease;
-    border-radius: 10px;
-    padding: 15px;
+    border-radius: 15px;
+    padding: 20px;
     text-align: center;
-    margin-bottom: 20px;
-    background-color: ${props => props.active ? props.activeColor : props.bgColor};
-    color: ${props => props.active ? '#fff' : '#000'};
-    border: 2px solid ${props => props.borderColor};
-    height: 100%;
+    background-color: ${props => props.$active ? '#ff6b6b' : '#fff'};
+    color: ${props => props.$active ? '#fff' : '#333'};
+    border: 1px solid ${props => props.$active ? '#ff6b6b' : '#eee'};
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
     
     &:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        transform: translateY(-3px);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
     }
 
     .period {
-        font-size: 0.9em;
-        margin-top: 5px;
-        color: ${props => props.active ? '#fff' : '#666'};
+        font-size: 14px;
+        margin-top: 8px;
+        color: ${props => props.$active ? '#fff' : '#666'};
     }
 
     .icon {
-        font-size: 1.5em;
-        margin-bottom: 10px;
+        font-size: 24px;
+        margin-bottom: 12px;
+        color: ${props => props.$active ? '#fff' : '#ff6b6b'};
+    }
+
+    h5 {
+        color: ${props => props.$active ? '#fff' : '#333'};
+        font-weight: 600;
+        margin: 0;
     }
 `;
 
@@ -35,12 +44,13 @@ const MenuCard = styled.div`
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     border-radius: 15px;
     overflow: hidden;
-    border: none;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    border: 1px solid #eee;
+    background: #fff;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
     
     &:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        transform: translateY(-3px);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
     }
 
     .card-header {
@@ -49,72 +59,89 @@ const MenuCard = styled.div`
         padding: 0;
         background: none;
         border: none;
-    }
+        position: relative;
 
-    .card-img-top {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        object-position: center;
+        img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        &:hover img {
+            transform: scale(1.05);
+        }
     }
 
     .card-body {
-        padding: 1.5rem;
+        padding: 1.25rem;
         background: #fff;
-    }
 
-    .card-title {
-        font-weight: bold;
-        margin-bottom: 1rem;
-        color: #2c3e50;
-    }
+        .card-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 0.5rem;
+        }
 
-    .text-muted {
-        color: #7f8c8d !important;
+        .card-text {
+            color: #666;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
     }
+`;
 
-    .description-box {
-        background: #f8f9fa;
-        padding: 1rem;
-        border-radius: 8px;
-        margin: 1rem 0;
+const PageTitle = styled.h1`
+    font-size: 2.2rem;
+    font-weight: 700;
+    color: #333;
+    margin-bottom: 2rem;
+    text-align: center;
+    position: relative;
+    
+    &:after {
+        content: '';
+        display: block;
+        width: 60px;
+        height: 3px;
+        background-color: #ff6b6b;
+        margin: 15px auto 0;
     }
+`;
 
-    .meta-info {
-        display: flex;
-        justify-content: space-between;
-        padding: 0.5rem 0;
-        border-top: 1px solid #eee;
-        margin-top: 1rem;
+const SectionTitle = styled.h4`
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #444;
+    text-align: center;
+    margin-bottom: 1.5rem;
+    position: relative;
+    
+    &:after {
+        content: '';
+        display: block;
+        width: 40px;
+        height: 2px;
+        background-color: #ff6b6b;
+        margin: 10px auto 0;
     }
 `;
 
 const seasonConfig = {
     '봄': { 
-        bgColor: '#fce4ec', 
-        activeColor: '#f06292', 
-        borderColor: '#f48fb1', 
         period: '3월 - 5월',
         icon: '🌸'
     },
     '여름': { 
-        bgColor: '#e0f7fa', 
-        activeColor: '#4dd0e1', 
-        borderColor: '#80deea', 
         period: '6월 - 8월',
         icon: '☀️'
     },
     '가을': { 
-        bgColor: '#fff3e0', 
-        activeColor: '#ffa726', 
-        borderColor: '#ffb74d', 
         period: '9월 - 11월',
         icon: '🍁'
     },
     '겨울': { 
-        bgColor: '#e8eaf6', 
-        activeColor: '#7986cb', 
-        borderColor: '#9fa8da', 
         period: '12월 - 2월',
         icon: '❄️'
     }
@@ -122,30 +149,18 @@ const seasonConfig = {
 
 const mealTimeConfig = {
     '아침': { 
-        bgColor: '#e8f5e9', 
-        activeColor: '#66bb6a', 
-        borderColor: '#81c784',
         period: '아침 식사',
         icon: '🌅'
     },
     '점심': { 
-        bgColor: '#e3f2fd', 
-        activeColor: '#42a5f5', 
-        borderColor: '#64b5f6',
         period: '점심 식사',
         icon: '☀️'
     },
     '저녁': { 
-        bgColor: '#f3e5f5', 
-        activeColor: '#ab47bc', 
-        borderColor: '#ba68c8',
         period: '저녁 식사',
         icon: '🌙'
     },
     '랜덤': { 
-        bgColor: '#fff3e0', 
-        activeColor: '#ff7043', 
-        borderColor: '#ff8a65',
         period: '랜덤 추천',
         icon: '🎲'
     }
@@ -242,21 +257,17 @@ const MenuList = () => {
 
     return (
         <div style={{ margin: isDesktop ? '180px auto': '100px auto'}} className="container py-5">
-            <h1 className="text-center mb-5">메뉴 추천 서비스</h1>
             
             <div className="row mb-4">
                 {/* 계절 필터 */}
                 <div className="col-12 mb-4">
-                    <h4 className="text-center mb-4">계절별 추천메뉴</h4>
+                    <SectionTitle>계절별 추천메뉴</SectionTitle>
                     <div className="row">
                         {Object.entries(seasonConfig).map(([season, config]) => (
-                            <div key={season} className="col-md-3 col-6">
+                            <div key={season} className="col-md-3 col-6 mb-3">
                                 <FilterCard
                                     onClick={() => handleFilterClick('season', season)}
-                                    active={activeFilters.season === season}
-                                    bgColor={config.bgColor}
-                                    activeColor={config.activeColor}
-                                    borderColor={config.borderColor}
+                                    $active={activeFilters.season === season}
                                 >
                                     <div className="icon">{config.icon}</div>
                                     <h5 className="mb-2">{season}</h5>
@@ -269,16 +280,13 @@ const MenuList = () => {
 
                 {/* 식사 시간대 필터 */}
                 <div className="col-12 mb-4">
-                    <h4 className="text-center mb-4">식사 시간대</h4>
+                    <SectionTitle>식사 시간대</SectionTitle>
                     <div className="row">
                         {Object.entries(mealTimeConfig).map(([time, config]) => (
                             <div key={time} className="col-md-3 col-6 mb-3">
                                 <FilterCard
                                     onClick={() => handleFilterClick('mealTime', time)}
-                                    active={activeFilters.mealTime === time}
-                                    bgColor={config.bgColor}
-                                    activeColor={config.activeColor}
-                                    borderColor={config.borderColor}
+                                    $active={activeFilters.mealTime === time}
                                 >
                                     <div className="icon">{config.icon}</div>
                                     <h5 className="mb-2">{time}</h5>

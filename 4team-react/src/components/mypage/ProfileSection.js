@@ -156,14 +156,14 @@ function ProfileSection({ userId }) {
   const isOwnProfile = !userId || userId === user?.memberId.toString();
 
   return (
-    <Paper sx={{ p: '20px 24px' }}>
-      <Box display="flex" alignItems="center" gap={3} className="profile-section">
-        <Avatar sx={{ width: 100, height: 100, bgcolor: 'primary.main' }}>
+    <Paper sx={{ p: '12px 24px' }}>
+      <Box display="flex" alignItems="center" gap={2} className="profile-section">
+        <Avatar sx={{ width: 80, height: 80, bgcolor: 'primary.main' }}>
           {avatarLetter}
         </Avatar>
         <Box flex={1}>
           <Box display="flex" alignItems="center" gap={1}>
-            <Typography variant="h5">{profileUser.displayName}</Typography>
+            <Typography variant="h5" sx={{ fontSize: '1.1rem' }}>{profileUser.displayName}</Typography>
             <GradeBadge grade={userGrade} />
             {isOwnProfile && (
               <Button
@@ -183,13 +183,13 @@ function ProfileSection({ userId }) {
             )}
           </Box>
           {isOwnProfile && (
-            <Typography color="text.secondary">{profileUser.primaryEmail}</Typography>
+            <Typography color="text.secondary" sx={{ fontSize: '0.9rem', my: 0.5 }}>{profileUser.primaryEmail}</Typography>
           )}
-          <Box display="flex" gap={2} mt={2}>
-            <Typography>레시피 {stats.recipeCount}</Typography>
-            <Typography>리뷰 {stats.reviewCount}</Typography>
-            <Typography>팔로워 {stats.followerCount}</Typography>
-            <Typography>팔로잉 {stats.followingCount}</Typography>
+          <Box display="flex" gap={2} mt={1}>
+            <Typography sx={{ whiteSpace: 'nowrap' }}>레시피 {stats.recipeCount}</Typography>
+            <Typography sx={{ whiteSpace: 'nowrap' }}>리뷰 {stats.reviewCount}</Typography>
+            <Typography sx={{ whiteSpace: 'nowrap' }}>팔로워 {stats.followerCount}</Typography>
+            <Typography sx={{ whiteSpace: 'nowrap' }}>팔로잉 {stats.followingCount}</Typography>
           </Box>
         </Box>
       </Box>
