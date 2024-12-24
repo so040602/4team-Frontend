@@ -4,37 +4,41 @@
   align-items: center;
   justify-content: center;
   min-height: 100vh;
-  background-color: #f5f5f5;
-  padding: 20px;
+  background-color: #f8f9fa;
+  padding: 40px 20px;
 }
 
 .login-title {
-  font-size: 24px;
-  font-weight: bold;
-  margin-bottom: 30px;
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 40px;
   color: #333;
+  text-align: center;
 }
 
 .social-login-button {
-  width: 300px;
-  height: 45px;
-  margin: 10px 0;
+  width: 320px;
+  height: 48px;
+  margin: 8px 0;
   border: none;
-  border-radius: 4px;
+  border-radius: 12px;
   cursor: pointer;
-  font-size: 16px;
-  transition: opacity 0.2s;
+  font-size: 0.95rem;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 }
 
 .social-login-button:hover {
-  opacity: 0.9;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .button-content {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 10px;
+  gap: 12px;
   height: 100%;
 }
 
@@ -59,95 +63,94 @@
 }
 
 .divider {
-  width: 100%;
+  width: 320px;
   text-align: center;
-  border-bottom: 1px solid #ddd;
+  border-bottom: 1px solid #eee;
   line-height: 0.1em;
-  margin: 20px 0;
+  margin: 24px 0;
 }
 
 .divider span {
-  background: #fff;
-  padding: 0 10px;
-  color: #666;
-}
-
-.email-form {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  width: 100%;
-  max-width: 300px;
-}
-
-.email-form input {
-  padding: 12px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  font-size: 14px;
+  background: #f8f9fa;
+  padding: 0 12px;
+  color: #888;
+  font-size: 0.9rem;
 }
 
 .email-login-form {
   display: flex;
   flex-direction: column;
-  gap: 15px;
-  width: 100%;
-  max-width: 300px;
-  margin-bottom: 20px;
+  gap: 16px;
+  width: 320px;
+  margin-bottom: 24px;
 }
 
 .email-login-form input {
-  padding: 12px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  font-size: 14px;
+  padding: 14px 16px;
+  border: 1px solid #e0e0e0;
+  border-radius: 12px;
+  font-size: 0.95rem;
+  background-color: white;
+  transition: all 0.3s ease;
 }
 
 .email-login-form input:focus {
   outline: none;
-  border-color: #007bff;
+  border-color: #ff6b6b;
+  box-shadow: 0 0 0 3px rgba(255, 107, 107, 0.1);
 }
 
 .email-submit-btn {
-  background-color: #007bff;
+  background-color: #ff6b6b;
   color: white;
-  padding: 12px;
+  padding: 14px;
   border: none;
-  border-radius: 4px;
+  border-radius: 12px;
   cursor: pointer;
-  font-size: 16px;
-  font-weight: 500;
-  transition: background-color 0.2s;
+  font-size: 1rem;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 4px rgba(255, 107, 107, 0.2);
 }
 
 .email-submit-btn:hover {
-  background-color: #0056b3;
+  background-color: #ff5252;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(255, 107, 107, 0.3);
 }
 
 .email-submit-btn:disabled {
-  background-color: #ccc;
+  background-color: #ffb3b3;
   cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
 }
 
 .error-message {
-  color: #dc3545;
-  font-size: 14px;
+  color: #ff6b6b;
+  font-size: 0.9rem;
   text-align: center;
-  margin-top: 10px;
+  margin-top: 8px;
+  padding: 8px 12px;
+  background-color: rgba(255, 107, 107, 0.1);
+  border-radius: 8px;
 }
 
 .signup-link {
-  margin-top: 20px;
+  margin-top: 24px;
   text-align: center;
   color: #666;
+  font-size: 0.95rem;
 }
 
 .signup-link a {
-  color: #007bff;
+  color: #ff6b6b;
   text-decoration: none;
-  font-weight: 500;
+  font-weight: 600;
+  margin-left: 4px;
 }
 
 .signup-link a:hover {
-  text-decoration: underline;
+  color: #ff5252;
+  text-decoration: none;
 }
