@@ -3,6 +3,215 @@ import { useParams, Link } from 'react-router-dom';
 import axios from 'axios';
 import { Container, Row, Col, Card, Tabs, Tab } from 'react-bootstrap';
 import { useAuth } from '../contexts/AuthContext';
+import styled from 'styled-components';
+
+const ProfileContainer = styled(Container)`
+  padding: 2rem 1rem;
+  max-width: 1200px;
+  margin: 0 auto;
+
+  @media (max-width: 768px) {
+    padding: 1rem;
+  }
+`;
+
+const ProfileWrapper = styled(Card)`
+  border-radius: 15px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  border: none;
+  background: white;
+  margin-bottom: 1rem;
+  overflow: hidden;
+
+  @media (max-width: 768px) {
+    .card-body {
+      padding: 1rem;
+    }
+  }
+`;
+
+const ProfileImage = styled.div`
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  background-color: #ff6b6b;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.5rem;
+  margin: 1rem auto;
+  box-shadow: 0 4px 8px rgba(255, 107, 107, 0.2);
+  transition: transform 0.3s ease;
+
+  @media (max-width: 768px) {
+    width: 70px;
+    height: 70px;
+    font-size: 2rem;
+    margin: 0.5rem auto;
+  }
+
+  &:hover {
+    transform: scale(1.05);
+  }
+`;
+
+const UserName = styled.h2`
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #333;
+  margin: 0.5rem 0;
+
+  @media (max-width: 768px) {
+    font-size: 1.4rem;
+    margin: 0.3rem 0;
+  }
+`;
+
+const UserInfo = styled.div`
+  margin: 1rem 0;
+  
+  @media (max-width: 768px) {
+    margin: 0.5rem 0;
+  }
+  
+  .join-date {
+    color: #666;
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+
+    @media (max-width: 768px) {
+      font-size: 0.8rem;
+      margin-bottom: 0.5rem;
+    }
+  }
+  
+  .stats {
+    display: flex;
+    gap: 1.5rem;
+    margin-bottom: 1rem;
+    
+    @media (max-width: 768px) {
+      gap: 1rem;
+      margin-bottom: 0.5rem;
+      flex-wrap: wrap;
+    }
+    
+    span {
+      color: #444;
+      font-size: 0.95rem;
+      
+      @media (max-width: 768px) {
+        font-size: 0.85rem;
+      }
+      
+      strong {
+        color: #ff6b6b;
+        font-weight: 600;
+      }
+    }
+  }
+`;
+
+const FollowButton = styled.button`
+  padding: 0.5rem 1.5rem;
+  border-radius: 25px;
+  border: none;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  
+  &.following {
+    background-color: #e9ecef;
+    color: #495057;
+    
+    &:hover {
+      background-color: #dc3545;
+      color: white;
+    }
+  }
+  
+  &.not-following {
+    background-color: #ff6b6b;
+    color: white;
+    
+    &:hover {
+      background-color: #fa5252;
+    }
+  }
+`;
+
+const StyledTabs = styled(Tabs)`
+  border-bottom: 2px solid #f1f3f5;
+  margin-bottom: 1.5rem;
+  
+  .nav-link {
+    color: #495057;
+    border: none;
+    padding: 1rem 1.5rem;
+    font-weight: 500;
+    position: relative;
+    
+    &:hover {
+      color: #ff6b6b;
+    }
+    
+    &.active {
+      color: #ff6b6b;
+      background: none;
+      border: none;
+      
+      &:after {
+        content: '';
+        position: absolute;
+        bottom: -2px;
+        left: 0;
+        width: 100%;
+        height: 2px;
+        background-color: #ff6b6b;
+      }
+    }
+  }
+`;
+
+const ContentCard = styled(Card)`
+  border-radius: 12px;
+  border: 1px solid #eee;
+  transition: all 0.3s ease;
+  height: 100%;
+  
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  }
+  
+  .card-img-top {
+    height: 200px;
+    object-fit: cover;
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+  }
+  
+  .card-body {
+    padding: 1.25rem;
+  }
+  
+  .card-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 0.75rem;
+  }
+  
+  .rating {
+    color: #ffd700;
+    margin-right: 0.5rem;
+  }
+  
+  .text-muted {
+    color: #6c757d;
+    font-size: 0.9rem;
+  }
+`;
 
 const UserProfile = () => {
   const { memberId } = useParams();
@@ -156,157 +365,142 @@ const UserProfile = () => {
   }
 
   return (
-    <Container className="mt-4">
-      <Card className="mb-4" style={{margin: isDesktop ? '180px auto' : '120px auto'}}>
+    <ProfileContainer>
+      <ProfileWrapper style={{margin: isDesktop ? '100px auto 20px' : '80px auto 20px'}}>
         <Card.Body>
-          <Row>
+          <Row className="align-items-center">
             <Col md={4} className="text-center">
-              <div 
-                className="profile-image-placeholder" 
-                style={{
-                  width: '150px',
-                  height: '150px',
-                  borderRadius: '50%',
-                  backgroundColor: '#f0f0f0',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  fontSize: '48px',
-                  margin: '0 auto'
-                }}
-              >
+              <ProfileImage>
                 {profile.displayName?.charAt(0)?.toUpperCase()}
-              </div>
+              </ProfileImage>
             </Col>
             <Col md={8}>
-              <h2>{profile.displayName}</h2>
-              <p className="text-muted">가입일: {formatDate(profile.createdAt)}</p>
-              <div className="d-flex align-items-center mb-3">
-                <span className="me-3">팔로워 {followCounts.followerCount}</span>
-                <span className="me-3">팔로잉 {followCounts.followingCount}</span>
-                {user && user.memberId !== parseInt(memberId) && (
-                  <button
-                    className={`btn ${isFollowing ? 'btn-secondary' : 'btn-primary'}`}
-                    onClick={handleFollow}
-                  >
-                    {isFollowing ? '언팔로우' : '팔로우'}
-                  </button>
-                )}
-              </div>
-              {profile.bio && <p>{profile.bio}</p>}
+              <UserInfo>
+                <div className="d-flex align-items-center">
+                  <UserName>{profile.displayName}</UserName>
+                  {user && user.memberId !== parseInt(memberId) && (
+                    <FollowButton
+                      className={isFollowing ? 'following' : 'not-following'}
+                      onClick={handleFollow}
+                      style={{ marginLeft: '1rem' }}
+                    >
+                      {isFollowing ? '언팔로우' : '팔로우'}
+                    </FollowButton>
+                  )}
+                </div>
+                <div className="join-date">가입일: {formatDate(profile.createdAt)}</div>
+                <div className="stats">
+                  <span><strong>{followCounts.followerCount}</strong> 팔로워</span>
+                  <span><strong>{followCounts.followingCount}</strong> 팔로잉</span>
+                </div>
+                {profile.bio && <p className="bio">{profile.bio}</p>}
+              </UserInfo>
             </Col>
           </Row>
         </Card.Body>
-      </Card>
+      </ProfileWrapper>
 
-      <Tabs
+      <StyledTabs
         activeKey={activeTab}
         onSelect={(k) => setActiveTab(k)}
-        className="mb-3"
+        className="mb-4"
       >
-        <Tab eventKey="recipes" title="작성한 레시피">
+        <Tab eventKey="recipes" title="레시피">
           <Row>
             {recipes.length === 0 ? (
               <Col>
-                <p>작성한 레시피가 없습니다.</p>
+                <p className="text-center text-muted my-4">작성한 레시피가 없습니다.</p>
               </Col>
             ) : (
               recipes.map((recipe) => (
                 <Col md={4} key={recipe.recipeId} className="mb-4">
-                  <Card>
-                    <Card.Img
-                      variant="top"
-                      src={recipe.recipeThumbnail || '/default-recipe-image.jpg'}
-                      alt={recipe.recipeTitle}
-                    />
-                    <Card.Body>
-                      <Card.Title>
-                        <Link to={`/recipe/${recipe.recipeId}`} style={{ textDecoration: 'none', color: 'inherit' }}>
-                          {recipe.recipeTitle}
-                        </Link>
-                      </Card.Title>
-                      <Card.Text>
-                        <small className="text-muted">
-                          작성일: {formatDate(recipe.createdAt)}
-                        </small>
-                      </Card.Text>
-                    </Card.Body>
-                  </Card>
+                  <ContentCard>
+                    <Link to={`/recipe/${recipe.recipeId}`} style={{ textDecoration: 'none', color: 'inherit' }}>
+                      <Card.Img
+                        variant="top"
+                        src={recipe.recipeThumbnail || '/default-recipe-image.jpg'}
+                        alt={recipe.recipeTitle}
+                      />
+                      <Card.Body>
+                        <Card.Title>{recipe.recipeTitle}</Card.Title>
+                        <Card.Text>
+                          <small className="text-muted">
+                            작성일: {formatDate(recipe.createdAt)}
+                          </small>
+                        </Card.Text>
+                      </Card.Body>
+                    </Link>
+                  </ContentCard>
                 </Col>
               ))
             )}
           </Row>
         </Tab>
-        <Tab eventKey="reviews" title="작성한 리뷰">
+        <Tab eventKey="reviews" title="리뷰">
           <Row>
             {reviews.length === 0 ? (
               <Col>
-                <p>작성한 리뷰가 없습니다.</p>
+                <p className="text-center text-muted my-4">작성한 리뷰가 없습니다.</p>
               </Col>
             ) : (
               reviews.map((review) => (
                 <Col md={4} key={review.id} className="mb-4">
-                  <Card>
-                    {review.imageUrl && (
-                      <Card.Img
-                        variant="top"
-                        src={`http://localhost:8989/api/reviews/images/${review.imageUrl}`}
-                        alt="리뷰 이미지"
-                      />
-                    )}
-                    <Card.Body>
-                      <Card.Title>
-                        <Link to={`/reviews/${review.id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
-                          {review.title}
-                        </Link>
-                      </Card.Title>
-                      <Card.Text>
-                        <span className="rating">{'★'.repeat(review.rating)}{'☆'.repeat(5-review.rating)}</span>
-                        <br />
-                        <small className="text-muted">
-                          작성일: {formatDate(review.createdAt)}
-                        </small>
-                        <br />
-                        <small className="text-muted">
-                          조회수: {review.viewCount?.toLocaleString() || 0}
-                        </small>
-                      </Card.Text>
-                    </Card.Body>
-                  </Card>
+                  <ContentCard>
+                    <Link to={`/reviews/${review.id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
+                      {review.imageUrl && (
+                        <Card.Img
+                          variant="top"
+                          src={`http://localhost:8989/api/reviews/images/${review.imageUrl}`}
+                          alt="리뷰 이미지"
+                        />
+                      )}
+                      <Card.Body>
+                        <Card.Title>{review.title}</Card.Title>
+                        <Card.Text>
+                          <span className="rating">{'★'.repeat(review.rating)}</span>
+                          <small className="text-muted d-block">
+                            작성일: {formatDate(review.createdAt)}
+                          </small>
+                          <small className="text-muted d-block">
+                            조회수: {review.viewCount?.toLocaleString() || 0}
+                          </small>
+                        </Card.Text>
+                      </Card.Body>
+                    </Link>
+                  </ContentCard>
                 </Col>
               ))
             )}
           </Row>
         </Tab>
-        <Tab eventKey="comments" title="작성한 댓글">
+        <Tab eventKey="comments" title="댓글">
           <Row>
             {comments.length === 0 ? (
               <Col>
-                <p>작성한 댓글이 없습니다.</p>
+                <p className="text-center text-muted my-4">작성한 댓글이 없습니다.</p>
               </Col>
             ) : (
               comments.map((comment) => (
                 <Col md={12} key={comment.id} className="mb-3">
-                  <Card>
-                    <Card.Body>
-                      <Card.Text>
-                        <Link to={`/reviews/${comment.reviewId}`} style={{ textDecoration: 'none', color: 'inherit' }}>
+                  <ContentCard>
+                    <Link to={`/reviews/${comment.reviewId}`} style={{ textDecoration: 'none', color: 'inherit' }}>
+                      <Card.Body>
+                        <Card.Text>
                           {comment.content}
-                        </Link>
-                        <br />
-                        <small className="text-muted">
-                          작성일: {formatDate(comment.createdAt)}
-                        </small>
-                      </Card.Text>
-                    </Card.Body>
-                  </Card>
+                          <small className="text-muted d-block mt-2">
+                            작성일: {formatDate(comment.createdAt)}
+                          </small>
+                        </Card.Text>
+                      </Card.Body>
+                    </Link>
+                  </ContentCard>
                 </Col>
               ))
             )}
           </Row>
         </Tab>
-      </Tabs>
-    </Container>
+      </StyledTabs>
+    </ProfileContainer>
   );
 };
 

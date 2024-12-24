@@ -41,7 +41,7 @@ const GradeInfoModal = ({ open, onClose }) => {
               {grades.map((grade) => (
                 <TableRow key={grade.id}>
                   <TableCell>
-                    <Box display="flex" alignItems="center">
+                    <Box display="flex" alignItems="center" whiteSpace="nowrap">
                       <GradeBadge grade={grade} />
                       <Typography sx={{ ml: 1 }}>{grade.gradeName}</Typography>
                     </Box>

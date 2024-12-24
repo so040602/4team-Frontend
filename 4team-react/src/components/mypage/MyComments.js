@@ -67,13 +67,40 @@ function MyComments() {
       ) : (
         comments.map((comment) => (
           <Grid item xs={12} key={comment.id}>
-            <Card>
+            <Card sx={{
+              borderRadius: '15px',
+              boxShadow: '0 4px 12px rgba(0, 0, 0, 0.05)',
+              transition: 'transform 0.3s ease',
+              '&:hover': {
+                transform: 'translateY(-5px)',
+              }
+            }}>
               <CardActionArea>
-                <CardContent>
-                  <Typography variant="body1">
+                <CardContent sx={{ p: 2 }}>
+                  <Typography 
+                    variant="body1"
+                    sx={{
+                      color: '#333',
+                      fontSize: '1rem',
+                      mb: 1,
+                      overflow: 'hidden',
+                      textOverflow: 'ellipsis',
+                      display: '-webkit-box',
+                      WebkitLineClamp: 3,
+                      WebkitBoxOrient: 'vertical',
+                      lineHeight: 1.5
+                    }}
+                  >
                     {comment.content}
                   </Typography>
-                  <Typography variant="caption" display="block" sx={{ mt: 1 }}>
+                  <Typography 
+                    variant="caption" 
+                    sx={{ 
+                      display: 'block',
+                      color: '#666',
+                      fontSize: '0.85rem'
+                    }}
+                  >
                     작성일: {formatDate(comment.createdAt)}
                   </Typography>
                 </CardContent>

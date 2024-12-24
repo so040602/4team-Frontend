@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Button, Form } from 'react-bootstrap';
+import {Link } from 'react-router-dom';
 import axios from 'axios';
 
 function SingleComment(props) {
@@ -104,7 +105,9 @@ function SingleComment(props) {
   return (
     <div className="comment-item">
       <div className="comment-header">
-        <span className="comment-author">{props.comment.memberDisplayName}</span>
+        <Link to={`/users/${props.comment.memberId}`} style={{ textDecoration: 'none', color: '#007bff' }}>
+                  {props.comment.memberDisplayName}
+                </Link>
         <span className="comment-date">
           {formatDate(props.comment.createdAt)}
         </span>

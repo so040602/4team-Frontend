@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Grid, Card, CardContent, Typography, CardActionArea, Rating, CardMedia } from '@mui/material';
+import { Grid, Card, CardContent, Typography, CardActionArea, Rating, CardMedia, Box } from '@mui/material';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 
@@ -71,26 +71,89 @@ function MyReviews({ userId }) {
       ) : (
         reviews.map((review) => (
           <Grid item xs={12} sm={6} md={4} key={review.id}>
-            <Card>
+            <Card sx={{
+              borderRadius: '15px',
+              boxShadow: '0 4px 12px rgba(0, 0, 0, 0.05)',
+              transition: 'transform 0.3s ease',
+              height: '100%',
+              '&:hover': {
+                transform: 'translateY(-5px)',
+              }
+            }}>
               <CardActionArea component={Link} to={`/reviews/${review.id}`}>
                 {review.imageUrl && (
                   <CardMedia
                     component="img"
-                    height="140"
+                    height="180"
                     image={`http://localhost:8989/api/reviews/images/${review.imageUrl}`}
                     alt={review.title}
+                    sx={{ objectFit: 'cover' }}
                   />
                 )}
-                <CardContent>
-                  <Typography gutterBottom variant="h6">
+                <CardContent sx={{ p: 2 }}>
+                  <Typography 
+                    gutterBottom 
+                    variant="h6"
+                    sx={{
+                      fontSize: '1.1rem',
+                      fontWeight: 600,
+                      color: '#333',
+                      mb: 1,
+                      overflow: 'hidden',
+                      textOverflow: 'ellipsis',
+                      display: '-webkit-box',
+                      WebkitLineClamp: 2,
+                      WebkitBoxOrient: 'vertical',
+                      lineHeight: 1.3
+                    }}
+                  >
                     {review.title}
                   </Typography>
-                  <Rating value={review.rating} readOnly />
-                  <Typography variant="body2" color="text.secondary">
-                    {review.content.substring(0, 100)}
-                    {review.content.length > 100 && '...'}
+                  <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
+                    <Rating 
+                      value={review.rating} 
+                      readOnly 
+                      size="small"
+                      sx={{
+                        '& .MuiRating-iconFilled': {
+                          color: '#ff6b6b',
+                        }
+                      }}
+                    />
+                    <Typography 
+                      variant="body2" 
+                      sx={{ 
+                        ml: 1,
+                        color: '#666',
+                        fontSize: '0.9rem'
+                      }}
+                    >
+                      {review.rating.toFixed(1)}
+                    </Typography>
+                  </Box>
+                  <Typography 
+                    variant="body2" 
+                    sx={{ 
+                      color: '#666',
+                      fontSize: '0.9rem',
+                      mb: 1,
+                      overflow: 'hidden',
+                      textOverflow: 'ellipsis',
+                      display: '-webkit-box',
+                      WebkitLineClamp: 2,
+                      WebkitBoxOrient: 'vertical'
+                    }}
+                  >
+                    {review.content}
                   </Typography>
-                  <Typography variant="caption" display="block" sx={{ mt: 1 }}>
+                  <Typography 
+                    variant="caption" 
+                    sx={{ 
+                      display: 'block',
+                      color: '#666',
+                      fontSize: '0.85rem'
+                    }}
+                  >
                     작성일: {formatDate(review.createdAt)}
                   </Typography>
                 </CardContent>
