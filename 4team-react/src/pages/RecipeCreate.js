@@ -237,7 +237,6 @@ function RecipeCreate() {
         return `/images/${filename}`;
       })
       .catch((error) => {
-        console.error("이미지 업로드 중 오류 발생:", error);
         Swal.fire({
           title: "이미지 업로드 실패",
           text: "이미지 업로드에 실패했습니다. 다시 시도해주세요.",

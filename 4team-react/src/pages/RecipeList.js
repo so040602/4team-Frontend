@@ -15,6 +15,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import './RecipeList.css';
+import { useAuth } from "../contexts/AuthContext";
 
 function RecipeList() {
   const [recipes, setRecipes] = useState([]);
@@ -22,6 +23,7 @@ function RecipeList() {
   const [searchTerm, setSearchTerm] = useState('');
   const [searchResults, setSearchResults] = useState([]);
   const navigate = useNavigate();
+  const { user } = useAuth();
 
   useEffect(() => {
     const fetchRecipes = async () => {
@@ -55,6 +57,21 @@ function RecipeList() {
       setSearchResults(response.data);
     } catch (error) {
       console.error('레시피 검색 중 오류 발생:', error);
+    }
+  };
+
+  const handleRecipeCreate = (e) => {
+    e.preventDefault();
+    if (!user) {
+      if (
+        window.confirm(
+          "레시피를 작성하려면 로그인이 필요합니다. 로그인 페이지로 이동하시겠습니까?"
+        )
+      ) {
+        navigate("/login");
+      }
+    } else {
+      navigate("/recipe/create");
     }
   };
 
@@ -104,6 +121,14 @@ function RecipeList() {
           }}
         />
       </div>
+      <div
+          onClick={handleRecipeCreate}
+          className="floating-button"
+          aria-label="새 레시피 작성"
+        >
+          <span className="plus-icon">+</span>
+          <span className="button-tooltip">레시피 작성</span>
+        </div>
 
       <div className="recipes-grid">
         {searchResults.length > 0 ? (
