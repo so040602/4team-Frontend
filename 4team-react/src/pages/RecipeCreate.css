@@ -279,6 +279,42 @@
   background-color: #bd2130;
 }
 
+/* 모바일 화면에서의 버튼 스타일 */
+@media (max-width: 768px) {
+  .button-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 8px;
+    padding: 0 10px;
+  }
+
+  .submit-button,
+  .delete-button,
+  .cancel-button {
+    flex: 1;
+    padding: 8px 0;
+    font-size: 14px;
+    margin: 0;
+    white-space: nowrap;
+    min-width: 0;
+  }
+
+  .button-group {
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 0 10px;
+    gap: 8px;
+  }
+
+  .btn {
+    flex: 1;
+    padding: 8px 0;
+    font-size: 14px;
+    min-width: 0;
+  }
+}
+
 @media (min-width: 769px) {
   .recipe-create {
       margin: 150px auto; 

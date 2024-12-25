@@ -228,6 +228,7 @@ function RecipeCreate() {
     return axios
       .post("http://localhost:8989/upload/image", formData, {
         headers: {
+          "Content-Type": "multipart/form-data",
           Authorization: `Bearer ${localStorage.getItem("token")}`
         }
       })
