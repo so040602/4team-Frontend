@@ -5,6 +5,13 @@
   position: relative;
 }
 
+.recipe-edit-container {
+  max-width: 800px;
+  margin: 80px auto;
+  padding: 20px;
+  position: relative;
+}
+
 .recipe-create-title {
   text-align: center;
   margin-bottom: 30px;
@@ -319,5 +326,10 @@
   .recipe-create {
       margin: 150px auto; 
       position: relative;
+  }
+
+  .recipe-edit-container {
+    margin: 150px auto;
+    position: relative;
   }
 }

@@ -466,7 +466,7 @@ function RecipeEdit() {
   }
 
   return (
-    <div className="recipe-create-container">
+    <div className="recipe-edit-container">
       <form onSubmit={handleSubmit}>
         <BasicInfo basicInfo={basicInfo} onChange={handleBasicInfoChange} />
         <CookingInfo
