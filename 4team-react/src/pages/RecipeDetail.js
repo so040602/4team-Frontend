@@ -46,6 +46,17 @@ function RecipeDetail() {
         //   setAuthorName(user.displayName);
         // }
         setError(null);
+
+        // 레시피 조회 기록 남기기
+        if (token) {
+          axios.post(`http://localhost:8989/recipe_form/${recipeId}/view`, null, {
+            headers: {
+              Authorization: `Bearer ${token}`
+            }
+          }).catch(error => {
+            console.error('레시피 조회 기록 실패:', error);
+          });
+        }
       })
       .catch((error) => {
         console.error("레시피 데이터 로딩 중 에러 발생:", error);

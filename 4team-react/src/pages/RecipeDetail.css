@@ -14,7 +14,7 @@
 .fixed-like-section {
   position: fixed;
   right: calc(50% - 400px - 70px); /* 컨텐츠 영역 오른쪽 + 약간의 여백 */
-  top: 55%;
+  top: 85%;
   transform: translateY(-50%);
   z-index: 1000;
 }
