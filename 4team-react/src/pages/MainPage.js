@@ -191,41 +191,40 @@ const MainPage = () => {
           <MainPageList />
 
           {/* 최신 리뷰 섹션 */}
-          <section className="review-section latest-reviews">
-            <div className="content-container">
-              <h2 className="review-section-title">최신 리뷰</h2>
-              <div className="review-grid">
+          <div className="review-section-wrapper">
+            <div className="mainpagelist-theme-section">
+              <div className="mainpagelist-theme-header">
+                <div className="mainpagelist-theme-title-container">
+                  <h2>최신 리뷰</h2>
+                  <p className="mainpagelist-theme-desc">다른 사용자들의 최신 요리 후기를 확인해보세요</p>
+                </div>
+                <Link to="/reviews" className="mainpagelist-view-all-btn">
+                  전체보기
+                </Link>
+              </div>
+              <div className="recipe-cards-container">
                 {reviews.map((review) => (
-                  <div key={review.id} className="review-card">
+                  <div key={review.id} className="recipe-card">
                     <Link to={`/reviews/${review.id}`}>
                       {review.imageUrl ? (
-                        <img
-                          src={`http://localhost:8989/api/reviews/images/${review.imageUrl}`}
-                          alt="리뷰 이미지"
-                          className="review-image"
-                        />
+                        <div className="recipe-card-image-container">
+                          <img
+                            src={`http://localhost:8989/api/reviews/images/${review.imageUrl}`}
+                            alt="리뷰 이미지"
+                            className="recipe-card-image"
+                          />
+                        </div>
                       ) : (
                         <div
-                          className="review-image"
+                          className="recipe-card-image-container"
                           style={{ backgroundColor: "#f0f0f0" }}
                         />
                       )}
-                      <div className="review-content">
-                        <h3>{review.title}</h3>
-                        <div className="review-info">
-                          <div>
-                            <span>{review.memberDisplayName}</span>
-                            <span className="rating">
-                              {"★".repeat(review.rating)}
-                              {"☆".repeat(5 - review.rating)}
-                            </span>
-                          </div>
-                          <div>
-                            <span>
-                              조회수: {review.viewCount?.toLocaleString() || 0}
-                            </span>
-                            <span>작성일: {formatDate(review.createdAt)}</span>
-                          </div>
+                      <div className="recipe-card-content">
+                        <h3 className="recipe-card-title">{review.title}</h3>
+                        <div className="recipe-card-footer">
+                          <span className="recipe-card-author">{review.memberDisplayName}</span>
+                          <span className="recipe-card-date">작성일: {formatDate(review.createdAt)}</span>
                         </div>
                       </div>
                     </Link>
@@ -233,7 +232,7 @@ const MainPage = () => {
                 ))}
               </div>
             </div>
-          </section>
+          </div>
         </main>
 
         {/* 플로팅 버튼 */}

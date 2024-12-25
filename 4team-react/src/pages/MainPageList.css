@@ -13,11 +13,12 @@
 .theme-sections {
   display: flex;
   flex-direction: column;
-  gap: 40px;
+  gap: 20px;
+  margin-top: 0px;
 }
 
 .mainpagelist-theme-section {
-  margin-bottom: 60px;
+  margin-bottom: 0px;
   padding: 20px 0;
   background-color: #fff;
   border-radius: 12px;
