@@ -168,20 +168,13 @@ const MainPage = () => {
                 </Link>
                 <Link to="/MenuList" className="menu-icon-item">
                   <div className="icon-wrapper pink">
-                    <img src="/icons/heart.svg" alt="오늘 뭐먹지?" />
+                    <img src="/icons/book.svg" alt="오늘 뭐먹지?" />
                   </div>
                   <span>오늘 뭐먹지?</span>
                 </Link>
-                <Link to="/recipes/popular" className="menu-icon-item">
-                  <div className="icon-wrapper purple">
-                    <span className="badge">999+</span>
-                    <img src="/icons/star.svg" alt="인기 레시피" />
-                  </div>
-                  <span>인기 레시피</span>
-                </Link>
                 <Link to="/LinkList" className="menu-icon-item">
                   <div className="icon-wrapper red">
-                    <img src="/icons/book.svg" alt="레시피 북" />
+                    <img src="/icons/star.svg" alt="레시피 북" />
                   </div>
                   <span>맛이슈</span>
                 </Link>

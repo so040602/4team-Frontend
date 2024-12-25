@@ -155,7 +155,7 @@ const ReviewDetail = () => {
               {review.recipeId && review.recipeTitle && (
                 <div className="recipe-info">
                   <span className="recipe-label">레시피</span>
-                  <Link to={`/recipes/${review.recipeId}`} className="recipe-link">
+                  <Link to={`/recipe/${review.recipeId}`} className="recipe-link">
                     {review.recipeTitle}
                   </Link>
                 </div>
