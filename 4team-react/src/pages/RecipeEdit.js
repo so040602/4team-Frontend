@@ -445,7 +445,7 @@ function RecipeEdit() {
               icon: "success",
               confirmButtonText: "확인"
             }).then(() => {
-              navigate("/"); // 메인 페이지로 이동
+              navigate("/recipe"); // 메인 페이지로 이동
             });
           })
           .catch((error) => {
