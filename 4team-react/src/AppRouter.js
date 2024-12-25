@@ -21,6 +21,7 @@ import TopNavigation from "./components/TopNavigation";
 import RecipeDetail from "./pages/RecipeDetail";
 import RecipeEdit from "./pages/RecipeEdit";
 import ThemeRecipeList from "./pages/ThemeRecipeList";
+import RecipeList from "./pages/RecipeList";
 
 function AppRouter() {
   return (
@@ -50,6 +51,7 @@ function AppRouter() {
                 <Route path="/refriUI" element={<RefriUI />} />
                 <Route path="/recipe/create" element={<RecipeCreate />} />
                 <Route path="/searchrecipe" element={<SearchRecipes />} />
+                <Route path="/recipe" element={<RecipeList />} />
                 <Route path="/recipe/:recipeId" element={<RecipeDetail />} />
                 <Route path="/recipe/edit/:recipeId" element={<RecipeEdit />} />
                 <Route path="/theme/:themeId" element={<ThemeRecipeList />} />

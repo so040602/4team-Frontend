@@ -125,7 +125,7 @@ const MainPage = () => {
             <Link to="/" className="nav-item active">
               홈
             </Link>
-            <Link to="/recipes" className="nav-item">
+            <Link to="/recipe" className="nav-item">
               레시피
             </Link>
             <Link to="/refriUI" className="nav-item">

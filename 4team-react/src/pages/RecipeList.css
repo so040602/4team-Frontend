@@ -1,0 +1,41 @@
+.recipe-list-container {
+  margin: 80px auto;
+  padding: 20px;
+  max-width: 1200px;
+}
+
+.search-container {
+  margin-bottom: 30px;
+}
+
+.recipes-grid {
+  margin-top: 20px;
+}
+
+.recipe-card {
+  height: 100%;
+  transition: transform 0.2s ease-in-out;
+}
+
+.recipe-card:hover {
+  transform: translateY(-5px);
+}
+
+.loading-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 300px;
+}
+
+@media (min-width: 769px) {
+  .recipe-list-container {
+    margin: 150px auto;
+  }
+}
+
+@media (max-width: 600px) {
+  .recipe-list-container {
+    padding: 10px;
+  }
+}
