@@ -432,7 +432,6 @@ function RecipeCreate() {
         });
       })
       .catch((error) => {
-        console.error("레시피 저장 중 오류 발생:", error);
         Swal.fire({
           title: "저장 실패",
           text: "레시피 저장에 실패했습니다. 다시 시도해주세요.",
