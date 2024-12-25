@@ -12,9 +12,32 @@
 
 .header-title {
   margin: 0;
-  font-size: 1.5rem;
-  color: #333;
+  font-size: 1.8rem;
   cursor: pointer;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 1px;
+  color: #FF6B6B;
+  font-weight: 700;
+  padding: 8px;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+}
+
+.logo-text {
+  color: inherit;
+}
+
+.logo-icon {
+  font-size: 1.4rem;
+  margin: 0 2px;
+  transform: translateY(-1px);
+}
+
+.header-title:hover {
+  background-color: #FFF0F0;
+  transform: translateY(-1px);
 }
 
 .search-bar{

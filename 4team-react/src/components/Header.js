@@ -66,7 +66,11 @@ const handleImageSubmit = async () => {
   return (
     <div className="header-container">
       <div className="header-content">
-        <Link to="/" className="header-title">레시피</Link>
+        <Link to="/" className="header-title">
+          <span className="logo-icon">🍳</span>
+          <span className="logo-text">맛</span>
+          <span className="logo-text">슐랭</span>
+        </Link>
             <div className="search-bar">
                 <span className="search-icon">🔍</span>
                 <input 
