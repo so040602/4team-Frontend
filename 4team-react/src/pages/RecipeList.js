@@ -1,6 +1,18 @@
 import React, { useState, useEffect } from 'react';
-import { Grid, Card, CardContent, Typography, CardActionArea, CardMedia, Container, TextField, IconButton, InputAdornment } from '@mui/material';
+import { 
+  Card, 
+  CardContent, 
+  Typography, 
+  CardActionArea, 
+  CardMedia, 
+  Container, 
+  TextField, 
+  IconButton, 
+  InputAdornment,
+  CircularProgress
+} from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import './RecipeList.css';
 
@@ -9,6 +21,7 @@ function RecipeList() {
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
   const [searchResults, setSearchResults] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchRecipes = async () => {
@@ -52,10 +65,20 @@ function RecipeList() {
     }
   };
 
+  const handleKeyPress = (event) => {
+    if (event.key === 'Enter') {
+      handleSearch();
+    }
+  };
+
+  const handleRecipeClick = (recipeId) => {
+    navigate(`/recipe/${recipeId}`);
+  };
+
   if (loading) {
     return (
       <div className="loading-container">
-        <Typography>로딩 중...</Typography>
+        <CircularProgress />
       </div>
     );
   }
@@ -69,6 +92,7 @@ function RecipeList() {
           placeholder="레시피 검색..."
           value={searchTerm}
           onChange={handleSearchChange}
+          onKeyPress={handleKeyPress}
           InputProps={{
             endAdornment: (
               <InputAdornment position="end">
@@ -81,38 +105,38 @@ function RecipeList() {
         />
       </div>
 
-      <Grid container spacing={3} className="recipes-grid">
+      <div className="recipes-grid">
         {searchResults.length > 0 ? (
           searchResults.map((recipe) => (
-            <Grid item xs={12} sm={6} md={4} lg={3} key={recipe.recipeId}>
-              <Card className="recipe-card">
-                <CardActionArea href={`/recipe/${recipe.recipeId}`}>
-                  <CardMedia
-                    component="img"
-                    height="140"
-                    image={recipe.recipeThumbnail ? `http://localhost:8989${recipe.recipeThumbnail}` : '/default-recipe.jpg'}
-                    alt={recipe.recipeTitle}
-                  />
-                  <CardContent>
-                    <Typography gutterBottom variant="h6" component="div" noWrap>
-                      {recipe.recipeTitle}
-                    </Typography>
-                    <Typography variant="body2" color="text.secondary" noWrap>
-                      {recipe.recipeTip}
-                    </Typography>
-                  </CardContent>
-                </CardActionArea>
-              </Card>
-            </Grid>
+            <Card 
+              key={recipe.recipeId} 
+              className="recipe-card" 
+              onClick={() => handleRecipeClick(recipe.recipeId)}
+              style={{ cursor: 'pointer' }}
+            >
+              <CardActionArea>
+                <CardMedia
+                  component="img"
+                  image={recipe.recipeThumbnail ? `http://localhost:8989${recipe.recipeThumbnail}` : '/default-recipe.jpg'}
+                  alt={recipe.recipeTitle}
+                />
+                <CardContent>
+                  <Typography variant="h6">
+                    {recipe.recipeTitle}
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    {recipe.recipeTip}
+                  </Typography>
+                </CardContent>
+              </CardActionArea>
+            </Card>
           ))
         ) : (
-          <Grid item xs={12}>
-            <Typography variant="body1" align="center" color="text.secondary">
-              검색 결과가 없습니다.
-            </Typography>
-          </Grid>
+          <Typography variant="h6" align="center" color="text.secondary" sx={{ gridColumn: '1/-1', py: 4 }}>
+            검색 결과가 없습니다.
+          </Typography>
         )}
-      </Grid>
+      </div>
     </Container>
   );
 }

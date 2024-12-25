@@ -12,7 +12,7 @@ const BottomNavigation = () => {
                 <div className="nav-icon">🏠</div>
                 <span>홈</span>
             </Link>
-            <Link to="/recipes" className={`nav-item ${isActive('/recipes') ? 'active' : ''}`}>
+            <Link to="/recipe" className={`nav-item ${isActive('/recipe') ? 'active' : ''}`}>
                 <div className="nav-icon">📖</div>
                 <span>레시피</span>
             </Link>
