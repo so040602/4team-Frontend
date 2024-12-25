@@ -251,7 +251,7 @@ const MainPage = () => {
             <div className="nav-icon">🏠</div>
             <span>홈</span>
           </Link>
-          <Link to="/recipes" className="nav-item">
+          <Link to="/recipe" className="nav-item">
             <div className="nav-icon">📖</div>
             <span>레시피</span>
           </Link>

@@ -1,7 +1,8 @@
 .recipe-create {
   max-width: 800px;
-  margin: 0 auto;
+  margin: 80px auto;
   padding: 20px;
+  position: relative;
 }
 
 .recipe-create-title {
@@ -276,4 +277,11 @@
 
 .delete-button:active {
   background-color: #bd2130;
+}
+
+@media (min-width: 769px) {
+  .recipe-create {
+      margin: 150px auto; 
+      position: relative;
+  }
 }

@@ -1,7 +1,8 @@
 .theme-list-container {
   padding: 20px;
   max-width: 1200px;
-  margin: 0 auto;
+  margin: 80px auto;
+  position: relative;
 }
 
 .theme-list-header {
@@ -37,8 +38,9 @@
 
 .theme-recipe-list {
   max-width: 1200px;
-  margin: 0 auto;
+  margin: 80px auto;
   padding: 20px;
+  margin-top: 80px;
 }
 
 .theme-header {
@@ -157,6 +159,7 @@
 @media (max-width: 1024px) {
   .theme-recipe-list {
     padding: 15px;
+    margin-top: 120px;
   }
 
   .recipes-grid {
@@ -245,6 +248,16 @@
   .cooking-tools-filter {
     gap: 6px;
     margin-top: 6px;
+  }
+}
+
+@media (min-width: 769px) {
+  .theme-list-container {
+    margin: 150px auto;
+  }
+
+  .theme-recipe-list {
+    margin-top: 180px;
   }
 }
 

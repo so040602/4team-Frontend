@@ -1,6 +1,6 @@
 .recipe-detail {
   max-width: 800px;
-  margin: 0 auto;
+  margin: 100px auto;
   padding: 20px;
   position: relative;
 }
@@ -690,5 +690,11 @@
 @media (max-width: 1000px) {
   .fixed-like-section {
     right: 2rem; /* 화면이 좁아지면 기존처럼 오른쪽에 붙임 */
+  }
+}
+
+@media (min-width: 769px) {
+  .recipe-detail {
+      margin: 150px auto; 
   }
 }
