@@ -135,7 +135,7 @@ function MainPageList() {
             >
               <div className="recipe-cards-wrapper">
                 {theme.recipes.map((recipe) => (
-                  <RecipeCard key={recipe.id} recipe={recipe} />
+                  <RecipeCard key={recipe.recipeId} recipe={recipe} />
                 ))}
               </div>
             </div>
